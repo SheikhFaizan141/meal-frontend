@@ -1,17 +1,79 @@
-/* *
-*::before, *::after {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  margin: 0;
+/* Global */
+a {
+  display: block;
+}
+
+ul {
+  text-decoration: none;
   padding: 0;
+  margin: 0;
+}
+
+li {
+  /* text-decoration: none; */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
   --bg-color-primary: #fff;
   --color-primary: black;
- 
-} */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--color-primary);
+  font-weight: 400;
+  line-height: 1.5;
+
+}
+
+.container {
+  /* width: calc(83% - 6rem); */
+  /* max-width: 1; */
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+}
+
+/* Header */
+.header {
+  /* display: flex; */
+  padding-inline: 1.25rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  padding-block: 1rem;
+}
+
+.header .header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1rem;
+}
+
+.header .header-box-l {
+  display: flex;
+  flex: 1;
+}
+
+.header .header-box-r {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+
+  ul {
+    display: flex;
+    column-gap: 0.5rem;
+  }
+  
+}

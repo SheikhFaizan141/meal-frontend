@@ -1,0 +1,23 @@
+Project Overview:
+Application Name: Meals App
+Features:
+Homepage:
+
+Display a list of meals on the homepage.
+Render the list using dummy data from an array of objects. Each object should contain details about a specific meal (e.g., name, description, image, etc.).
+Meal Details Page:
+
+When a user clicks on a meal from the homepage, navigate to a meal details page.
+Show comprehensive details about the selected meal (e.g., name, description, ingredients, image, etc.).
+Add to Cart Feature:
+
+Include an "Add to Cart" button on the meal details page.
+Implement functionality to add the selected meal to a shopping cart.
+Shopping Cart:
+
+Design a shopping cart that displays the added items.
+Include a total amount calculation for the items in the cart.
+Development Guidelines:
+Use React for the frontend development.
+Follow best practices for code organization, readability, and maintainability.
+Use responsive design principles to ensure the application is user-friendly on various devices.
