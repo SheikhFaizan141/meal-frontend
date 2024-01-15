@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap'); */
 
 *,
 *::before,
@@ -26,6 +26,7 @@ li {
   margin: 0;
 }
 
+
 :root {
   --bg-color-primary: #fff;
   --color-primary: black;
@@ -34,9 +35,116 @@ li {
 body {
   font-family: 'Roboto', sans-serif;
   color: var(--color-primary);
+  background-color: var(--bg-color-primary);
   font-weight: 400;
   line-height: 1.5;
 
+}
+
+/* Utility */
+.mt-2 {
+  margin-block-start: 1rem;
+}
+
+.mt-3 {
+  margin-block-start: 1.15rem;
+}
+
+.mb-1 {
+  margin-block-end: 0.75rem;
+}
+
+.mb-2 {
+  margin-block-end: 1rem;
+}
+
+.mb-3 {
+  margin-block-end: 1.15rem;
+}
+
+/* Font Size */
+.text-xs {
+  font-size: 0.625rem;
+}
+
+.text-sm {
+  font-size: 0.75rem;
+}
+
+.text-base {
+  font-size: 1rem;
+}
+
+.text-lg {
+  font-size: 1.15rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.text-4xl {
+  font-size: 1.75rem;
+}
+
+/* font weight */
+.font-light {
+  font-weight: 300;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-extrabold {
+  font-weight: 800;
+}
+
+.font-black {
+  font-weight: 900;
+}
+
+/* List items */
+/* .li {
+} */
+
+.li-circle {
+  position: relative;
+  padding-inline-start: 1rem;
+  padding-block-start: .5rem;
+  padding-block-end: .5rem;
+  font-size: 1rem;
+}
+
+.li-circle::before {
+  content: "";
+  border: 2px solid rgb(72, 255, 0);
+  border-radius: 30px;
+  height: 0.5rem;
+  width: 0.5rem;
+  /* aspect-ratio: 1/1; */
+  left: 0;
+  top: 50%;
+  vertical-align: middle;
+  position: absolute;
+  transition: tr;
+  transform: translate(-50%, -50%);
 }
 
 .container {
@@ -49,7 +157,7 @@ body {
 /* Header */
 .header {
   /* display: flex; */
-  padding-inline: 1.25rem;
+  padding-inline: 6.25rem;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
   padding-block: 1rem;
 }
@@ -58,7 +166,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 1rem;
+  /* column-gap: 1rem; */
 }
 
 .header .header-box-l {
@@ -73,7 +181,141 @@ body {
 
   ul {
     display: flex;
-    column-gap: 0.5rem;
+    column-gap: 2rem;
+  }
+
+}
+
+
+/* Index */
+main {
+  padding-inline: 2rem;
+  /* margin: 1000px; */
+}
+
+.meal-container {
+  padding-block-start: 3rem;
+  padding-block-end: 3rem;
+
+
+
+  .meal-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  .card {
+    transition: 250ms ease-in-out;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .card:hover {
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* Meals */
+.meal-wrapper {
+  padding-block-start: 1rem;
+  padding-block-end: 1rem;
+  background-color: #f4f4f4;
+
+  >div {
+    display: flex;
+    /* place-content:; */
+    /* justify-content: center; */
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+.meal-info-wrapper {
+  display: flex;
+  /* gap: 1rem; */
+  flex: 1;
+  flex-flow: column;
+
+  .meal-hgroup {
+    /* display: flex; */
+    flex: 1;
+
+    h2.meal-name {
+      font-size: clamp(1.5rem, 1rem + 5vw, 3rem);
+    }
+
+    /* p.meal-cusine {} */
+  }
+
+  .meal-info-con{
+    display: flex;
+    gap: 1rem;
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    border: 1px solid red;
+    align-items: center;
+  }
+
+  .meal-info .meal-price-ui{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Meal section */
+.section-wrapper {
+  display: flex;
+  padding-block: 1rem;
+  gap: 1rem;
+
+  .bx-1 {
+    flex: 2 1 70%;
+  }
+
+  .bx-2 {
+    flex: 1 1 30%;
+  }
+
+  :is(aside, article) {
+    background: #e4e4e4;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding-inline: 0.75rem;
+    border-radius: 4px;
+  }
+
+}
+
+/* recipe timing */
+.rec-inf-wrapper {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  ul {
+    display: flex;
+    /* gap: .5rem; */
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+    align-items: center;
+  }
+
+  li.m-prep-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.25rem 0.15rem;
+    /* background-color: #e4e4e4; */
+    /* border-radius: 4px; */
+  }
+
+  li.m-prep-box {
+    border-inline-end: 1px solid blanchedalmond;
   }
   
+
 }

@@ -1,0 +1,77 @@
+{
+    "meals": [
+        {
+            "id": 1,
+            "name": "Lemon Chicken",
+            "slug": "lemon-chicken",
+            "title": "",
+            "img": "",
+            "description": "Lemon, chicken, dried chilli, garlic and some seriously delectable sugarcane juice is all you need for this fantastic recipe",
+            "price": 200
+        },
+        {
+            "id": 2,
+            "name": "Chettinad Fish Fry",
+            "slug": "chettinad-fish-fry",
+            "title": "",
+            "img": "",
+            "description": "Lemon, chicken, dried chilli, garlic and some seriously delectable sugarcane juice is all you need for this fantastic recipe",
+            "price": 250
+        },
+        {
+            "id": 4,
+            "name": "Dum Aloo Lakhnawi",
+            "slug": "chettinad-fish-fry",
+            "title": "",
+            "img": "",
+            "description": "Your family will thank you for this absolutely fantastic bowl of dum aloo cooked Lakhnawi style. Take some potatoes, crumbled paneer, kasuri methi, butter, onions and some ghee.",
+            "price": 180
+        },
+        {
+            "id": 5,
+            "name": "Keema Biryani",
+            "slug": "keema-biryani",
+            "title": "",
+            "img": "",
+            "description": "Who ever said no to Biryani? A luscious biryani made with minced meat, almonds, raisins, yogurt, onions, garlic, ginger and milk",
+            "price": 350
+        },
+        {
+            "id": 6,
+            "name": "Dum Paneer Kali Mirch",
+            "slug": "dum-paneer-kali-mirch",
+            "title": "",
+            "img": "",
+            "description": "A lovely take on the unusual paneer gravy: Small chunks of paneer cooked with cinnamon, fried onions, black pepper, ginger, garlic and yogurt to make this gorgeous and fragrant curry.",
+            "price": 280
+        },
+        {
+            "id": 7,
+            "name": "Shahi Egg Curry",
+            "slug": "shahi-egg-curry",
+            "title": "",
+            "img": "",
+            "description": "Eggs are a versatile food that can be cooked for any meal of the day. From breakfast to dinner, it can be a go-to food. Here is a mildly-spiced egg curry made with garlic, onions, a whole lot of kasuri methi, fresh cream, yogurt and fresh coriander.",
+            "price": 160
+        },
+        {
+            "id": 8,
+            "name": "Malabari Prawn Curry",
+            "slug": "malabari-prawn-curry",
+            "title": "",
+            "img": "",
+            "description": "A light prawn curry cooked with grated coconut, coriander seeds, ginger, chilli and some shallots will make the perfect hero on your dinner table.",
+            "price": 180
+        },
+        {
+            "id": 9,
+            "name": "Makhmali Kofte",
+            "slug": "makhmali-kofte",
+            "title": "",
+            "img": "",
+            "description": "A rich gravy made of khus khus, coconut and milk that tastes best with koftas made from khoya. This velvety and creamy recipe will leave you licking your fingers.",
+            "price": 350
+        }
+    ]
+}
+
