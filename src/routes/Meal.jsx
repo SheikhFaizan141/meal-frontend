@@ -1,38 +1,54 @@
 import { Button } from "@mui/material";
 import { useLoaderData } from "react-router-dom";
 
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
+// import Link from '@mui/material/Link';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-
-async function getMeal(id) {
-    try {
-        const res = await fetch("/meals.json");
-
-        if (!res.ok) {
-            throw new Error(`${res.status} ${res.statusText}`);
-        }
-
-        const data = await res.json();
-        return data["meals"].find(item => item.id === Number.parseInt(id, 10));
-    } catch (error) {
-        console.error(error)
-    }
-}
+import { getMeal } from "../meals";
+// import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 export async function loader(request) {
     const meal = await getMeal(request.params.mealId);
-    console.log(meal);
-    console.log(request);
+
+    // console.log(meal);
+    if (meal === undefined) {
+        throw new Response("", {
+            status: 404,
+            statusText: "Not Found, Chi Kus Chandan ?",
+          });
+    }
+
     return { meal };
 }
 
+
+
 export default function Meal() {
     const { meal } = useLoaderData();
+    // function handleClick(event) {
+    //     event.preventDefault();
+    //     console.info('You clicked a breadcrumb.');
+    // }
     return (
         <>
             <div className="container">
                 <div className="meal-wrapper meal-hero">
+                    {/* <div role="presentation" onClick={handleClick}>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link underline="hover" color="inherit" href="/">
+                                MUI
+                            </Link>
+                            <Link
+                                underline="hover"
+                                color="inherit"
+                                href="/material-ui/getting-started/installation/"
+                            >
+                                Core
+                            </Link>
+                            <Typography color="text.primary">Breadcrumbs</Typography>
+                        </Breadcrumbs>
+                    </div> */}
                     <div>
                         <div className="img-container">
                             <img src="https://placehold.co/240" alt="" height="240" width="240" className="img" />
@@ -128,6 +144,7 @@ export default function Meal() {
                         </aside>
 
                     </div>
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ee7700" fillOpacity="0.6" d="M0,128L9.2,122.7C18.5,117,37,107,55,112C73.8,117,92,139,111,128C129.2,117,148,75,166,74.7C184.6,75,203,117,222,149.3C240,181,258,203,277,218.7C295.4,235,314,245,332,245.3C350.8,245,369,235,388,229.3C406.2,224,425,224,443,213.3C461.5,203,480,181,498,144C516.9,107,535,53,554,48C572.3,43,591,85,609,117.3C627.7,149,646,171,665,154.7C683.1,139,702,85,720,85.3C738.5,85,757,139,775,186.7C793.8,235,812,277,831,298.7C849.2,320,868,320,886,288C904.6,256,923,192,942,144C960,96,978,64,997,58.7C1015.4,53,1034,75,1052,101.3C1070.8,128,1089,160,1108,176C1126.2,192,1145,192,1163,165.3C1181.5,139,1200,85,1218,74.7C1236.9,64,1255,96,1274,101.3C1292.3,107,1311,85,1329,74.7C1347.7,64,1366,64,1385,74.7C1403.1,85,1422,107,1431,117.3L1440,128L1440,0L1430.8,0C1421.5,0,1403,0,1385,0C1366.2,0,1348,0,1329,0C1310.8,0,1292,0,1274,0C1255.4,0,1237,0,1218,0C1200,0,1182,0,1163,0C1144.6,0,1126,0,1108,0C1089.2,0,1071,0,1052,0C1033.8,0,1015,0,997,0C978.5,0,960,0,942,0C923.1,0,905,0,886,0C867.7,0,849,0,831,0C812.3,0,794,0,775,0C756.9,0,738,0,720,0C701.5,0,683,0,665,0C646.2,0,628,0,609,0C590.8,0,572,0,554,0C535.4,0,517,0,498,0C480,0,462,0,443,0C424.6,0,406,0,388,0C369.2,0,351,0,332,0C313.8,0,295,0,277,0C258.5,0,240,0,222,0C203.1,0,185,0,166,0C147.7,0,129,0,111,0C92.3,0,74,0,55,0C36.9,0,18,0,9,0L0,0Z"></path></svg> */}
                 </section>
             </div>
         </>
