@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import { Link, Outlet, useLoaderData } from "react-router-dom";
 import AppHeader from '../components/AppHeader';
 import { useState } from "react";
+import AppFooter from "../components/AppFooter";
 
 export default function Root() {
     // let meals = useLoaderData
@@ -18,6 +19,8 @@ export default function Root() {
                         <Outlet items={items} />
                     {/* </div> */}
                 </main>
+
+                <AppFooter />
             </div>
         </>
     )

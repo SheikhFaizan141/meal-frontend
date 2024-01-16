@@ -180,7 +180,7 @@ body {
   justify-content: flex-end;
   flex: 1;
 
-  ul {
+  & ul {
     display: flex;
     column-gap: 2rem;
   }
@@ -200,7 +200,7 @@ body {
   .filter-search-wrapper {
     flex: 1;
   }
-  
+
   .filter-chip-list-wrapper {
     flex: 1;
   }
@@ -247,54 +247,69 @@ main {
   }
 }
 
-/* Meals */
+/* ##### Index Route #####*/
 .meal-wrapper {
   padding-block-start: 1rem;
   padding-block-end: 1rem;
-  /* background-color: #f4f4f4; */
 
-  > div {
+  > .meal-card {
     display: flex;
-    /* place-content:; */
-    /* justify-content: center; */
     flex-wrap: wrap;
     gap: 1rem;
   }
+
 }
 
 .meal-info-wrapper {
   display: flex;
-  /* gap: 1rem; */
   flex: 1;
   flex-flow: column;
 
-  .meal-hgroup {
-    /* display: flex; */
+  /* .meal-hgroup {
+    display: flex;
     flex: 1;
 
-    h2.meal-name {
+    .meal-name {
       font-size: clamp(1.5rem, 1rem + 5vw, 3rem);
-    }
+    } */
 
-    /* p.meal-cusine {} */
-  }
+  /* p.meal-cusine {} */
+  /* } */
 
-  .meal-info-con{
-    display: flex;
-    gap: 1rem;
-    padding-block: 0.5rem;
-    padding-inline: 1rem;
-    border: 1px solid red;
-    align-items: center;
-  }
 
-  .meal-info .meal-price-ui{
-    display: flex;
-    flex-direction: column;
-  }
 }
 
-/* Meal section */
+.meal-info-con {
+  display: flex;
+  gap: 1rem;
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  border: 1px solid red;
+  align-items: center;
+}
+
+.meal-info .meal-price-ui {
+  display: flex;
+  flex-direction: column;
+}
+
+.meal-hgroup {
+  /* display: flex; */
+  flex: 1;
+}
+
+.meal-name {
+  font-size: clamp(1.5rem, 1rem + 5vw, 3rem);
+}
+
+
+/* ##### Meal Route ##### */
+.m-hero-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+
 .section-wrapper {
   display: flex;
   padding-block: 1rem;
@@ -339,27 +354,26 @@ main {
     text-align: center;
     padding: 0.25rem 0.15rem;
     /* background-color: #e4e4e4; */
-    /* border-radius: 4px; */
+    border-radius: 4px;
   }
 
   li.m-prep-box {
     border-inline-end: 1px solid blanchedalmond;
   }
-  
+
 
 }
 
 /* checkout route */
 .co-container {
   padding-block: 2rem;
-  
+
   .co-wrapper {
     display: flex;
     gap: 1rem;
 
     .co-box {
       background-color: #fff;
-      /* padding-inline-start: 1rem; */
       padding-inline: 1rem;
       padding-block: 1rem;
       border-radius: 4px;
@@ -374,7 +388,7 @@ main {
     }
 
   }
-  
+
 }
 
 /* cart */
@@ -382,12 +396,13 @@ main {
   display: flex;
   gap: 0.5rem;
   margin-block-end: 1rem;
+
   /* .img-container {
 
   } */
 
   .co-item-info {
-   
+
     .co-item-name {
       font-size: clamp(1.15rem, 1rem + 3vw, 1.25rem);
     }

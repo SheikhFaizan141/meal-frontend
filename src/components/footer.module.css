@@ -1,0 +1,20 @@
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.footer {
+    background-color: #464646;
+    color: #fff;
+    /* width: calc(83.333% - 6rem);
+    margin: 0 auto; */
+    padding-block: 3rem;
+
+    
+}
+
+.fw {
+    width: calc(83.333% - 6rem);
+    max-width: 1140px;
+    margin: 0 auto;
+}

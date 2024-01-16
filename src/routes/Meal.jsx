@@ -49,7 +49,7 @@ export default function Meal() {
                             <Typography color="text.primary">Breadcrumbs</Typography>
                         </Breadcrumbs>
                     </div> */}
-                    <div>
+                    <div className="m-hero-wrapper">
                         <div className="img-container">
                             <img src="https://placehold.co/240" alt="" height="240" width="240" className="img" />
                         </div>

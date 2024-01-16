@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { header } from "./header.module.css"
 
@@ -13,7 +13,8 @@ export default function AppHeader() {
 
             <div className="ma-logo-wrapper">
               {/* <img src="" alt="" /> */}
-              <h2>Meals App</h2>
+              <Typography variant='h5' component='h1' >Filling Meals</Typography>
+              {/* <h2>Meals App</h2> */}
             </div>
           </div>
           <div className="header-box-r">
