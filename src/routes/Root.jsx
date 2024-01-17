@@ -16,7 +16,7 @@ export default function Root() {
                  
                 <main>
                     {/* <div className="ma-meals-wrapper"> */}
-                        <Outlet items={items} />
+                        <Outlet item="asa"  />
                     {/* </div> */}
                 </main>
 

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { useLoaderData } from "react-router-dom";
 
 // import Box from '@mui/material/Box';
@@ -6,6 +6,7 @@ import { useLoaderData } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { getMeal } from "../meals";
+import { useEffect, useState } from "react";
 // import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 export async function loader(request) {
@@ -15,8 +16,8 @@ export async function loader(request) {
     if (meal === undefined) {
         throw new Response("", {
             status: 404,
-            statusText: "Not Found, Chi Kus Chandan ?",
-          });
+            statusText: "Not Found",
+        });
     }
 
     return { meal };
@@ -24,31 +25,39 @@ export async function loader(request) {
 
 
 
-export default function Meal() {
+export default function Meal(props) {
+    const props = context
+    
+    console.log(props);
     const { meal } = useLoaderData();
-    // function handleClick(event) {
-    //     event.preventDefault();
-    //     console.info('You clicked a breadcrumb.');
-    // }
+    const [item, setItem] = useState(null);
+    const [count, setCount] = useState(0);
+
+
+    useEffect(() => {
+        if (count === 0) {
+            setItem(null);
+        }
+    }, [count])
+
+    function handleClick() {
+        setItem( meal.name)
+        setCount(1);
+    }
+
+    function handleIncrement() {
+        setCount(count + 1)
+    }
+
+    function handleDecrement() {
+        setCount(count - 1)
+    }
+
     return (
         <>
             <div className="container">
                 <div className="meal-wrapper meal-hero">
-                    {/* <div role="presentation" onClick={handleClick}>
-                        <Breadcrumbs aria-label="breadcrumb">
-                            <Link underline="hover" color="inherit" href="/">
-                                MUI
-                            </Link>
-                            <Link
-                                underline="hover"
-                                color="inherit"
-                                href="/material-ui/getting-started/installation/"
-                            >
-                                Core
-                            </Link>
-                            <Typography color="text.primary">Breadcrumbs</Typography>
-                        </Breadcrumbs>
-                    </div> */}
+
                     <div className="m-hero-wrapper">
                         <div className="img-container">
                             <img src="https://placehold.co/240" alt="" height="240" width="240" className="img" />
@@ -101,7 +110,23 @@ export default function Meal() {
                                     </div>
 
                                     <div className="btn-wrapper">
-                                        <Button variant="contained" size="small">Add</Button>
+                                        {
+                                            count > 0
+                                                ?
+                                                <div className="btn-add-quantity">
+                                                    <ButtonGroup
+                                                        disableElevation
+                                                        variant="contained"
+                                                        aria-label="Disabled elevation buttons"
+                                                    >
+                                                        <Button size="small" onClick={handleIncrement}>+</Button>
+                                                        <div>{count}</div>
+                                                        <Button size="small" onClick={handleDecrement}>-</Button>
+                                                    </ButtonGroup>
+                                                </div>
+                                                :
+                                                <Button onClick={handleClick} variant="contained" size="small">Add</Button>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -120,6 +145,20 @@ export default function Meal() {
 
 
                         <aside className="m-ing-container ingredient-conatainer bx bx-2">
+                            <div className="m-cart-wrapper">
+                                <div className="m-cart-item">
+                                    {
+                                        item
+                                            ?
+                                            <div>
+                                                {item}
+                                            </div>
+                                            :
+                                            <p>empty</p>
+                                    }
+                                </div>
+                            </div>
+
                             <h3 className="text-4xl">Ingredients of Shahi Egg Curry</h3>
                             <ul>
                                 <li className="li li-circle">6 Chicken thighs (without skin)</li>
