@@ -141,15 +141,20 @@ export default function Meal() {
         <>
             <div className="meal-wrapper meal-hero">
 
+                {/* Hero Section */}
                 <div className="m-hero-wrapper">
-                    <div className="img-container">
+
+                    <div className="m-hero-box m-hero-box-1 img-container">
                         <img src="https://placehold.co/240" alt="" height="240" width="240" className="img" />
                     </div>
 
-                    <div className="meal-info-wrapper meal-hero">
-                        <div className="hero-heading-wrapper mb-1">
+                    <div className="m-hero-box m-hero-box-2  meal-info-wrapper meal-hero">
+                        
+                        <div className="hero-heading-wrapper hero-box2-t  mb-1">
                             <hgroup className="meal-hgroup mb-1">
-                                <h2 className="meal-name">{meal.name}</h2>
+                                <Typography component="h1" variant="h2">{meal.name}</Typography>
+                                {/* <Typography component="p" variant="body1">Cuisine: Indian</Typography> */}
+                                {/* <h2 className="meal-name">{meal.name}</h2> */}
                                 <p className="meal-cuisine text-xl"><span>Cuisine: </span>Indian</p>
                             </hgroup>
 
@@ -159,13 +164,10 @@ export default function Meal() {
                             </div>
                         </div>
 
-                        <div className="meal-dis meal-info">
+                        <div className="meal-dis meal-info hero-box2-b">
                             <div className="meal-info-con">
 
-                                <div className="meal-price-ui">
-                                    <label className="m-price-label text-base">Price</label>
-                                    <span className="meal-price text-lg font-bold">{meal.price}<span className="meal-price-currency">$</span></span>
-                                </div>
+                              
 
                                 <div className="rec-inf-wrapper m-prep-info">
                                     <ul className="ul meal-prep-wrapper" >
@@ -191,7 +193,10 @@ export default function Meal() {
                                         </li>
                                     </ul>
                                 </div>
-
+                                <div className="meal-price-ui">
+                                    <label className="m-price-label text-base">Price</label>
+                                    <span className="meal-price text-lg font-bold">{meal.price}<span className="meal-price-currency">$</span></span>
+                                </div>
                                 <div className="btn-wrapper">
                                     <AddButton count={count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
                                 </div>
@@ -200,11 +205,13 @@ export default function Meal() {
                     </div>
                 </div>
             </div>
-            <section className="section">
+
+            <main className="section">
                 <div className="section-wrapper">
 
 
-                    <article className="m-des-container bx bx-1">
+                    <article className="m-main-container m-des-container bx bx-1">
+
                         <h3 className="text-4xl mb-1">About Punjabi Lemon Chicken Recipe</h3>
                         <p className="text-base"> A melt in your mouth chicken recipe with a tangy twist. Punjabi lemon chicken made with citrus juices, sugarcane juice and some basic Indian spices. Try this tangy yet delicious version of chicken at your next dinner party and you wouldn't be able to resist coming back to this chicken recipe!</p>
                         {/* <p className="text-base"></p> */}
@@ -222,34 +229,10 @@ export default function Meal() {
                             total={total}
                             price={meal?.price}
                         />
-
-
-                        <h3 className="text-4xl mb-1">Ingredients of Shahi Egg Curry</h3>
-                        {/* <Typography variant="h3" component= ></Typography> */}
-                        <ul>
-                            <li className="li li-circle">6 Chicken thighs (without skin)</li>
-                            <li className="li li-circle" >For the base:</li>
-                            <li className="li li-circle" >3-4 tbsp refined oil</li>
-                            <li className="li li-circle" >2 tsp cumin seeds</li>
-                            <li className="li li-circle" >2 onions, julienne</li>
-                            <li className="li li-circle" >6 garlic cloves, chopped</li>
-                            <li className="li li-circle" >1/2 inch ginger, chopped</li>
-                            <li className="li li-circle" >3-4 Green chillies</li>
-                            <li className="li li-circle" >1/2 inch ginger, chopped</li>
-                            <li className="li li-circle" >6 Chicken thighs (without skin)</li>
-                            <li className="li li-circle" >For the base:</li>
-                            <li className="li li-circle" >3-4 tbsp refined oil</li>
-                            <li className="li li-circle" >2 tsp cumin seeds</li>
-                            <li className="li li-circle" >2 onions, julienne</li>
-                            <li className="li li-circle" >6 garlic cloves, chopped</li>
-                            <li className="li li-circle" >1/2 inch ginger, chopped</li>
-                            <li className="li li-circle" >3-4 Green chillies</li>
-                            <li className="li li-circle" >1/2 inch ginger, chopped</li>
-                        </ul>
                     </aside>
 
                 </div>
-            </section>
+            </main>
 
         </>
     )

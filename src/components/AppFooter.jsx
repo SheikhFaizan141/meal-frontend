@@ -1,7 +1,6 @@
 import React from 'react'
 import css from './footer.module.css';
 import { Stack, Typography } from '@mui/material';
-import FullWidthGrid from './FGrid';
 
 export default function AppFooter() {
     console.log(css);

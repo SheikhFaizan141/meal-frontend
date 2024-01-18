@@ -7,7 +7,9 @@
             "title": "",
             "img": "",
             "description": "Lemon, chicken, dried chilli, garlic and some seriously delectable sugarcane juice is all you need for this fantastic recipe",
-            "price": 200
+            "price": 200,
+            "ingridents": [],
+            "rating": 4.5
         },
         {
             "id": 2,
@@ -52,7 +54,7 @@
             "title": "",
             "img": "",
             "description": "Eggs are a versatile food that can be cooked for any meal of the day. From breakfast to dinner, it can be a go-to food. Here is a mildly-spiced egg curry made with garlic, onions, a whole lot of kasuri methi, fresh cream, yogurt and fresh coriander.",
-            "price": 160
+            "price": 360
         },
         {
             "id": 8,
@@ -61,7 +63,7 @@
             "title": "",
             "img": "",
             "description": "A light prawn curry cooked with grated coconut, coriander seeds, ginger, chilli and some shallots will make the perfect hero on your dinner table.",
-            "price": 180
+            "price": 580
         },
         {
             "id": 9,
