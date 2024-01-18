@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { header } from "./header.module.css"
 
 export default function AppHeader() {
-
-  // console.log(classes);
+  
   return (
     <>
       <header className={`header`}>
@@ -21,18 +20,21 @@ export default function AppHeader() {
             <nav>
               <ul>
                 <li>
-                  <Link className="btn" to={"/checkout"}>
-                    <Button variant="contained">
-                      <span className="item-count">🛒</span>
-                    </Button>
-                  </Link>
+
+                  <Button variant="contained" component={Link} to="/checkout">
+                    🛒
+                  </Button>
                 </li>
                 <li>
-                  <Link className="btn" to={"/signin"}>
+
+                  <Button variant="contained" component={Link} to="/signin">
+                    Sign In
+                  </Button>
+                  {/* <Link className="btn" to={"/signin"}>
                     <Button variant="contained">
-                      Sign In
+                     
                     </Button>
-                  </Link>
+                  </Link> */}
                 </li>
               </ul>
             </nav>

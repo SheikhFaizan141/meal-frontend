@@ -22,7 +22,7 @@ export default function MealCard({ id, name, desc }) {
         <CardContent>
           <Stack direction="row">
             <Typography gutterBottom variant="h5" component="div">
-              {name} 🍖
+            🍖 {name} 
             </Typography>
           </Stack>
 
@@ -36,10 +36,6 @@ export default function MealCard({ id, name, desc }) {
 
           <Rating readOnly defaultValue={3.5} precision={0.5} />
         </CardContent>
-        {/* <CardActions>
-      <Button size="small">Share</Button>
-      <Button size="small">Learn More</Button>
-    </CardActions> */}
       </Link>
     </Card>
   );

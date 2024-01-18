@@ -1,11 +1,7 @@
 import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
 import MealCard from '../components/MealCard'
-import { Link, useLoaderData } from "react-router-dom"
+import { useLoaderData } from "react-router-dom"
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useState } from 'react';
 
 async function getMeals() {
@@ -28,7 +24,6 @@ async function getMeals() {
 export async function loader() {
     const meals = await getMeals();
 
-    // console.log(meals);
     return { meals }
 }
 
@@ -65,25 +60,6 @@ export default function Index(props) {
                         </Stack>
                     </div>
                 </div>
-
-                {/* <div className="filter-select-ui">
-                    <Box sx={{maxWidth: 160}}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">All Menus</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={age}
-                                label="All Menus"
-                            // onChange={handleChange}
-                            >
-                                <MenuItem value="">Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </div> */}
             </div>
 
             <Divider light sx={{ marginBlockEnd: '1rem' }} />

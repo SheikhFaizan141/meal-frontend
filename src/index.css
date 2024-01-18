@@ -12,7 +12,7 @@
 
 /* ##### Components ##### */
 .btn-add-quantity {
-background-color: #F4F4F8;
+  background-color: #F4F4F8;
 
   /* & div {
     padding-inline: 0.25rem;
@@ -28,6 +28,7 @@ img {
   inline-size: 100%;
   display: block;
 }
+
 a {
   display: block;
 }
@@ -69,9 +70,11 @@ body {
   margin-inline: auto;
 }
 
-/* @media screen and (min-width: ) {
-  
-} */
+@media screen and (max-width: 768px) {
+  .container {
+    width: calc(100% - 4rem);
+  }
+}
 
 /* Utility */
 .mt-2 {
@@ -181,25 +184,35 @@ body {
 }
 
 .container {
-  /* width: calc(83% - 6rem); */
-  /* max-width: 1; */
   margin-inline-start: auto;
   margin-inline-end: auto;
 }
 
 /* Header */
 .header {
-  /* display: flex; */
-  padding-inline: 6.25rem;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  padding-inline: 1rem;
   padding-block: 1rem;
-}
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
 
-.header .header-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* column-gap: 1rem; */
+   .header-wrapper {
+    width: calc(90% - 6rem);
+    max-width: 1200px;
+    margin-inline: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+  }
+
+  @media(max-width: 576px) {
+    .header-wrapper {
+      width: calc(100% - 2rem);
+      justify-content:start;
+    }
+  }
+
 }
 
 .header .header-box-l {
@@ -214,10 +227,12 @@ body {
 
   & ul {
     display: flex;
-    column-gap: 2rem;
+    column-gap: 1rem;
   }
-
 }
+
+
+
 
 
 /* ####### Filter ####### */
@@ -238,8 +253,16 @@ body {
   }
 }
 
+@media(max-width: 575px) {
+  .filter-ui-wrapper {
+    flex-direction: column;
+    align-items: start;
+    gap: 0.75rem;
+  }
+}
 
-/* ###### Index ###### */
+
+/* ##### Index Route #####*/
 main {
   padding-inline: 2rem;
   border: 1px solid orange;
@@ -261,33 +284,44 @@ main {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.75rem;
     min-height: 100dvh;
+    padding-block-start: 1rem;
+    padding-block-end: 1rem;
   }
 
-  .card {
-    transition: 250ms ease-in-out;
-
-    a.meal-card-link {
-      text-decoration: none;
-      color: #000;
+  @media(max-width: 1320px) {
+    .meal-wrapper {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .card:hover {
-    transform: translateY(-0.5rem);
+  @media(max-width: 1020px) {
+    .meal-wrapper {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
+
 }
 
-/* ##### Index Route #####*/
-.meal-wrapper {
-  padding-block-start: 1rem;
-  padding-block-end: 1rem;
+.card {
+  transition: 350ms ease-in-out;
 
-  > .meal-card {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  &:hover {
+    transform: translateY(-0.5rem);
   }
 
+  .meal-card-link {
+    text-decoration: none;
+    color: #000;
+  }
+
+
+}
+
+.meal-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex-direction: row;
 }
 
 .meal-info-wrapper {
@@ -389,7 +423,7 @@ main {
   border-radius: 4px;
 
 
-  .m-cart-t > div {
+  .m-cart-t>div {
     display: flex;
     align-items: center;
   }

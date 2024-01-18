@@ -293,11 +293,9 @@ function MealCart({ item, price, count, total, handleClick, handleDecrement, han
                                 </Stack>
                             </div>
                             <div className="m-cart-footer">
-                                {/* <Link className="btn" to={"/checkout"}> */}
                                 <Button variant="contained" component={Link} to="/checkout">
                                     Checkout
                                 </Button>
-                                {/* <Link */}
                                 {/* // <Button size="medium" variant="contained" >Checkout</Button> */}
                             </div>
                         </div>
