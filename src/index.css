@@ -9,7 +9,25 @@
   padding: 0;
 }
 
+
+/* ##### Components ##### */
+.btn-add-quantity {
+background-color: #F4F4F8;
+
+  /* & div {
+    padding-inline: 0.25rem;
+  } */
+}
+
+.add-count-ui {
+  padding-inline: 0.15rem;
+}
+
 /* Global */
+img {
+  inline-size: 100%;
+  display: block;
+}
 a {
   display: block;
 }
@@ -30,7 +48,10 @@ li {
 
 :root {
   --bg-color-primary: #fff;
-  --color-primary: black;
+  --bg-color-secendory: #e4e4e4;
+  --color-primary: #000;
+  --color-secendory: black;
+
 }
 
 body {
@@ -41,6 +62,16 @@ body {
   line-height: 1.5;
 
 }
+
+.container {
+  width: calc(90% - 6rem);
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+/* @media screen and (min-width: ) {
+  
+} */
 
 /* Utility */
 .mt-2 {
@@ -211,9 +242,6 @@ body {
 /* ###### Index ###### */
 main {
   padding-inline: 2rem;
-  /* margin: 1000px; */
-  /* background-color: rgb(248 248 248); */
-
   border: 1px solid orange;
 }
 
@@ -232,6 +260,7 @@ main {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.75rem;
+    min-height: 100dvh;
   }
 
   .card {
@@ -265,19 +294,6 @@ main {
   display: flex;
   flex: 1;
   flex-flow: column;
-
-  /* .meal-hgroup {
-    display: flex;
-    flex: 1;
-
-    .meal-name {
-      font-size: clamp(1.5rem, 1rem + 5vw, 3rem);
-    } */
-
-  /* p.meal-cusine {} */
-  /* } */
-
-
 }
 
 .meal-info-con {
@@ -325,10 +341,11 @@ main {
   }
 
   :is(aside, article) {
-    background: #e4e4e4;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    /* background: #e4e4e4; */
+    padding-inline: 1rem;
+    padding-block: 1.25rem;
     padding-inline: 0.75rem;
-    border-radius: 4px;
+    border-radius: 5px;
   }
 
 }
@@ -363,6 +380,19 @@ main {
   }
 
 
+}
+
+/* Cart */
+.m-cart-wrapper {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 0.5rem;
+  border-radius: 4px;
+
+
+  .m-cart-t > div {
+    display: flex;
+    align-items: center;
+  }
 }
 
 /* checkout route */

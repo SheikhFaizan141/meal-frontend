@@ -8,20 +8,21 @@ export default function Root() {
     // let meals = useLoaderData
     const [items, setItems] = useState('null');
 
+
     return (
         <>
-            <div className="container">
-                 
-                 <AppHeader />
-                 
-                <main>
-                    {/* <div className="ma-meals-wrapper"> */}
-                        <Outlet item="asa"  />
-                    {/* </div> */}
-                </main>
 
-                <AppFooter />
+            <AppHeader />
+            <div className="container">
+
+
+                {/* <div className="ma-meals-wrapper"> */}
+                <Outlet item="asa" />
+                {/* </div> */}
+
+
             </div>
+            <AppFooter />
         </>
     )
 }

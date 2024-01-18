@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Stack } from '@mui/material';
+import { Divider, Icon, Rating, Stack } from '@mui/material';
 
 export default function MealCard({ id, name, desc }) {
 
@@ -27,8 +27,14 @@ export default function MealCard({ id, name, desc }) {
           </Stack>
 
           <Typography variant="body2" color="text.secondary">
-            {desc}
+            {
+              desc
+            }
           </Typography>
+          
+          <Divider light sx={{marginBlock: 1}} />
+
+          <Rating readOnly defaultValue={3.5} precision={0.5} />
         </CardContent>
         {/* <CardActions>
       <Button size="small">Share</Button>
