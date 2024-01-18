@@ -44,6 +44,7 @@ function setItemLs(key, value) {
 
     if (cart.id !== value.id) {
         // overwrite data
+        
         localStorage.clear('clear')
 
         return false;
@@ -101,7 +102,9 @@ export default function Meal() {
 
 
         const isRepeat = setItemLs('cart', { id: meal.id, name: meal.name, count: count + 1, total: total + meal.price })
+        
         if (isRepeat === false) {
+
             let clearCart = window.confirm('cart will be replaced by new meal')
             if (clearCart) {
                 setItem(meal.name);
@@ -120,6 +123,7 @@ export default function Meal() {
 
         const isRepeat = setItemLs('cart', { id: meal.id, name: meal.name, count: count - 1, total: total - meal.price })
         if (isRepeat === false) {
+
             let clearCart = window.confirm('cart will be replaced by new meal')
             if (clearCart) {
                 setItem(meal.name);
