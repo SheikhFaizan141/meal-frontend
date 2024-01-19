@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Divider, Stack } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, Stack } from "@mui/material";
 import { Link, useLoaderData } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
@@ -6,6 +6,7 @@ import { getMeal } from "../meals";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../utils/formatCurrency";
 import emptyBasket from '../assets/empty-basket.png'
+import MealTable from '../components/MealTable'
 
 // list
 import List from '@mui/material/List';
@@ -44,7 +45,7 @@ function setItemLs(key, value) {
 
     if (cart.id !== value.id) {
         // overwrite data
-        
+
         localStorage.clear('clear')
 
         return false;
@@ -102,7 +103,7 @@ export default function Meal() {
 
 
         const isRepeat = setItemLs('cart', { id: meal.id, name: meal.name, count: count + 1, total: total + meal.price })
-        
+
         if (isRepeat === false) {
 
             let clearCart = window.confirm('cart will be replaced by new meal')
@@ -145,11 +146,11 @@ export default function Meal() {
                 <div className="m-hero-wrapper">
 
                     <div className="m-hero-box m-hero-box-1 img-container">
-                        <img src="https://placehold.co/240" alt="" height="240" width="240" className="img" />
+                        <img src="/public/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" alt="" className="img" />
                     </div>
 
                     <div className="m-hero-box m-hero-box-2  meal-info-wrapper meal-hero">
-                        
+
                         <div className="hero-heading-wrapper hero-box2-t  mb-1">
                             <hgroup className="meal-hgroup mb-1">
                                 <Typography component="h1" variant="h2">{meal.name}</Typography>
@@ -165,60 +166,72 @@ export default function Meal() {
                         </div>
 
                         <div className="meal-dis meal-info hero-box2-b">
-                            <div className="meal-info-con">
-
-                              
-
-                                <div className="rec-inf-wrapper m-prep-info">
-                                    <ul className="ul meal-prep-wrapper" >
-                                        <li className="m-prep-box">
+                            <div className="m-info-wrapper">
+                                <Stack direction="row">
+                                    <ul className="m-info-ul" >
+                                        <li className="m-info-li">
+                                            <span className="text-xl rc-icon">🔪</span>
+                                            <span className="text-base font-bold ">Prep Time</span>
+                                            <span className="text-sm ">1 hr 20 mins</span>
+                                        </li>
+                                        <li className="m-info-li">
                                             <span className="text-xl rc-icon">🍳</span>
                                             <span className="text-base font-bold ">Total Cook Time</span>
                                             <span className="text-sm ">1 hr 20 mins</span>
                                         </li>
-                                        <li className="m-prep-box">
+                                        <li className="m-info-li">
                                             <span className="text-xl rc-icon">🍳</span>
                                             <span className="text-base font-bold ">Total Cook Time</span>
                                             <span className="text-sm ">1 hr 20 mins</span>
                                         </li>
-                                        <li className="m-prep-box">
-                                            <span className="text-xl rc-icon">🍳</span>
-                                            <span className="text-base font-bold ">Total Cook Time</span>
-                                            <span className="text-sm ">1 hr 20 mins</span>
-                                        </li>
-                                        <li className="m-prep-box">
+                                        <li className="m-info-li">
                                             <span className="text-xl rc-icon">🍳</span>
                                             <span className="text-base font-bold ">Total Cook Time</span>
                                             <span className="text-sm ">1 hr 20 mins</span>
                                         </li>
                                     </ul>
-                                </div>
+                                </Stack>
+
                                 <div className="meal-price-ui">
-                                    <label className="m-price-label text-base">Price</label>
-                                    <span className="meal-price text-lg font-bold">{meal.price}<span className="meal-price-currency">$</span></span>
+                                    <div>
+                                        <Typography className="meal-price text-lg font-bold">{formatCurrency(meal.price)}</Typography>
+                                    </div>
+                                    <div className="btn-wrapper">
+                                        <AddButton count={count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
+                                    </div>
                                 </div>
-                                <div className="btn-wrapper">
-                                    <AddButton count={count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <main className="section">
-                <div className="section-wrapper">
+            <Divider light />
+            <main className="m-main">
+                <div className="m-main-wrapper">
+
+                    <article className="m-article ">
+                        <section className="m-section m-section-1">
+                            {/* <Box> */}
+                            <Typography component="h2" variant="h3" marginBlockEnd="0.75rem" >About {meal.name}</Typography>
+                            {/* </Box> */}
+                            {/* <h3 className="text-4xl  mb-1">About: {meal.name}</h3> */}
+                            <Typography component="p" variant="body1" marginBlockEnd="0.75rem" >{meal.description}</Typography>
+                            {/* <p className="text-base">{meal.description} , cupiditate nam blanditiis. Consequatur rerum sint, quae sed sit laboriosam alias nam aut harum.</p> */}
+                        </section>
+
+                        <section className="m-section m-section-2">
+                            <Typography component="h4" variant="h4" marginBlockEnd="0.75rem" >Ingridents</Typography>
 
 
-                    <article className="m-main-container m-des-container bx bx-1">
+                        </section>
 
-                        <h3 className="text-4xl mb-1">About Punjabi Lemon Chicken Recipe</h3>
-                        <p className="text-base"> A melt in your mouth chicken recipe with a tangy twist. Punjabi lemon chicken made with citrus juices, sugarcane juice and some basic Indian spices. Try this tangy yet delicious version of chicken at your next dinner party and you wouldn't be able to resist coming back to this chicken recipe!</p>
-                        {/* <p className="text-base"></p> */}
+
+
                     </article>
 
-
-                    <aside className="m-ing-container ingredient-conatainer bx bx-2">
+                    <aside className="m-aside m-cart-aside">
 
                         <MealCart
                             handleClick={handleClick}
@@ -230,7 +243,6 @@ export default function Meal() {
                             price={meal?.price}
                         />
                     </aside>
-
                 </div>
             </main>
 
@@ -252,7 +264,7 @@ function MealCart({ item, price, count, total, handleClick, handleDecrement, han
                                 <Typography variant="h4" component="h3" >Cart</Typography>
                                 <Typography variant="p" component="p">{count} {count > 1 ? "items" : "item"}</Typography>
                             </div>
-                            <Divider light />
+                            <Divider light sx={{ marginBlock: 1 }} />
                             <div className="m-cart-mid">
                                 <Typography variant=" body1" component="p" >Bill Details</Typography>
                                 <List>
@@ -270,13 +282,15 @@ function MealCart({ item, price, count, total, handleClick, handleDecrement, han
                                 </List>
                             </div>
                             <div className="m-cart-btm mb-1">
-                                <Stack direction="row" justifyContent="space-between">
-                                    <h4 className="text-lg">Total Amount</h4>
-                                    <p>{formatCurrency(total)} </p>
+                                <Stack direction="row" alignItems="center" justifyContent="space-between">
+                                    <Typography variant="h6" component="h6">Total Amount</Typography>
+                                    {/* <h4 className="text-lg">Total Amount</h4> */}
+                                    <Typography variant="body1" component="p">{formatCurrency(total)}</Typography>
+                                    {/* <p>{formatCurrency(total)} </p> */}
                                 </Stack>
                             </div>
                             <div className="m-cart-footer">
-                                <Button variant="contained" component={Link} to="/checkout">
+                                <Button sx={{ width: '100%', paddingBlock: '0.5rem' }} variant="contained" component={Link} to="/checkout">
                                     Checkout
                                 </Button>
                                 {/* // <Button size="medium" variant="contained" >Checkout</Button> */}
@@ -284,8 +298,8 @@ function MealCart({ item, price, count, total, handleClick, handleDecrement, han
                         </div>
                         :
                         <div className="m-cart-box m-cart-empty">
-                            <Card sx={{ boxShadow: 'none' }}>
-                                <CardContent>
+                            <Card sx={{ boxShadow: 'none', textAlign: 'center' }} >
+                                <CardContent sx={{ padding: 0 }} >
                                     <figure className="mb-1">
                                         <img width="200" src={emptyBasket} alt="empty cart" />
                                     </figure>
@@ -308,8 +322,6 @@ function AddButton({ size, count, handleClick, handleDecrement, handleIncrement 
                 count > 0
                     ?
                     <div className="btn-add-quantity">
-                        {/* <Stack spacing={2}    > */}
-
                         <ButtonGroup
                             disableElevation
                             variant="contained"
@@ -317,15 +329,15 @@ function AddButton({ size, count, handleClick, handleDecrement, handleIncrement 
                             size="small"
                             sx={{ alignItems: "center" }}
                             className="m"
+                            color="secondary"
                         >
                             <Button onClick={handleDecrement}>-</Button>
                             <div className="add-count-ui">{count}</div>
                             <Button onClick={handleIncrement}>+</Button>
                         </ButtonGroup>
-                        {/* </Stack> */}
                     </div>
                     :
-                    <Button onClick={handleClick} variant="contained" size="small">Add</Button>
+                    <Button color="secondary" onClick={handleClick} variant="contained" size="small">Add</Button>
             }
         </>
     )
