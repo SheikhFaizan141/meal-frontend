@@ -38,11 +38,12 @@ function Cart() {
   return (
     <>
       <div className="co-cart">
-        <Box border={1} paddingInline={0.5} paddingBlock={0.5} borderRadius={1} direction={'row'} justifyContent={'space-between'} className="co-item-container">
+        <Typography variant="h5" marginBlockEnd={1}>Meals</Typography>
+        <Box marginBlockEnd={1} border={1} paddingInline={0.5} paddingBlock={0.5} borderRadius={1} direction={'row'} justifyContent={'space-between'} className="co-item-container">
           <Stack direction={'row'} className="co-item-wrapper">
 
             <Box className="img-container">
-              <img src="img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" width="100" height="100" alt="" className="img" />
+              <img loading="lazy" src="img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" width="100" height="100" alt="" className="img" />
             </Box>
 
             <div className="co-item-info">
@@ -67,6 +68,7 @@ function Cart() {
         <div className="co-bl-wrapper pt-1">
 
           <div className="co-bl-detail-wrap">
+            
             <h4 className="co-bl-heading text-xl mb-1">Bill Details</h4>
 
             <div className="co-item-total text-base mb-1">
@@ -78,6 +80,7 @@ function Cart() {
               <p className="co-item-l">GST</p>
               <p className="co-item-r">$9</p>
             </div>
+
           </div>
 
           <Divider light sx={{ marginBlockEnd: '1rem' }} />
