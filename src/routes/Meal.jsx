@@ -143,11 +143,11 @@ export default function Meal() {
             <div className="meal-wrapper meal-hero">
 
                 {/* Hero Section */}
-                <div className="m-hero-wrapper">
+                <Stack direction={{sm: 'column', md: 'row'}} className="m-hero-wrapper">
 
-                    <div className="m-hero-box m-hero-box-1 img-container">
+                    <Box flex={'1 1 160px'} className="m-hero-box m-hero-box-1 img-container">
                         <img src="/public/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" alt="" className="img" />
-                    </div>
+                    </Box>
 
                     <div className="m-hero-box m-hero-box-2  meal-info-wrapper meal-hero">
 
@@ -166,7 +166,7 @@ export default function Meal() {
                         </div>
 
                         <div className="meal-dis meal-info hero-box2-b">
-                            <div className="m-info-wrapper">
+                            <Stack  alignItems={{sm: 'start'}} direction={{sm: 'column', md: 'row'}}  className="m-info-wrapper">
                                 <Stack direction="row">
                                     <ul className="m-info-ul" >
                                         <li className="m-info-li">
@@ -192,26 +192,28 @@ export default function Meal() {
                                     </ul>
                                 </Stack>
 
-                                <div className="meal-price-ui">
+                                <Stack  className="meal-price-ui">
+                                   
                                     <div>
                                         <Typography className="meal-price text-lg font-bold">{formatCurrency(meal.price)}</Typography>
                                     </div>
+                                   
                                     <div className="btn-wrapper">
                                         <AddButton count={count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
                                     </div>
-                                </div>
+                                </Stack>
 
-                            </div>
+                            </Stack>
                         </div>
                     </div>
-                </div>
+                </Stack>
             </div>
 
             <Divider light />
             <main className="m-main">
-                <div className="m-main-wrapper">
+                <Stack direction={{sm: 'column', md: 'row'}} className="m-main-wrapper">
 
-                    <article className="m-article ">
+                    <Box component={'article'} order={{sm: 1, md: 0}} className="m-article ">
                         <section className="m-section m-section-1">
                             {/* <Box> */}
                             <Typography component="h2" variant="h3" marginBlockEnd="0.75rem" >About {meal.name}</Typography>
@@ -223,16 +225,10 @@ export default function Meal() {
 
                         <section className="m-section m-section-2">
                             <Typography component="h4" variant="h4" marginBlockEnd="0.75rem" >Ingridents</Typography>
-
-
                         </section>
-
-
-
-                    </article>
+                    </Box>
 
                     <aside className="m-aside m-cart-aside">
-
                         <MealCart
                             handleClick={handleClick}
                             handleDecrement={handleDecrement}
@@ -243,7 +239,8 @@ export default function Meal() {
                             price={meal?.price}
                         />
                     </aside>
-                </div>
+
+                </Stack>
             </main>
 
         </>
@@ -300,9 +297,9 @@ function MealCart({ item, price, count, total, handleClick, handleDecrement, han
                         <div className="m-cart-box m-cart-empty">
                             <Card sx={{ boxShadow: 'none', textAlign: 'center' }} >
                                 <CardContent sx={{ padding: 0 }} >
-                                    <figure className="mb-1">
+                                    <Box component={'figure'}  display={'flex'} justifyContent={'center'} className="mb-1">
                                         <img width="200" src={emptyBasket} alt="empty cart" />
-                                    </figure>
+                                    </Box>
                                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                         Good food is always cooking! Go ahead, order some yummy items from the menu.
                                     </Typography>

@@ -1,14 +1,16 @@
 // import AppHeader from "../components/AppHeader";
 // import {}
 
-import { Divider } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import AddButton from "../components/AddBtn";
 
 export default function Checkout() {
   return (
     <>
-      <div className="co-container">
-        <div className="co-wrapper">
-          <div className="box co-box co-box-1">
+      <Box minHeight={'100dvh'} component={'main'} className="co-container">
+
+        <div className="co-account co-wrapper">
+          <div className="box co-box co-box-1 co-account">
             <div className="co-account">
               <div className="co-heading mb-1">
                 <h3 className="h3">Checkout</h3>
@@ -25,7 +27,8 @@ export default function Checkout() {
           </div>
 
         </div>
-      </div>
+
+      </Box>
     </>
   )
 }
@@ -35,13 +38,12 @@ function Cart() {
   return (
     <>
       <div className="co-cart">
+        <Box border={1} paddingInline={0.5} paddingBlock={0.5} borderRadius={1} direction={'row'} justifyContent={'space-between'} className="co-item-container">
+          <Stack direction={'row'} className="co-item-wrapper">
 
-        <div className="co-item-container">
-          <div className="co-item-wrapper">
-
-            <div className="img-container">
-              <img src="" width="100" height="100" alt="" className="img" />
-            </div>
+            <Box className="img-container">
+              <img src="img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" width="100" height="100" alt="" className="img" />
+            </Box>
 
             <div className="co-item-info">
               <h3 className="co-item-name">
@@ -50,10 +52,17 @@ function Cart() {
               <p className="co-cuisin text-sm">Indian</p>
             </div>
 
-          </div>
-        </div>
+          </Stack>
 
-        <Divider light />
+          <Divider sx={{ marginBlockEnd: '0.75rem' }} light />
+
+          <Box display={"flex"} justifyContent={"space-between"}>
+            <Typography variant="subtitle1">$100</Typography>
+            <AddButton />
+          </Box>
+
+        </Box>
+
 
         <div className="co-bl-wrapper pt-1">
 

@@ -5,36 +5,43 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { Divider, Icon, Rating, Stack } from '@mui/material';
+import { Box, Divider, Icon, Rating, Stack } from '@mui/material';
 
 export default function MealCard({ id, name, desc }) {
 
   // console.log(name);
   return (
-    <Card >
+    <Card  >
       <Link className='card-link' to={`meal/${id}`}>
         <CardMedia
           component="img"
           alt={name}
-          height="140"
-          image="https://placehold.co/140"
+          height="140px"
+          sx={{ maxHeight: '140px' }}
+          image="https://placehold.co/420"
         />
-        <CardContent>
-          <Stack direction="row">
-            <Typography gutterBottom variant="h5" component="div">
-            🍖 {name} 
+        <CardContent >
+          <Box>
+            <Stack direction={'row'} justifyContent={'space-between'}>
+              <Typography  gutterBottom variant="h6" component="div">
+                {name}
+              </Typography>
+              <Icon>🥔</Icon>
+            </Stack>
+            <Typography variant="body2" color="text.secondary">
+              {
+                desc
+              }
             </Typography>
-          </Stack>
+          </Box>
 
-          <Typography variant="body2" color="text.secondary">
-            {
-              desc
-            }
-          </Typography>
-          
-          <Divider light sx={{marginBlock: 1}} />
+          <Divider light sx={{ marginBlock: 1 }} />
 
-          <Rating readOnly defaultValue={3.5} precision={0.5} />
+          <Box display={'flex'} alignItems={'center'} gap={'0.5rem'} >
+            3.8
+            <Rating readOnly defaultValue={3.5} precision={0.5} />
+          </Box>
+
         </CardContent>
       </Link>
     </Card>

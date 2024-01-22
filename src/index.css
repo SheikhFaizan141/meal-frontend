@@ -27,6 +27,7 @@
 img {
   max-inline-size: 100%;
   block-size: auto;
+  display: block;
 }
 
 a {
@@ -342,7 +343,7 @@ main {
   padding-block: 2rem;
   background-color: #f4f4f4f4;
 
-
+/* 
   .m-hero-box-1 {
     flex: 1;
     min-width: 300px;
@@ -351,7 +352,7 @@ main {
       object-position: center;
       object-fit: cover;
     }
-  }
+  } */
 
   .m-hero-box-2 {
     flex: 2;

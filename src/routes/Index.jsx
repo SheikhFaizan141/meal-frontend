@@ -46,12 +46,10 @@ export default function Index(props) {
                 <div className='filter-ui-wrapper mb-1' >
                     <div className="m-f-box filter-search-wrapper">
                         <Box>
-
                             <TextField onChange={(e) => setSearch(e.target.value)} value={search} sx={{ borderRadius: 1 }} id="outlined-basic" label="Search" variant="outlined" />
                         </Box>
                     </div>
                     <div className="m-f-box filter-chip-list-wrapper">
-
                         <Stack direction="row" spacing={1}>
                             <Chip clickable label="primary" color="success" variant="outlined" />
                             <Chip clickable label="Rating" color="primary" variant="outlined" />
@@ -64,7 +62,7 @@ export default function Index(props) {
 
             <Divider light sx={{ marginBlockEnd: '1rem' }} />
 
-            <div className="meal-wrapper">
+            <div className="meal-wrapper m-grid">
                 {
                     filterMeals.map(meal => {
                         return (
