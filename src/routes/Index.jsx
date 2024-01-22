@@ -1,6 +1,6 @@
 import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
 import MealCard from '../components/MealCard'
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, useOutletContext } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 
@@ -37,6 +37,10 @@ export default function Index(props) {
         return meal.name.toLowerCase().includes(search.toLowerCase());
     })
 
+
+    let meal = useOutletContext();
+
+    console.log(meal);
 
     console.log(meals);
     return (
