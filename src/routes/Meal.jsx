@@ -6,8 +6,6 @@ import { getMeal } from "../meals";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../utils/formatCurrency";
 import emptyBasket from '../assets/empty-basket.png'
-import MealTable from '../components/MealTable'
-
 // list
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -97,7 +95,7 @@ export default function Meal({ addItem, removeItem }) {
                 <Stack direction={{ sm: 'column', md: 'row' }} className="m-hero-wrapper">
 
                     <Box flex={'1 1 160px'} className="m-hero-box m-hero-box-1 img-container">
-                        <img src="/public/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" alt="" className="img" />
+                        <img src="/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" alt="" className="img" />
                     </Box>
 
                     <div className="m-hero-box m-hero-box-2  meal-info-wrapper meal-hero">
@@ -179,8 +177,7 @@ export default function Meal({ addItem, removeItem }) {
                             handleDecrement={handleDecrement}
                             handleIncrement={handleIncrement}
                             items={items}
-                            count={items.length}
-                            total={''}
+                            // count={items.length}
                             price={meal?.price}
                             isEmpty={items.length > 0 ? true : false}
                         />
@@ -195,7 +192,7 @@ export default function Meal({ addItem, removeItem }) {
 
 
 function MealCart({ isEmpty, items, amount, count, handleClick, handleDecrement, handleIncrement }) {
-    const { total } = useOutletContext();
+    const { itemTotalPrice } = useOutletContext();
 
     return (
         <>
@@ -226,7 +223,7 @@ function MealCart({ isEmpty, items, amount, count, handleClick, handleDecrement,
                             <div className="m-cart-btm mb-1">
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Typography variant="h6" component="h6">Total Amount</Typography>
-                                    <Typography variant="body1" component="p">{formatCurrency(total)}</Typography>
+                                    <Typography variant="body1" component="p">{formatCurrency(itemTotalPrice)}</Typography>
                                 </Stack>
                             </div>
 
