@@ -30,12 +30,22 @@ export default function Root() {
 
     const [item, setItem] = useState([]);
 
+    console.log(item);
+
+    function addItem(params) {
+        
+    }
+
+    function removeItem(params) {
+        
+    }
+
     return (
         <>
 
             <AppHeader />
             <div className="container">
-                <Outlet items={item} />
+                <Outlet context={{ item: [item, setItem] }} items={item}  />
             </div>
             <AppFooter />
         </>

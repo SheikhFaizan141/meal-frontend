@@ -38,11 +38,9 @@ export default function Index(props) {
     })
 
 
-    let meal = useOutletContext();
+    
 
-    console.log(meal);
-
-    console.log(meals);
+    // console.log(meals);
     return (
         <div className="meal-container">
 

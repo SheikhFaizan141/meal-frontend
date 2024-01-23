@@ -1,5 +1,5 @@
 import { Box, Button, ButtonGroup, Divider, Stack } from "@mui/material";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { getMeal } from "../meals";
@@ -30,120 +30,62 @@ export async function loader(request) {
 }
 
 
-
-function setItemLs(key, value) {
-    // check if id is same if id is same than add otherwise clear cart
-
-    if (!localStorage.getItem(key)) {
-
-
-        return localStorage.setItem(key, JSON.stringify(value))
-    }
-
-
-    const cart = JSON.parse(localStorage.getItem('cart'));
-
-    if (cart.id !== value.id) {
-        // overwrite data
-
-        localStorage.clear('clear')
-
-        return false;
-    }
-
-    return localStorage.setItem(key, JSON.stringify(value))
-}
-
-function getItem(key) {
-    if (!localStorage.getItem('cart')) {
-        return null;
-    }
-
-    const item = JSON.parse(localStorage.getItem('cart'));
-
-    console.log(item);
-    return item[key] ?? null;
-}
-
-
-export default function Meal() {
+export default function Meal({ addItem, removeItem }) {
     const { meal } = useLoaderData();
-    const [item, setItem] = useState(() => getItem('name'));
-    const [count, setCount] = useState(() => getItem('count'));
-    const [total, setTotal] = useState(() => getItem('total'));
 
-    useEffect(() => {
-        if (count === 0) {
-            setItem(null);
-            setTotal(null);
-
-            // clear local storage cart is empty
-            localStorage.clear('cart')
-        }
+    const [count, setCount] = useState(0);
+    const [items, setItem] = useOutletContext()?.item;
 
 
-    }, [count])
 
     function handleClick() {
-        setItem(meal.name);
-        setTotal(meal.price)
-        setCount(1);
+        let m = { id: meal.id, name: meal.name, amount: meal.price, count: 1 }
 
-
-
-        let value = setItemLs('cart', { id: meal.id, name: meal.name, count: 1, total: meal.price })
-
-
-
+        setItem([...items, m])
+        setCount(count + 1)
     }
 
     function handleIncrement() {
-        setCount(count + 1);
-        setTotal(total + meal.price);
+        let newItem = items.map(item => {
+            if (item.id === meal.id) {
+                let obj = { id: meal.id, name: meal.name, amount: item.amount + meal.price, count: item.count + 1 }
 
-
-        const isRepeat = setItemLs('cart', { id: meal.id, name: meal.name, count: count + 1, total: total + meal.price })
-
-        if (isRepeat === false) {
-
-            let clearCart = window.confirm('cart will be replaced by new meal')
-            if (clearCart) {
-                setItem(meal.name);
-                setTotal(meal.price)
-                setCount(1);
+                return obj;
+            } else {
+                return item;
             }
+        });
 
-        }
-
+        // console.log(newItem);
+        setItem(newItem)
     }
 
     function handleDecrement() {
-        setCount(count - 1);
-        setTotal(total - meal.price);
+        let newList = [];
 
 
-        const isRepeat = setItemLs('cart', { id: meal.id, name: meal.name, count: count - 1, total: total - meal.price })
-        if (isRepeat === false) {
-
-            let clearCart = window.confirm('cart will be replaced by new meal')
-            if (clearCart) {
-                setItem(meal.name);
-                setTotal(meal.price)
-                setCount(1);
+        items.forEach(item => {
+            if (item.id === meal.id) {
+                if (item.count > 1) {
+                    newList.push({ ...item, amount: item.amount - meal.price, count: item.count - 1 })
+                }
+            } else {
+                return newList.push(item);
             }
+        });
 
-        }
+        setItem(newList);
     }
 
 
 
-
+    console.log(items);
     return (
         <>
             <div className="meal-wrapper meal-hero">
 
                 {/* Hero Section */}
-                <Stack direction={{sm: 'column', md: 'row'}} className="m-hero-wrapper">
+                <Stack direction={{ sm: 'column', md: 'row' }} className="m-hero-wrapper">
 
                     <Box flex={'1 1 160px'} className="m-hero-box m-hero-box-1 img-container">
                         <img src="/public/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" alt="" className="img" />
@@ -154,8 +96,6 @@ export default function Meal() {
                         <div className="hero-heading-wrapper hero-box2-t  mb-1">
                             <hgroup className="meal-hgroup mb-1">
                                 <Typography component="h1" variant="h2">{meal.name}</Typography>
-                                {/* <Typography component="p" variant="body1">Cuisine: Indian</Typography> */}
-                                {/* <h2 className="meal-name">{meal.name}</h2> */}
                                 <p className="meal-cuisine text-xl"><span>Cuisine: </span>Indian</p>
                             </hgroup>
 
@@ -166,7 +106,7 @@ export default function Meal() {
                         </div>
 
                         <div className="meal-dis meal-info hero-box2-b">
-                            <Stack  alignItems={{sm: 'start'}} direction={{sm: 'column', md: 'row'}}  className="m-info-wrapper">
+                            <Stack alignItems={{ sm: 'start' }} direction={{ sm: 'column', md: 'row' }} className="m-info-wrapper">
                                 <Stack direction="row">
                                     <ul className="m-info-ul" >
                                         <li className="m-info-li">
@@ -192,14 +132,14 @@ export default function Meal() {
                                     </ul>
                                 </Stack>
 
-                                <Stack  className="meal-price-ui">
-                                   
+                                <Stack className="meal-price-ui">
+
                                     <div>
                                         <Typography className="meal-price text-lg font-bold">{formatCurrency(meal.price)}</Typography>
                                     </div>
-                                   
+
                                     <div className="btn-wrapper">
-                                        <AddButton count={count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
+                                        <AddButton count={count} handleClick={handleClick} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
                                     </div>
                                 </Stack>
 
@@ -211,16 +151,12 @@ export default function Meal() {
 
             <Divider light />
             <main className="m-main">
-                <Stack direction={{sm: 'column', md: 'row'}} className="m-main-wrapper">
+                <Stack direction={{ sm: 'column', md: 'row' }} className="m-main-wrapper">
 
-                    <Box component={'article'} order={{sm: 1, md: 0}} className="m-article ">
+                    <Box component={'article'} order={{ sm: 1, md: 0 }} className="m-article ">
                         <section className="m-section m-section-1">
-                            {/* <Box> */}
                             <Typography component="h2" variant="h3" marginBlockEnd="0.75rem" >About {meal.name}</Typography>
-                            {/* </Box> */}
-                            {/* <h3 className="text-4xl  mb-1">About: {meal.name}</h3> */}
                             <Typography component="p" variant="body1" marginBlockEnd="0.75rem" >{meal.description}</Typography>
-                            {/* <p className="text-base">{meal.description} , cupiditate nam blanditiis. Consequatur rerum sint, quae sed sit laboriosam alias nam aut harum.</p> */}
                         </section>
 
                         <section className="m-section m-section-2">
@@ -230,13 +166,14 @@ export default function Meal() {
 
                     <aside className="m-aside m-cart-aside">
                         <MealCart
-                            handleClick={handleClick}
+                            handleClick={addItem}
                             handleDecrement={handleDecrement}
                             handleIncrement={handleIncrement}
-                            item={item}
+                            items={items}
                             count={count}
-                            total={total}
+                            total={''}
                             price={meal?.price}
+                            isEmpty={items.length > 0 ? true : false}
                         />
                     </aside>
 
@@ -248,13 +185,13 @@ export default function Meal() {
 }
 
 
-function MealCart({ item, price, count, total, handleClick, handleDecrement, handleIncrement }) {
-
+function MealCart({isEmpty, items, amount, count, total, handleClick, handleDecrement, handleIncrement }) {
+    // console.log(item.length);
     return (
         <>
             <div className="m-cart-wrapper">
                 {
-                    item
+                    isEmpty
                         ?
                         <div className="m-cart-box">
                             <div className="m-cart-top">
@@ -265,39 +202,38 @@ function MealCart({ item, price, count, total, handleClick, handleDecrement, han
                             <div className="m-cart-mid">
                                 <Typography variant=" body1" component="p" >Bill Details</Typography>
                                 <List>
-                                    <ListItem disablePadding>
-
-
-                                        <ListItemText
-                                            primary={item}
-                                            secondary={price ? formatCurrency(price * count) : null}
-                                        />
-
-
-                                        <AddButton size="sm" count={count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
-                                    </ListItem>
+                                    {
+                                        items.map(item => {
+                                            return (
+                                                <ListItem key={item?.id} disablePadding>
+                                                    <ListItemText
+                                                        primary={item.name}
+                                                        secondary={item.amount ? formatCurrency(item.amount) : null}
+                                                    />
+                                                    <AddButton size="sm" count={item.count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
+                                                </ListItem>
+                                            );
+                                        })
+                                    }
                                 </List>
                             </div>
                             <div className="m-cart-btm mb-1">
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Typography variant="h6" component="h6">Total Amount</Typography>
-                                    {/* <h4 className="text-lg">Total Amount</h4> */}
                                     <Typography variant="body1" component="p">{formatCurrency(total)}</Typography>
-                                    {/* <p>{formatCurrency(total)} </p> */}
                                 </Stack>
                             </div>
                             <div className="m-cart-footer">
                                 <Button sx={{ width: '100%', paddingBlock: '0.5rem' }} variant="contained" component={Link} to="/checkout">
                                     Checkout
                                 </Button>
-                                {/* // <Button size="medium" variant="contained" >Checkout</Button> */}
                             </div>
                         </div>
                         :
                         <div className="m-cart-box m-cart-empty">
                             <Card sx={{ boxShadow: 'none', textAlign: 'center' }} >
                                 <CardContent sx={{ padding: 0 }} >
-                                    <Box component={'figure'}  display={'flex'} justifyContent={'center'} className="mb-1">
+                                    <Box component={'figure'} display={'flex'} justifyContent={'center'} className="mb-1">
                                         <img width="200" src={emptyBasket} alt="empty cart" />
                                     </Box>
                                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
