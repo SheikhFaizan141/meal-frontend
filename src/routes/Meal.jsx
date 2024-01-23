@@ -18,7 +18,7 @@ import CardContent from '@mui/material/CardContent';
 
 export async function loader(request) {
     const meal = await getMeal(request.params.mealId);
-
+    
     if (meal === undefined) {
         throw new Response("", {
             status: 404,
@@ -32,23 +32,36 @@ export async function loader(request) {
 
 export default function Meal({ addItem, removeItem }) {
     const { meal } = useLoaderData();
+    const [items, setItem] = useOutletContext()?.item;
 
     const [count, setCount] = useState(0);
-    const [items, setItem] = useOutletContext()?.item;
+
+
+    useEffect(() => {
+        const index = items.findIndex(item => item.id === meal.id);
+        if (index !== -1) {
+            setCount(items[index].qty);
+        } else {
+            setCount(0);
+        }
+    }, [items])
+
 
 
 
     function handleClick() {
-        let m = { id: meal.id, name: meal.name, amount: meal.price, count: 1 }
+        let isPresent = items.findIndex(item => meal.id === item.id);
 
-        setItem([...items, m])
-        setCount(count + 1)
+        if (isPresent === -1) {
+            let m = { id: meal.id, name: meal.name, price: meal.price, qty: 1 }
+            setItem([...items, m])
+        }
     }
 
     function handleIncrement() {
         let newItem = items.map(item => {
             if (item.id === meal.id) {
-                let obj = { id: meal.id, name: meal.name, amount: item.amount + meal.price, count: item.count + 1 }
+                let obj = { ...item, qty: item.qty + 1 }
 
                 return obj;
             } else {
@@ -56,30 +69,26 @@ export default function Meal({ addItem, removeItem }) {
             }
         });
 
-        // console.log(newItem);
         setItem(newItem)
     }
 
     function handleDecrement() {
         let newList = [];
-
-
         items.forEach(item => {
             if (item.id === meal.id) {
-                if (item.count > 1) {
-                    newList.push({ ...item, amount: item.amount - meal.price, count: item.count - 1 })
+                if (item.qty > 1) {
+                    newList.push({ ...item, qty: item.qty - 1 });
                 }
             } else {
                 return newList.push(item);
             }
         });
 
+
         setItem(newList);
     }
 
 
-
-    console.log(items);
     return (
         <>
             <div className="meal-wrapper meal-hero">
@@ -133,7 +142,6 @@ export default function Meal({ addItem, removeItem }) {
                                 </Stack>
 
                                 <Stack className="meal-price-ui">
-
                                     <div>
                                         <Typography className="meal-price text-lg font-bold">{formatCurrency(meal.price)}</Typography>
                                     </div>
@@ -150,6 +158,7 @@ export default function Meal({ addItem, removeItem }) {
             </div>
 
             <Divider light />
+
             <main className="m-main">
                 <Stack direction={{ sm: 'column', md: 'row' }} className="m-main-wrapper">
 
@@ -170,7 +179,7 @@ export default function Meal({ addItem, removeItem }) {
                             handleDecrement={handleDecrement}
                             handleIncrement={handleIncrement}
                             items={items}
-                            count={count}
+                            count={items.length}
                             total={''}
                             price={meal?.price}
                             isEmpty={items.length > 0 ? true : false}
@@ -185,8 +194,9 @@ export default function Meal({ addItem, removeItem }) {
 }
 
 
-function MealCart({isEmpty, items, amount, count, total, handleClick, handleDecrement, handleIncrement }) {
-    // console.log(item.length);
+function MealCart({ isEmpty, items, amount, count, handleClick, handleDecrement, handleIncrement }) {
+    const { total } = useOutletContext();
+
     return (
         <>
             <div className="m-cart-wrapper">
@@ -199,30 +209,27 @@ function MealCart({isEmpty, items, amount, count, total, handleClick, handleDecr
                                 <Typography variant="p" component="p">{count} {count > 1 ? "items" : "item"}</Typography>
                             </div>
                             <Divider light sx={{ marginBlock: 1 }} />
+
                             <div className="m-cart-mid">
                                 <Typography variant=" body1" component="p" >Bill Details</Typography>
                                 <List>
                                     {
                                         items.map(item => {
                                             return (
-                                                <ListItem key={item?.id} disablePadding>
-                                                    <ListItemText
-                                                        primary={item.name}
-                                                        secondary={item.amount ? formatCurrency(item.amount) : null}
-                                                    />
-                                                    <AddButton size="sm" count={item.count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
-                                                </ListItem>
+                                                <CartItem key={item.id} item={item} />
                                             );
                                         })
                                     }
                                 </List>
                             </div>
+
                             <div className="m-cart-btm mb-1">
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                     <Typography variant="h6" component="h6">Total Amount</Typography>
                                     <Typography variant="body1" component="p">{formatCurrency(total)}</Typography>
                                 </Stack>
                             </div>
+
                             <div className="m-cart-footer">
                                 <Button sx={{ width: '100%', paddingBlock: '0.5rem' }} variant="contained" component={Link} to="/checkout">
                                     Checkout
@@ -246,6 +253,67 @@ function MealCart({isEmpty, items, amount, count, total, handleClick, handleDecr
             </div>
         </>
     )
+}
+
+
+function CartItem({ item }) {
+    const [items, setItem] = useOutletContext()?.item;
+
+    function handleIncrement() {
+        let newItem = items.map(list => {
+            if (list.id === item.id) {
+                return { ...list, qty: list.qty + 1 };
+            } else {
+                return list;
+            }
+        });
+
+        setItem(newItem)
+    }
+
+    function handleDecrement() {
+        let newList = [];
+
+
+        items.forEach(list => {
+            if (list.id === item.id) {
+                if (list.qty > 1) {
+                    newList.push({ ...list, qty: list.qty - 1 });
+                }
+            } else {
+                return newList.push(list);
+            }
+        });
+
+
+        setItem(newList);
+    }
+
+    return (
+        <ListItem disablePadding >
+            <ListItemText
+                primary={item.name}
+                secondary={item.price ? formatCurrency(item.price * item.qty) : null}
+            />
+            {/* <AddButton size="sm" count={item.count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} /> */}
+
+            <div className="btn-add-quantity">
+                <ButtonGroup
+                    disableElevation
+                    variant="contained"
+                    aria-label="Disabled elevation buttons"
+                    size="small"
+                    sx={{ alignItems: "center" }}
+                    className="m"
+                    color="secondary"
+                >
+                    <Button onClick={handleDecrement}>-</Button>
+                    <div className="add-count-ui">{item.qty}</div>
+                    <Button onClick={handleIncrement}>+</Button>
+                </ButtonGroup>
+            </div>
+        </ListItem>
+    );
 }
 
 function AddButton({ size, count, handleClick, handleDecrement, handleIncrement }) {

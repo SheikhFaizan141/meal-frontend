@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import AppHeader from '../components/AppHeader';
 import AppFooter from "../components/AppFooter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // async function getMeals() {
 //     try {
@@ -29,23 +29,22 @@ import { useState } from "react";
 export default function Root() {
 
     const [item, setItem] = useState([]);
+    const [total, setTotal] = useState(0);
 
-    console.log(item);
+    useEffect(() => {
+        let total = 0;
+        item.forEach(item => total += item.price * item.qty)
 
-    function addItem(params) {
-        
-    }
-
-    function removeItem(params) {
-        
-    }
+        console.log(total);
+        setTotal(total)
+    }, [item])
 
     return (
         <>
 
             <AppHeader />
             <div className="container">
-                <Outlet context={{ item: [item, setItem] }} items={item}  />
+                <Outlet context={{ item: [item, setItem], total: total }} items={item}  />
             </div>
             <AppFooter />
         </>
