@@ -1,11 +1,28 @@
 import { Box, Button, ButtonGroup, Divider, Paper, Stack, Typography } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 import { formatCurrency } from "../utils/formatCurrency";
+import img from '../assets/checkout-img.png'
 
 export default function Checkout() {
-  
+  const { isEmpty } = useOutletContext();
 
-  
+
+  if (isEmpty) {
+    return (
+      <>
+        <Box paddingBlock={3}>
+          <Stack alignItems={'center'} spacing={0.5}>
+            <Box width={'50%'} maxWidth={'380px'} className="img-container" >
+              <img className="img" src={img} alt="empty cart" srcset="" />
+            </Box>
+            <Typography variant={'h6'}>Your cart is empty</Typography>
+            <Typography variant={'subtitle1'}>Go to home page to view meals</Typography>
+          </Stack>
+        </Box>
+      </>
+    )
+  }
+
   return (
     <>
       <Box minHeight={'100dvh'} component={'main'} className="co-container">
@@ -92,7 +109,7 @@ function CartItem({ meal }) {
   }
 
   function handleSub() {
-    
+
     dispatch({
       type: 'decrement',
       id: meal.id
@@ -113,7 +130,7 @@ function CartItem({ meal }) {
 
             <Box alignItems={'center'} display={"flex"} justifyContent={"space-between"}>
               <Typography variant="subtitle1">{formatCurrency(meal.price * meal.qty)}</Typography>
-              
+
               <AddQty qty={meal.qty} onAdd={handleAdd} onSub={handleSub} />
             </Box>
 

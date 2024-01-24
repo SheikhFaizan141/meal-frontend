@@ -13,10 +13,22 @@ export default function Root() {
     const [itemTotalPrice, setItemTotalPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalTax, setTotalTax] = useState(0);
+    const [isEmpty, setIsEmpty] = useState(true);
+
+
+    useEffect(() => {
+
+    }, [items])
 
     useEffect(() => {
         const total = items.reduce((acc, currValue) => acc + (currValue.price * currValue.qty), 0)
         const taxTotal = total * taxRate;
+
+        if (items.length > 0) {
+            setIsEmpty(false);
+        } else {
+            setIsEmpty(true);
+        }
 
         setTotalTax(taxTotal)
         setItemTotalPrice(total)
@@ -28,7 +40,7 @@ export default function Root() {
 
             <AppHeader />
             <Container className="container">
-                <Outlet context={{ items: items, dispatch: dispatch, totalPrice: totalPrice, itemTotalPrice: itemTotalPrice, tax: totalTax }} />
+                <Outlet context={{ items, dispatch, isEmpty , totalPrice, itemTotalPrice, tax: totalTax }} />
             </Container>
             <AppFooter />
         </>

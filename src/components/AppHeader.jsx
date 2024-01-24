@@ -10,8 +10,8 @@ export default function AppHeader() {
         <div className="header-wrapper">
 
           <div className="header-box-l">
-            <Box className="ma-logo-wrapper">
-              <Typography variant='h5' component='h1' >Filling Meals</Typography>
+            <Box color={'black'}  component={Link} to={'/'}  className="ma-logo-wrapper">
+              <Typography variant='h5'>Filling Meals</Typography>
             </Box>
           </div>
 
