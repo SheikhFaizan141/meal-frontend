@@ -1,9 +1,11 @@
 import { Box, Button, ButtonGroup, Divider, Paper, Stack, Typography } from "@mui/material";
-import AddButton from "../components/AddBtn";
 import { useOutletContext } from "react-router-dom";
 import { formatCurrency } from "../utils/formatCurrency";
 
 export default function Checkout() {
+  
+
+  
   return (
     <>
       <Box minHeight={'100dvh'} component={'main'} className="co-container">
@@ -21,12 +23,9 @@ export default function Checkout() {
             </div>
           </div>
 
-          {/* <Paper> */}
           <Box component={'aside'} className="box co-box co-box-2">
             <Cart />
           </Box>
-          {/* </Paper> */}
-
         </div>
 
       </Box>
@@ -35,8 +34,7 @@ export default function Checkout() {
 }
 
 function Cart() {
-  const [items, setItem] = useOutletContext().item;
-  const { itemTotalPrice, totalPrice, tax } = useOutletContext();
+  const { items, dispatch, itemTotalPrice, totalPrice, tax } = useOutletContext();
 
   return (
     <>
@@ -44,14 +42,8 @@ function Cart() {
         <Typography variant="h5" marginBlockEnd={1}>Meals</Typography>
 
         {
-          items.map(item => {
-            // console.log(item.id);
-
-            return <CartItem key={item.id} meal={item} />
-          })
-
+          items.map(item => <CartItem key={item.id} meal={item} />)
         }
-
 
         <Box className="co-bl-wrapper pt-1">
 
@@ -59,14 +51,14 @@ function Cart() {
             <Typography className="co-bl-heading text-xl mb-1" marginBlockEnd={1} variant="h5">Bill Details</Typography>
 
             <div className="co-item-total text-base mb-1">
-              <Typography  fontWeight={600} className="co-item-l" variant="body1">Item Total</Typography>
-              <Typography fontWeight={600}  className="co-item-r" variant="body1">{formatCurrency(itemTotalPrice)}</Typography>
+              <Typography fontWeight={600} className="co-item-l" variant="body1">Item Total</Typography>
+              <Typography fontWeight={600} className="co-item-r" variant="body1">{formatCurrency(itemTotalPrice)}</Typography>
             </div>
 
-            <div className="co-item-tax text-base mb-1">
+            <Box className="co-item-tax text-base mb-1">
               <p className="co-item-l">GST</p>
               <p className="co-item-r">{formatCurrency(tax)}</p>
-            </div>
+            </Box>
 
           </Box>
 
@@ -88,62 +80,48 @@ function Cart() {
 
 
 function CartItem({ meal }) {
-  const [items, setItem] = useOutletContext()?.item;
+  const { items, dispatch } = useOutletContext();
 
   function handleAdd() {
-    const newItems = items.map(item => {
-      if (item.id === meal.id) {
-        return { ...item, qty: item.qty + 1 };
-      } else {
-        return item;
-      }
+
+    dispatch({
+      type: 'increment',
+      id: meal.id
     })
 
-    setItem(newItems);
   }
 
   function handleSub() {
-    const newItems = [];
-    items.forEach(item => {
-      if (item.id === meal.id) {
-        if (item.qty > 1) {
-          newItems.push({ ...item, qty: item.qty - 1 })
-        }
-
-      } else {
-        newItems.push(item)
-      }
+    
+    dispatch({
+      type: 'decrement',
+      id: meal.id
     })
-
-    setItem(newItems);
   }
-
-
 
   return (
     <>
-      <Box  >
-        {/* <Paper > */}
-          <Stack padding={1} direction={'row'} className="co-item-wrapper">
+      <Box>
+        <Stack padding={1} direction={'row'} className="co-item-wrapper">
 
-            <Box className="img-container">
-              <img loading="lazy" src="/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" width="100" height="100" alt="" className="img" />
+          <Box className="img-container">
+            <img loading="lazy" src="/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" width="100" height="100" alt="" className="img" />
+          </Box>
+
+          <Box alignItems={'center'} flex={1} component={'hgroup'} className="co-item-info">
+            <Typography paddingBlockEnd={1} className="co-item-name">{meal.name}</Typography >
+
+            <Box alignItems={'center'} display={"flex"} justifyContent={"space-between"}>
+              <Typography variant="subtitle1">{formatCurrency(meal.price * meal.qty)}</Typography>
+              
+              <AddQty qty={meal.qty} onAdd={handleAdd} onSub={handleSub} />
             </Box>
 
-            <Box alignItems={'center'} flex={1} component={'hgroup'} className="co-item-info">
-              <Typography paddingBlockEnd={1} className="co-item-name">{meal.name}</Typography >
 
-              <Box alignItems={'center'} display={"flex"} justifyContent={"space-between"}>
-                <Typography variant="subtitle1">{formatCurrency(meal.price * meal.qty)}</Typography>
-                <AddQty qty={meal.qty} onAdd={handleAdd} onSub={handleSub} />
-              </Box>
+          </Box>
 
-
-            </Box>
-
-          </Stack>
-        {/* </Paper> */}
-        <Divider light/>
+        </Stack>
+        <Divider light />
       </Box>
     </>
   )

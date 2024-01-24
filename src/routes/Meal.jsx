@@ -6,11 +6,9 @@ import { getMeal } from "../meals";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../utils/formatCurrency";
 import emptyBasket from '../assets/empty-basket.png'
-// list
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-// card
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
@@ -28,9 +26,9 @@ export async function loader(request) {
 }
 
 
-export default function Meal({ addItem, removeItem }) {
+export default function Meal() {
     const { meal } = useLoaderData();
-    const [items, setItem] = useOutletContext()?.item;
+    const { items, dispatch } = useOutletContext();
 
     const [count, setCount] = useState(0);
 
@@ -48,42 +46,26 @@ export default function Meal({ addItem, removeItem }) {
 
 
     function handleClick() {
-        let isPresent = items.findIndex(item => meal.id === item.id);
-
-        if (isPresent === -1) {
-            let m = { id: meal.id, name: meal.name, price: meal.price, qty: 1 }
-            setItem([...items, m])
-        }
+        dispatch({
+            type: 'add',
+            id: meal.id,
+            name: meal.name,
+            price: meal.price,
+        })
     }
 
     function handleIncrement() {
-        let newItem = items.map(item => {
-            if (item.id === meal.id) {
-                let obj = { ...item, qty: item.qty + 1 }
-
-                return obj;
-            } else {
-                return item;
-            }
-        });
-
-        setItem(newItem)
+        dispatch({
+            type: 'increment',
+            id: meal.id,
+        })
     }
 
     function handleDecrement() {
-        let newList = [];
-        items.forEach(item => {
-            if (item.id === meal.id) {
-                if (item.qty > 1) {
-                    newList.push({ ...item, qty: item.qty - 1 });
-                }
-            } else {
-                return newList.push(item);
-            }
-        });
-
-
-        setItem(newList);
+        dispatch({
+            type: 'decrement',
+            id: meal.id
+        })
     }
 
 
@@ -173,12 +155,11 @@ export default function Meal({ addItem, removeItem }) {
 
                     <aside className="m-aside m-cart-aside">
                         <MealCart
-                            handleClick={addItem}
+                            handleClick={handleClick}
                             handleDecrement={handleDecrement}
                             handleIncrement={handleIncrement}
                             items={items}
-                            // count={items.length}
-                            price={meal?.price}
+                            price={meal.price}
                             isEmpty={items.length > 0 ? true : false}
                         />
                     </aside>
@@ -254,36 +235,20 @@ function MealCart({ isEmpty, items, amount, count, handleClick, handleDecrement,
 
 
 function CartItem({ item }) {
-    const [items, setItem] = useOutletContext()?.item;
+    const { dispatch } = useOutletContext();
 
     function handleIncrement() {
-        let newItem = items.map(list => {
-            if (list.id === item.id) {
-                return { ...list, qty: list.qty + 1 };
-            } else {
-                return list;
-            }
-        });
-
-        setItem(newItem)
+        dispatch({
+            type: 'increment',
+            id: item.id,
+        })
     }
 
     function handleDecrement() {
-        let newList = [];
-
-
-        items.forEach(list => {
-            if (list.id === item.id) {
-                if (list.qty > 1) {
-                    newList.push({ ...list, qty: list.qty - 1 });
-                }
-            } else {
-                return newList.push(list);
-            }
-        });
-
-
-        setItem(newList);
+        dispatch({
+            type: 'decrement',
+            id: item.id
+        })
     }
 
     return (
@@ -292,7 +257,6 @@ function CartItem({ item }) {
                 primary={item.name}
                 secondary={item.price ? formatCurrency(item.price * item.qty) : null}
             />
-            {/* <AddButton size="sm" count={item.count} handleClick={handleClick} handleDecrement={handleDecrement} handleIncrement={handleIncrement} /> */}
 
             <div className="btn-add-quantity">
                 <ButtonGroup
@@ -313,7 +277,7 @@ function CartItem({ item }) {
     );
 }
 
-function AddButton({ size, count, handleClick, handleDecrement, handleIncrement }) {
+function AddButton({ size = "sm", count, handleClick, handleDecrement, handleIncrement }) {
     return (
         <>
             {

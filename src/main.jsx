@@ -1,7 +1,7 @@
 import React from 'react'
-import './index.css'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import './index.css'
 import Root from './routes/root';
 import Index, { loader as indexLoader } from './routes/Index';
 import Meal, { loader as mealLoader } from './routes/Meal';
@@ -11,8 +11,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    // loader: rootLoader,
-    // action: rootAction,
     // errorElement: <ErrorPage />,
     children: [
       {

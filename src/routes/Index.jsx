@@ -28,7 +28,6 @@ export async function loader() {
 }
 
 export default function Index(props) {
-
     const { meals } = useLoaderData();
     const [search, setSearch] = useState('');
 
