@@ -27,17 +27,21 @@ export async function loader() {
     return { meals }
 }
 
-export default function Index(props) {
+export default function Index() {
     const { meals } = useLoaderData();
     const [search, setSearch] = useState('');
 
 
-    const filterMeals = meals.filter(meal => {
+    let filterMeals = meals.filter(meal => {
         return meal.name.toLowerCase().includes(search.toLowerCase());
     })
 
 
+    // filterMeals = 
     
+
+
+
 
     // console.log(meals);
     return (
@@ -50,14 +54,14 @@ export default function Index(props) {
                             <TextField onChange={(e) => setSearch(e.target.value)} value={search} sx={{ borderRadius: 1 }} id="outlined-basic" label="Search" variant="outlined" />
                         </Box>
                     </div>
-                    <div className="m-f-box filter-chip-list-wrapper">
-                        <Stack direction="row" spacing={1}>
-                            <Chip clickable label="primary" color="success" variant="outlined" />
-                            <Chip clickable label="Rating" color="primary" variant="outlined" />
-                            <Chip clickable label="Cost" color="primary" variant="outlined" />
-                            <Chip clickable label="primary" color="primary" variant="outlined" />
+                    <Box className="m-f-box filter-chip-list-wrapper">
+                        <Stack fontSize={'1.15rem'} direction="row" spacing={1}>
+                            <Chip  clickable label="primary"  color="success" variant={'filled'} />
+                            <Chip clickable label="Rating" color="primary" variant="filled" />
+                            <Chip clickable label="Cost"  color="primary" variant="filled" />
+                            <Chip clickable label="primary" color="primary" variant="filled" />
                         </Stack>
-                    </div>
+                    </Box>
                 </div>
             </div>
 
