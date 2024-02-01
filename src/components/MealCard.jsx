@@ -1,15 +1,13 @@
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Box, Divider, Icon, Rating, Stack } from '@mui/material';
 
-export default function MealCard({ id, name, desc }) {
+export default function MealCard({ id, name, desc, rating }) {
 
-  // console.log(name);
+  console.log(rating);
   return (
     <Card  >
       <Link className='card-link' to={`meal/${id}`}>
@@ -23,7 +21,7 @@ export default function MealCard({ id, name, desc }) {
         <CardContent >
           <Box>
             <Stack direction={'row'} justifyContent={'space-between'}>
-              <Typography  gutterBottom variant="h6" component="div">
+              <Typography gutterBottom variant="h6" component="div">
                 {name}
               </Typography>
               <Icon>🥔</Icon>
@@ -38,8 +36,19 @@ export default function MealCard({ id, name, desc }) {
           <Divider light sx={{ marginBlock: 1 }} />
 
           <Box display={'flex'} alignItems={'center'} gap={'0.5rem'} >
-            3.8
-            <Rating readOnly defaultValue={3.5} precision={0.5} />
+            {
+              rating
+                ?
+                <Box>
+                  {rating}
+                  <Rating readOnly defaultValue={5} value={rating} precision={0.5} />
+                </Box>
+                : 
+                <Box bgcolor={'goldenrod'} paddingBlock={0.25} paddingInline={0.75} sx={{borderRadius: 1}} > 
+                  <Typography variant={'subtitle1'} color={'secondary'} >New</Typography>
+                </Box>
+            }
+
           </Box>
 
         </CardContent>

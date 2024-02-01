@@ -40,7 +40,7 @@ export default function Root() {
 
             <AppHeader />
             <Container className="container">
-                <Outlet context={{ items, dispatch, isEmpty , totalPrice, itemTotalPrice, tax: totalTax }} />
+                <Outlet context={{ items, dispatch, isEmpty, totalPrice, itemTotalPrice, tax: totalTax }} />
             </Container>
             <AppFooter />
         </>
