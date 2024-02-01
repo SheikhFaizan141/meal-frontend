@@ -1,23 +1,24 @@
 import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
 import MealCard from '../components/MealCard'
-import { useLoaderData, useOutletContext } from "react-router-dom"
+import { useLoaderData } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useState } from 'react';
+import { getMeals } from '../meals';
 
-async function getMeals() {
-    try {
-        const res = await fetch("/meals.json");
-
-        if (!res.ok) {
-            throw new Error(`${res.status} ${res.statusText}`);
+function filterWithTag(tag, arr) {
+    switch (tag) {
+        case '': {
+            return arr;
         }
-
-        const data = await res.json();
-
-        return data?.meals ?? [];
-
-    } catch (error) {
-        console.error(error)
+        case 'cost': {
+            return arr.sort((a, b) => a.price - b.price);
+        }
+        case 'rating': {
+            return arr.sort((a, b) => a.rating - b.rating)
+        }
+        default:
+            console.error('Invalid Filter');
+            break;
     }
 }
 
@@ -30,20 +31,14 @@ export async function loader() {
 export default function Index() {
     const { meals } = useLoaderData();
     const [search, setSearch] = useState('');
+    const [tag, setTag] = useState('');
+
+    const filterMeals = filterWithTag(tag, meals)
+        .filter(meal => {
+            return meal.name.toLowerCase().includes(search.toLowerCase());
+        })
 
 
-    let filterMeals = meals.filter(meal => {
-        return meal.name.toLowerCase().includes(search.toLowerCase());
-    })
-
-
-    // filterMeals = 
-    
-
-
-
-
-    // console.log(meals);
     return (
         <div className="meal-container">
 
@@ -56,9 +51,9 @@ export default function Index() {
                     </div>
                     <Box className="m-f-box filter-chip-list-wrapper">
                         <Stack fontSize={'1.15rem'} direction="row" spacing={1}>
-                            <Chip  clickable label="primary"  color="success" variant={'filled'} />
-                            <Chip clickable label="Rating" color="primary" variant="filled" />
-                            <Chip clickable label="Cost"  color="primary" variant="filled" />
+                            <Chip clickable onClick={() => setTag('rating')} label="Rating" color={tag === 'rating' ? "success" : "primary"} variant={'filled'} />
+                            <Chip clickable onClick={() => setTag('cost')} label="Cost" color={tag === 'cost' ? "success" : "primary"} variant="filled" />
+                            <Chip clickable label="Cost" color="primary" variant="filled" />
                             <Chip clickable label="primary" color="primary" variant="filled" />
                         </Stack>
                     </Box>
@@ -80,4 +75,9 @@ export default function Index() {
             </div>
         </div>
     )
+}
+
+
+function ChipFilter(params) {
+
 }

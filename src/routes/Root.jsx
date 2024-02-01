@@ -15,11 +15,6 @@ export default function Root() {
     const [totalTax, setTotalTax] = useState(0);
     const [isEmpty, setIsEmpty] = useState(true);
 
-
-    useEffect(() => {
-
-    }, [items])
-
     useEffect(() => {
         const total = items.reduce((acc, currValue) => acc + (currValue.price * currValue.qty), 0)
         const taxTotal = total * taxRate;

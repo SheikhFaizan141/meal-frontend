@@ -9,69 +9,92 @@ export default function Checkout() {
 
   if (isEmpty) {
     return (
-      <>
-        <Box paddingBlock={3}>
-          <Stack alignItems={'center'} spacing={0.5}>
-            <Box width={'50%'} maxWidth={'380px'} className="img-container" >
-              <img className="img" src={img} alt="empty cart" srcset="" />
-            </Box>
-            <Typography variant={'h6'}>Your cart is empty</Typography>
-            <Typography variant={'subtitle1'}>Go to home page to view meals</Typography>
-          </Stack>
-        </Box>
-      </>
+      <EmptyCheckout />
     )
   }
 
   return (
     <>
-      <Box minHeight={'100dvh'} component={'main'} className="co-container">
+      <Box minHeight={'100dvh'} component={'main'} >
 
-        <div className="co-account co-wrapper">
+        <Stack paddingBlock={3} direction={{ xs: 'column-reverse', md: 'row' }} spacing={{ xs: 2, sm: 3 }} className="co-account co-wrapper">
 
-          <div className="box co-box co-box-1 co-account">
-            <div className="co-account">
-              <div className="co-heading mb-1">
-                <h3 className="h3">Checkout</h3>
+          <Paper square sx={{ flex: 2 }}>
+            <Box className="box co-box co-box-1 co-account">
+              <div className="co-account">
+                <Box paddingBlock={2} paddingInline={2} className="co-heading">
+                  <Typography variant="h5" fontWeight={400} color={'GrayText'} >Checkout</Typography>
+                </Box>
+
+                <Divider light />
+
+                <Box paddingBlock={2} paddingInline={2}>
+                  <Typography variant="body1">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis doloribus asperiores saepe reprehenderit cupiditate maxime porro non laudantium corporis eum quasi quibusdam suscipit quia sed minus harum enim officiis nihil nostrum tempora quos, dolorem vel quis! Accusamus unde itaque sed consequatur sequi rerum quaerat eaque hic, odio culpa quis! Adipisci?
+                  </Typography>
+                </Box>
               </div>
-              <Divider light />
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis doloribus asperiores saepe reprehenderit cupiditate maxime porro non laudantium corporis eum quasi quibusdam suscipit quia sed minus harum enim officiis nihil nostrum tempora quos, dolorem vel quis! Accusamus unde itaque sed consequatur sequi rerum quaerat eaque hic, odio culpa quis! Adipisci?
-              </p>
-            </div>
-          </div>
+            </Box>
+          </Paper>
 
-          <Box component={'aside'} className="box co-box co-box-2">
-            <Cart />
-          </Box>
-        </div>
+
+
+
+          <Paper square sx={{ flex: 1 }} >
+            <Box flex={1} component={'aside'} className="box co-box co-box-2">
+              <Cart />
+            </Box>
+          </Paper>
+
+        </Stack>
 
       </Box>
     </>
   )
 }
 
+function EmptyCheckout() {
+  return (
+    <>
+      <Box paddingBlock={3}>
+        <Stack alignItems={'center'} spacing={0.5}>
+          <Box width={'50%'} maxWidth={'380px'} minWidth={'271px'} className="img-container" >
+            <img className="img" src={img} alt="empty cart" srcset="" />
+          </Box>
+          <Typography variant={'h6'}>Your cart is empty</Typography>
+          <Typography variant={'subtitle1'}>Go to home page to view meals</Typography>
+        </Stack>
+      </Box>
+    </>
+  )
+}
+
+
 function Cart() {
-  const { items, dispatch, itemTotalPrice, totalPrice, tax } = useOutletContext();
+  const { items, itemTotalPrice, totalPrice, tax } = useOutletContext();
 
   return (
     <>
       <div className="co-cart">
-        <Typography variant="h5" marginBlockEnd={1}>Meals</Typography>
+        <Typography variant="h5" >Meals</Typography>
+        <Divider light  />
 
-        {
-          items.map(item => <CartItem key={item.id} meal={item} />)
-        }
+        <Box paddingBlock={2} paddingInline={2}>
+          {
+            items.map(item => <CartItem key={item.id} meal={item} />)
+          }
 
-        <Box className="co-bl-wrapper pt-1">
 
-          <Box className="co-bl-detail-wrap">
+          <Box className="co-bl-wrapper pt-1">
             <Typography className="co-bl-heading text-xl mb-1" marginBlockEnd={1} variant="h5">Bill Details</Typography>
 
-            <div className="co-item-total text-base mb-1">
-              <Typography fontWeight={600} className="co-item-l" variant="body1">Item Total</Typography>
-              <Typography fontWeight={600} className="co-item-r" variant="body1">{formatCurrency(itemTotalPrice)}</Typography>
-            </div>
+            <Box className="co-item-total text-base mb-1">
+              <Typography className="co-item-l" variant="body1">Item Total</Typography>
+              <Typography className="co-item-r" variant="body1">{formatCurrency(itemTotalPrice)}</Typography>
+            </Box>
+          </Box>
 
+          <Box  className="co-bl-detail-wrap">
             <Box className="co-item-tax text-base mb-1">
               <p className="co-item-l">GST</p>
               <p className="co-item-r">{formatCurrency(tax)}</p>
@@ -79,16 +102,16 @@ function Cart() {
 
           </Box>
 
-          <Divider light sx={{ marginBlockEnd: '1rem' }} />
-
-          <div className="co-b-total-wrapper">
-            <Box fontWeight={700} className="co-b-box">
-              <Typography className="text-xl" variant="subtitle">Total Amount</Typography>
-              <Typography className="text-xl" variant="subtitle">{formatCurrency(totalPrice)}</Typography>
-            </Box>
-          </div>
-
         </Box>
+        <Divider light sx={{ marginBlockEnd: '1rem' }} />
+
+        <div className="co-b-total-wrapper">
+          <Box paddingBlock={2} paddingInline={2}  className="co-b-box">
+            <Typography className="text-xl" fontWeight={400} variant={'h6'}>Total Amount</Typography>
+            <Typography className="text-xl" variant="h6">{formatCurrency(totalPrice)}</Typography>
+          </Box>
+        </div>
+
 
       </div>
     </>
@@ -121,7 +144,7 @@ function CartItem({ meal }) {
       <Box>
         <Stack padding={1} direction={'row'} className="co-item-wrapper">
 
-          <Box className="img-container">
+          <Box width={'100%'} maxWidth={'50px'} sx={{ aspectRatio: 1 / 1 }} className="img-container">
             <img loading="lazy" src="/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" width="100" height="100" alt="" className="img" />
           </Box>
 
