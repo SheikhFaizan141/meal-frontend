@@ -2,22 +2,23 @@ import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
 import MealCard from '../components/MealCard'
 import { useLoaderData } from "react-router-dom"
 import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { getMeals } from '../meals';
 
-async function getMeals() {
-    try {
-        const res = await fetch("/meals.json");
-
-        if (!res.ok) {
-            throw new Error(`${res.status} ${res.statusText}`);
+function filterWithTag(tag, arr) {
+    switch (tag) {
+        case 'relevance': {
+            return arr;
         }
-
-        const data = await res.json();
-
-        return data?.meals ?? [];
-
-    } catch (error) {
-        console.error(error)
+        case 'cost': {
+            return arr.sort((a, b) => a.price - b.price);
+        }
+        case 'rating': {
+            return arr.sort((a, b) => a.rating - b.rating)
+        }
+        default:
+            console.error('Invalid Filter');
+            break;
     }
 }
 
@@ -30,27 +31,13 @@ export async function loader() {
 export default function Index() {
     const { meals } = useLoaderData();
     const [search, setSearch] = useState('');
-    const [tag, setTag] = useState('');
-    
-    let filterMeals = meals.filter(meal => {
-        return meal.name.toLowerCase().includes(search.toLowerCase());
-    })
+    const [tag, setTag] = useState('relevance');
 
-    function filterTag(tag) {
-        const list = [];
+    const filterMeals = filterWithTag(tag, meals)
+        .filter(meal => {
+            return meal.name.toLowerCase().includes(search.toLowerCase());
+        })
 
-        switch (tag) {
-            case 'cost':
-                
-                break;
-            case 'rating':
-                
-                break;
-        
-            default:
-                break;
-        }
-    }
 
     return (
         <div className="meal-container">
@@ -64,9 +51,9 @@ export default function Index() {
                     </div>
                     <Box className="m-f-box filter-chip-list-wrapper">
                         <Stack fontSize={'1.15rem'} direction="row" spacing={1}>
-                            {/* <Chip  clickable label="primary" color="success" variant={'filled'} /> */}
-                            <Chip onClick={e => setTag('rating')} clickable label="Rating" color="primary" variant="filled" />
-                            <Chip onClick={e => setTag('cost')} clickable label="Cost" color="primary" variant="filled" />
+                            <Chip clickable onClick={() => setTag('relevance')} label="Relevance" color={tag === 'relevance' ? "success" : "primary"} variant={'filled'} />
+                            <Chip clickable onClick={() => setTag('rating')} label="Rating" color={tag === 'rating' ? "success" : "primary"} variant="filled" />
+                            <Chip clickable onClick={() => setTag('cost')} label="cost" color={tag === 'cost' ? "success" : "primary"} variant="filled" />
                             <Chip clickable label="primary" color="primary" variant="filled" />
                         </Stack>
                     </Box>
@@ -88,4 +75,9 @@ export default function Index() {
             </Box>
         </div>
     )
+}
+
+
+function ChipFilter(params) {
+
 }
