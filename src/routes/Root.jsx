@@ -6,10 +6,19 @@ import mealsReducer from "../mealsReducer";
 import { Container } from "@mui/material";
 
 const taxRate = 0.05;
+const storageKey = 'cart'
+
+/** 
+ * @param (Array)
+ * @return Array
+ */
+function createInitialState(cart) {
+    const storage = JSON.parse(localStorage.getItem(storageKey));
+    return storage || cart;
+}
 
 export default function Root() {
-
-    const [items, dispatch] = useReducer(mealsReducer, []);
+    const [items, dispatch] = useReducer(mealsReducer, [], createInitialState);
     const [itemTotalPrice, setItemTotalPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalTax, setTotalTax] = useState(0);
@@ -25,6 +34,10 @@ export default function Root() {
             setIsEmpty(true);
         }
 
+        // update local storage when items update
+        localStorage.setItem(storageKey, JSON.stringify(items))
+
+        // Calculate tax
         setTotalTax(taxTotal)
         setItemTotalPrice(total)
         setTotalPrice(total + taxTotal)
