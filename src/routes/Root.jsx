@@ -12,13 +12,13 @@ const storageKey = 'cart'
  * @param (Array)
  * @return Array
  */
-function createInitialState(cart) {
+function createInitialState() {
     const storage = JSON.parse(localStorage.getItem(storageKey));
-    return storage || cart;
+    return storage || [];
 }
 
 export default function Root() {
-    const [items, dispatch] = useReducer(mealsReducer, [], createInitialState);
+    const [items, dispatch] = useReducer(mealsReducer, null, createInitialState);
     const [itemTotalPrice, setItemTotalPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalTax, setTotalTax] = useState(0);
