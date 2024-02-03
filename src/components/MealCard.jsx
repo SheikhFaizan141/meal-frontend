@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Box, Divider, Icon, Rating, Stack } from '@mui/material';
 
-export default function MealCard({ id, name, desc, rating }) {
+export default function MealCard({ imgUrl, id, name, desc, rating }) {
 
   // console.log(rating);
   return (
@@ -16,7 +16,7 @@ export default function MealCard({ id, name, desc, rating }) {
           alt={name}
           height="140px"
           sx={{ maxHeight: '140px' }}
-          image="https://placehold.co/420"
+          image={imgUrl}
         />
         <CardContent >
           <Box>

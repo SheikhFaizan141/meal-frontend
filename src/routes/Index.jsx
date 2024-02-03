@@ -25,13 +25,13 @@ function filterWithTag(tag, arr) {
 }
 
 export async function loader() {
-    const meals = await getMeals();
+    const { data: meals, total, last_page: lastPage } = await getMeals();
 
-    return { meals }
+    return { meals, total, lastPage}
 }
 
 export default function Index() {
-    const { meals } = useLoaderData();
+    const { meals, total, lastPage } = useLoaderData();
     const [search, setSearch] = useState('');
     const [tag, setTag] = useState('relevance');
 
@@ -41,17 +41,13 @@ export default function Index() {
             return meal.name.toLowerCase().includes(search.toLowerCase());
         })
 
-    // const filterMeals = useMemo(() => filterWithTag(tag, meals)
-    //     .filter(meal => {
-    //         return meal.name.toLowerCase().includes(search.toLowerCase());
-    //     })
-    //     , [tag, search])
+    function handleChange(e, value) {
+        console.log(value);
+    }
 
-    // const navigation = useNavigation();
 
     return (
         <div className="meal-container">
-            {/* {navigation.state === "loading" && <h1>Hello</h1>} */}
             <div className="filter-ui-container mb-1">
                 <div className='filter-ui-wrapper mb-1' >
                     <div className="m-f-box filter-search-wrapper">
@@ -78,21 +74,17 @@ export default function Index() {
                         filterMeals.map(meal => {
                             return (
                                 <div key={meal.id} className="card meal-card">
-                                    <MealCard rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} url={meal.img} />
+                                    <MealCard rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} imgUrl={meal.url} />
                                 </div>
                             )
                         })
                     }
                 </Box>
                 <Stack paddingBlock={1} flexDirection={'row'} justifyContent={'center'}>
-                    <Pagination count={10} color="primary" />
+                    <Pagination count={lastPage} onChange={handleChange} color="primary" />
                 </Stack>
             </Box>
         </div>
     )
 }
 
-
-function ChipFilter(params) {
-
-}
