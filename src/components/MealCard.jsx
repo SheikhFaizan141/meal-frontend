@@ -7,7 +7,7 @@ import { Box, Divider, Icon, Rating, Stack } from '@mui/material';
 
 export default function MealCard({ id, name, desc, rating }) {
 
-  console.log(rating);
+  // console.log(rating);
   return (
     <Card  >
       <Link className='card-link' to={`meal/${id}`}>

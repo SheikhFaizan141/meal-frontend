@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
-import Root from './routes/root';
+import Root from './routes/Root';
 import Index, { loader as indexLoader } from './routes/Index';
 import Meal, { loader as mealLoader } from './routes/Meal';
 import Checkout from './routes/Checkout';

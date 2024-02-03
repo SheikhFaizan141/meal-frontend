@@ -1,9 +1,11 @@
 import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
 import MealCard from '../components/MealCard'
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, useNavigate, useNavigation } from "react-router-dom"
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getMeals } from '../meals';
+import Pagination from '@mui/material/Pagination';
+
 
 function filterWithTag(tag, arr) {
     switch (tag) {
@@ -33,15 +35,23 @@ export default function Index() {
     const [search, setSearch] = useState('');
     const [tag, setTag] = useState('relevance');
 
+
     const filterMeals = filterWithTag(tag, meals)
         .filter(meal => {
             return meal.name.toLowerCase().includes(search.toLowerCase());
         })
 
+    // const filterMeals = useMemo(() => filterWithTag(tag, meals)
+    //     .filter(meal => {
+    //         return meal.name.toLowerCase().includes(search.toLowerCase());
+    //     })
+    //     , [tag, search])
+
+    // const navigation = useNavigation();
 
     return (
         <div className="meal-container">
-
+            {/* {navigation.state === "loading" && <h1>Hello</h1>} */}
             <div className="filter-ui-container mb-1">
                 <div className='filter-ui-wrapper mb-1' >
                     <div className="m-f-box filter-search-wrapper">
@@ -62,16 +72,21 @@ export default function Index() {
 
             <Divider light sx={{ marginBlockEnd: '1rem' }} />
 
-            <Box className="meal-wrapper m-grid">
-                {
-                    filterMeals.map(meal => {
-                        return (
-                            <div key={meal.id} className="card meal-card">
-                                <MealCard  rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} url={meal.img} />
-                            </div>
-                        )
-                    })
-                }
+            <Box>
+                <Box className="meal-wrapper m-grid">
+                    {
+                        filterMeals.map(meal => {
+                            return (
+                                <div key={meal.id} className="card meal-card">
+                                    <MealCard rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} url={meal.img} />
+                                </div>
+                            )
+                        })
+                    }
+                </Box>
+                <Stack paddingBlock={1} flexDirection={'row'} justifyContent={'center'}>
+                    <Pagination count={10} color="primary" />
+                </Stack>
             </Box>
         </div>
     )

@@ -112,8 +112,6 @@ function Cart() {
             <Typography className="text-xl" variant="h6">{formatCurrency(totalPrice)}</Typography>
           </Box>
         </div>
-
-
       </Box>
     </>
   )
