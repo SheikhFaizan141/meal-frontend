@@ -6,6 +6,7 @@ import Root from './routes/Root';
 import Index, { loader as indexLoader } from './routes/Index';
 import Meal, { loader as mealLoader } from './routes/Meal';
 import Checkout from './routes/Checkout';
+import IndexError from './routes/error/IndexError';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
+        errorElement: <IndexError />,
         loader: indexLoader
       },
       {

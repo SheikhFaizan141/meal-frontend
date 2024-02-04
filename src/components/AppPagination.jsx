@@ -1,13 +1,13 @@
-import React from 'react'
-import { Link, MemoryRouter, Route, Routes, useLoaderData, useLocation, useRoutes } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 
 
-export default function AppPagination({ count, }) {
+export default function AppPagination({ count = 10 }) {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
-    const page = parseInt(query.get('page') || '1', 10);
+    const page = Number.parseInt(query.get('page') ?? '1', 10);
     return (
         <Pagination
             color='primary'

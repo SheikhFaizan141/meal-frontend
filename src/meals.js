@@ -16,8 +16,7 @@ export async function getMeal(id) {
 export async function getMeals(page = null) {
     try {
         const base = 'http://127.0.0.1:8000/api/meal';
-        const url = page === null ? base : `${base}?page=${page}`;
-        console.log(url);
+        const url = new URL(page === null ? base : `${base}?page=${page}`);
         const res = await fetch(url);
 
         if (!res.ok) {
@@ -25,6 +24,7 @@ export async function getMeals(page = null) {
         }
 
         const data = await res.json();
+        // console.log(data);
 
         return data;
 

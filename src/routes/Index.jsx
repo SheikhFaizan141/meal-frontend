@@ -1,10 +1,9 @@
 import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
 import MealCard from '../components/MealCard'
-import { useLoaderData, useNavigate, useNavigation } from "react-router-dom"
+import { useLoaderData} from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useMemo, useState } from 'react';
 import { getMeals } from '../meals';
-import Pagination from '@mui/material/Pagination';
 import AppPagination from '../components/AppPagination';
 
 
@@ -28,22 +27,21 @@ function filterWithTag(tag, arr) {
 export async function loader({ request }) {
     const url = new URL(request.url);
     const param = url.searchParams;
-
-    console.log(url);
-    // console.log(param.get('page'));
-
+    let res;
     if (param.has('page')) {
-        console.log(param.get('get'));
         const page = param.get('page');
         
-        const { data: meals, total, last_page: lastPage } = await getMeals(page);
+        
 
-        return { meals, total, lastPage }
+        res = await getMeals(page);
+
     } else {
-        const { data: meals, total, last_page: lastPage } = await getMeals();
-
-        return { meals, total, lastPage }
+        res = await getMeals();
     }
+
+    const { data: meals, total, last_page: lastPage } = res;
+    
+    return {meals,total,lastPage};
 }
 
 export default function Index() {
@@ -56,11 +54,6 @@ export default function Index() {
         .filter(meal => {
             return meal.name.toLowerCase().includes(search.toLowerCase());
         })
-
-    function handleChange(e, value) {
-        console.log(value);
-    }
-
 
     return (
         <div className="meal-container">
