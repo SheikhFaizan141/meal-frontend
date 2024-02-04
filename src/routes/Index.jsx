@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { useMemo, useState } from 'react';
 import { getMeals } from '../meals';
 import Pagination from '@mui/material/Pagination';
+import AppPagination from '../components/AppPagination';
 
 
 function filterWithTag(tag, arr) {
@@ -24,10 +25,25 @@ function filterWithTag(tag, arr) {
     }
 }
 
-export async function loader() {
-    const { data: meals, total, last_page: lastPage } = await getMeals();
+export async function loader({ request }) {
+    const url = new URL(request.url);
+    const param = url.searchParams;
 
-    return { meals, total, lastPage}
+    console.log(url);
+    // console.log(param.get('page'));
+
+    if (param.has('page')) {
+        console.log(param.get('get'));
+        const page = param.get('page');
+        
+        const { data: meals, total, last_page: lastPage } = await getMeals(page);
+
+        return { meals, total, lastPage }
+    } else {
+        const { data: meals, total, last_page: lastPage } = await getMeals();
+
+        return { meals, total, lastPage }
+    }
 }
 
 export default function Index() {
@@ -81,7 +97,8 @@ export default function Index() {
                     }
                 </Box>
                 <Stack paddingBlock={1} flexDirection={'row'} justifyContent={'center'}>
-                    <Pagination count={lastPage} onChange={handleChange} color="primary" />
+                    {/* <Pagination count={lastPage} onChange={handleChange} color="primary" /> */}
+                    <AppPagination count={lastPage} />
                 </Stack>
             </Box>
         </div>
