@@ -1,10 +1,10 @@
-import { Divider, Stack, TextField, Chip, Fade } from '@mui/material';
+import { Divider, Stack, TextField, Chip, Typography } from '@mui/material';
 import MealCard from '../components/MealCard'
-import { useLoaderData} from "react-router-dom"
+import { useLoaderData } from "react-router-dom"
 import Box from '@mui/material/Box';
-import { useMemo, useState } from 'react';
-import { getMeals } from '../meals';
+import { useState } from 'react';
 import AppPagination from '../components/AppPagination';
+// import AppPagination from '';
 
 
 function filterWithTag(tag, arr) {
@@ -26,28 +26,29 @@ function filterWithTag(tag, arr) {
 
 export async function loader({ request }) {
     const url = new URL(request.url);
-    const param = url.searchParams;
-    let res;
-    if (param.has('page')) {
-        const page = param.get('page');
-        
-        
+    const page = url.searchParams.get('page');
 
-        res = await getMeals(page);
+    // Create Fetch URL
+    const base = 'http://127.0.0.1:8000';
+    const fetchUrl = new URL(page ? `api/meal?page=${page}` : `api/meal`, base);
 
-    } else {
-        res = await getMeals();
+    const res = await fetch(fetchUrl);
+    if (!res.ok) {
+        throw new Response("", {
+            status: 404,
+            statusText: "Not Found",
+        });
     }
 
-    const { data: meals, total, last_page: lastPage } = res;
-    
-    return {meals,total,lastPage};
+    const { data: meals, total, last_page: lastPage } = await res.json();
+    return { meals, total, lastPage };
 }
 
 export default function Index() {
     const { meals, total, lastPage } = useLoaderData();
     const [search, setSearch] = useState('');
     const [tag, setTag] = useState('relevance');
+
 
 
     const filterMeals = filterWithTag(tag, meals)
@@ -57,7 +58,10 @@ export default function Index() {
 
     return (
         <div className="meal-container">
-            <div className="filter-ui-container mb-1">
+
+            <Hero />
+
+            <Box className="filter-ui-container mb-1">
                 <div className='filter-ui-wrapper mb-1' >
                     <div className="m-f-box filter-search-wrapper">
                         <Box>
@@ -73,7 +77,7 @@ export default function Index() {
                         </Stack>
                     </Box>
                 </div>
-            </div>
+            </Box>
 
             <Divider light sx={{ marginBlockEnd: '1rem' }} />
 
@@ -83,7 +87,7 @@ export default function Index() {
                         filterMeals.map(meal => {
                             return (
                                 <div key={meal.id} className="card meal-card">
-                                    <MealCard rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} imgUrl={meal.url} />
+                                    <MealCard rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} imgUrl={meal.url} isVeg={meal.isVeg} />
                                 </div>
                             )
                         })
@@ -98,3 +102,19 @@ export default function Index() {
     )
 }
 
+function Hero(params) {
+
+    return (
+        <Box component={'section'} paddingBlockEnd={3}>
+            <Box padding={2} bgcolor={'lch(75% 82.34 80.104)'} borderRadius={2}>
+                <Box>
+                    <Typography fontWeight={700} style={{ WebkitTextStroke: '1px black' }} letterSpacing={'0.2rem'} sx={{ textShadow: '3px 3px #000' }} variant='h2' color={'rgb(166 0 10)'} marginBlockEnd={1} textTransform={'uppercase'} >Healthy</Typography>
+                    <Typography variant={'subtitle1'} >Lorem ipsum dolor sit amet consectetur adipisicing elit.</Typography>
+                </Box>
+                <Box>
+                    {/* <img src="./" alt="" srcset="" /> */}
+                </Box>
+            </Box>
+        </Box>
+    )
+}

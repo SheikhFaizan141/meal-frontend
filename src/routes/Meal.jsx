@@ -2,7 +2,6 @@ import { Box, Button, ButtonGroup, Divider, Stack } from "@mui/material";
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-import { getMeal } from "../meals";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../utils/formatCurrency";
 import emptyBasket from '../assets/empty-basket.png'
@@ -12,38 +11,41 @@ import ListItemText from '@mui/material/ListItemText';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
-export async function loader(request) {
-    const meal = await getMeal(request.params.mealId);
-    
-    if (meal === undefined) {
+export async function loader({ params }) {
+    const res = await fetch(`http://127.0.0.1:8000/api/meal/${params.mealId}`);
+
+    if (!res.ok) {
         throw new Response("", {
             status: 404,
             statusText: "Not Found",
         });
     }
 
-    return { meal };
+    // const data = await res.json();
+    // return data
+    // equal
+    return res;
 }
 
 
 export default function Meal() {
-    const { meal } = useLoaderData();
+    const meal = useLoaderData();
     const { items, dispatch } = useOutletContext();
 
-    const [count, setCount] = useState(0);
+    // console.log(items);
+    // const [count, setCount] = useState(0);
+    // useEffect(() => {
+    //     const index = items.findIndex(item => item.id === meal.id);
+    //     if (index !== -1) {
+    //         setCount(items[index].qty);
+    //     } else {
+    //         setCount(0);
+    //     }
+    // }, [items])
 
-
-    useEffect(() => {
-        const index = items.findIndex(item => item.id === meal.id);
-        if (index !== -1) {
-            setCount(items[index].qty);
-        } else {
-            setCount(0);
-        }
-    }, [items])
-
-
-
+    // Same we dont need useEffect here 
+    const item = items.find(item => item.id === meal.id);
+    const count = item !== undefined ? item.qty : 0;
 
     function handleClick() {
         dispatch({
@@ -77,7 +79,8 @@ export default function Meal() {
                 <Stack direction={{ sm: 'column', md: 'row' }} className="m-hero-wrapper">
 
                     <Box flex={'1 1 160px'} className="m-hero-box m-hero-box-1 img-container">
-                        <img src="/img/mark-deyoung-mjcJ0FFgdWI-unsplash.jpg" alt="" className="img" />
+                        <img src={meal.url} alt="img" className="img" />
+                        {/* <img src="" alt="img" className="img" /> */}
                     </Box>
 
                     <div className="m-hero-box m-hero-box-2  meal-info-wrapper meal-hero">
@@ -101,16 +104,11 @@ export default function Meal() {
                                         <li className="m-info-li">
                                             <span className="text-xl rc-icon">🔪</span>
                                             <span className="text-base font-bold ">Prep Time</span>
-                                            <span className="text-sm ">1 hr 20 mins</span>
+                                            <span className="text-sm ">15 mins</span>
                                         </li>
                                         <li className="m-info-li">
                                             <span className="text-xl rc-icon">🍳</span>
-                                            <span className="text-base font-bold ">Total Cook Time</span>
-                                            <span className="text-sm ">1 hr 20 mins</span>
-                                        </li>
-                                        <li className="m-info-li">
-                                            <span className="text-xl rc-icon">🍳</span>
-                                            <span className="text-base font-bold ">Total Cook Time</span>
+                                            <span className="text-base font-bold ">Total Time</span>
                                             <span className="text-sm ">1 hr 20 mins</span>
                                         </li>
                                         <li className="m-info-li">
@@ -127,7 +125,8 @@ export default function Meal() {
                                     </div>
 
                                     <div className="btn-wrapper">
-                                        <AddButton count={count} handleClick={handleClick} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
+                                        {/* Make them seprate components  */}
+                                        <AddButton count={count}  handleClick={handleClick} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
                                     </div>
                                 </Stack>
 
@@ -149,7 +148,8 @@ export default function Meal() {
                         </section>
 
                         <section className="m-section m-section-2">
-                            <Typography component="h4" variant="h4" marginBlockEnd="0.75rem" >Ingridents</Typography>
+                            <Typography component="h4" variant="h4" marginBlockEnd="0.75rem" >Ingridents of {meal.name}</Typography>
+
                         </section>
                     </Box>
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
@@ -6,29 +6,28 @@ import Root from './routes/Root';
 import Index, { loader as indexLoader } from './routes/Index';
 import Meal, { loader as mealLoader } from './routes/Meal';
 import Checkout from './routes/Checkout';
-import IndexError from './routes/error/IndexError';
+import NotFound from './routes/NotFound';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    // errorElement: <ErrorPage />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
         element: <Index />,
-        errorElement: <IndexError />,
         loader: indexLoader
       },
       {
         path: "/meal/:mealId",
         element: <Meal />,
-        loader: mealLoader
+        loader: mealLoader,
       },
       {
         path: "/checkout",
         element: <Checkout />
-      }
+      },
     ]
   },
 ]);

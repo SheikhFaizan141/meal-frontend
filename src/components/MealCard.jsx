@@ -4,13 +4,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { Box, Divider, Icon, Rating, Stack } from '@mui/material';
+// import VegIcon from './icons/VegIcon'
 
-export default function MealCard({ imgUrl, id, name, desc, rating }) {
+export default function MealCard({ imgUrl, id, name, desc, rating, isVeg }) {
 
-  // console.log(rating);
   return (
-    <Card  >
-      <Link className='card-link' to={`meal/${id}`}>
+    <Card>
+      <Box component={Link} height={'100%'} className='card-link' to={`meal/${id}`}>
         <CardMedia
           component="img"
           alt={name}
@@ -24,7 +24,7 @@ export default function MealCard({ imgUrl, id, name, desc, rating }) {
               <Typography gutterBottom variant="h6" component="div">
                 {name}
               </Typography>
-              <Icon>🥔</Icon>
+              {/* <VegIcon /> */}
             </Stack>
             <Typography variant="body2" color="text.secondary">
               {
@@ -35,16 +35,16 @@ export default function MealCard({ imgUrl, id, name, desc, rating }) {
 
           <Divider light sx={{ marginBlock: 1 }} />
 
-          <Box display={'flex'} alignItems={'center'} gap={'0.5rem'} >
+          <Box  >
             {
               rating
                 ?
-                <Box>
-                  {rating}
+                <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                  <Typography variant='subtitl1' justifyContent={'space-between'}>{rating}</Typography>
                   <Rating readOnly defaultValue={5} value={rating} precision={0.5} />
                 </Box>
-                : 
-                <Box bgcolor={'goldenrod'} paddingBlock={0.25} paddingInline={0.75} sx={{borderRadius: 1}} > 
+                :
+                <Box bgcolor={'goldenrod'} paddingBlock={0.25} paddingInline={0.75} sx={{ borderRadius: 1 }} >
                   <Typography variant={'subtitle1'} color={'secondary'} >New</Typography>
                 </Box>
             }
@@ -52,7 +52,7 @@ export default function MealCard({ imgUrl, id, name, desc, rating }) {
           </Box>
 
         </CardContent>
-      </Link>
+      </Box>
     </Card>
   );
 }
