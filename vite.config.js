@@ -11,6 +11,10 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
-    }
-  }
+    },
+  },
+  // https://vitejs.dev/config/shared-options.html#define
+  define: {
+    "__API_URL__": JSON.stringify('http://127.0.0.1:8000'),
+  },
 });

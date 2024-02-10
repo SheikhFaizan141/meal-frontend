@@ -21,9 +21,6 @@ export async function loader({ params }) {
         });
     }
 
-    // const data = await res.json();
-    // return data
-    // equal
     return res;
 }
 
@@ -125,8 +122,13 @@ export default function Meal() {
                                     </div>
 
                                     <div className="btn-wrapper">
-                                        {/* Make them seprate components  */}
-                                        <AddButton count={count}  handleClick={handleClick} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />
+                                        {
+                                            count > 0
+                                                ?
+                                                <IncDecBtn count={count} onIncrement={handleIncrement} onDecrement={handleDecrement} />
+                                                :
+                                                <AddBtn onClick={handleClick} />
+                                        }
                                     </div>
                                 </Stack>
 
@@ -259,48 +261,35 @@ function CartItem({ item }) {
             />
 
             <div className="btn-add-quantity">
-                <ButtonGroup
-                    disableElevation
-                    variant="contained"
-                    aria-label="Disabled elevation buttons"
-                    size="small"
-                    sx={{ alignItems: "center" }}
-                    className="m"
-                    color="secondary"
-                >
-                    <Button onClick={handleDecrement}>-</Button>
-                    <div className="add-count-ui">{item.qty}</div>
-                    <Button onClick={handleIncrement}>+</Button>
-                </ButtonGroup>
+                <IncDecBtn count={item.qty} onDecrement={handleDecrement} onIncrement={handleIncrement} />
             </div>
+
         </ListItem>
     );
 }
 
-function AddButton({ size = "sm", count, handleClick, handleDecrement, handleIncrement }) {
+function IncDecBtn({ count, onDecrement, onIncrement }) {
     return (
-        <>
-            {
-                count > 0
-                    ?
-                    <div className="btn-add-quantity">
-                        <ButtonGroup
-                            disableElevation
-                            variant="contained"
-                            aria-label="Disabled elevation buttons"
-                            size="small"
-                            sx={{ alignItems: "center" }}
-                            className="m"
-                            color="secondary"
-                        >
-                            <Button onClick={handleDecrement}>-</Button>
-                            <div className="add-count-ui">{count}</div>
-                            <Button onClick={handleIncrement}>+</Button>
-                        </ButtonGroup>
-                    </div>
-                    :
-                    <Button color="secondary" onClick={handleClick} variant="contained" size="small">Add</Button>
-            }
-        </>
+        <Box className="btn-add-quantity">
+            <ButtonGroup
+                disableElevation
+                variant="contained"
+                aria-label="Disabled elevation buttons"
+                size="small"
+                sx={{ alignItems: "center" }}
+                className="m"
+                color="secondary"
+            >
+                <Button onClick={onDecrement}>-</Button>
+                <Box className="add-count-ui" component={'span'} >{count}</Box>
+                <Button onClick={onIncrement}>+</Button>
+            </ButtonGroup>
+        </Box>
+    )
+}
+
+function AddBtn({ onClick }) {
+    return (
+        <Button color="secondary" onClick={onClick} variant="contained" size="small">Add</Button>
     )
 }

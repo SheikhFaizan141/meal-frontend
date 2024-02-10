@@ -1,36 +1,37 @@
 import { Divider, Stack, TextField, Chip, Typography } from '@mui/material';
-import MealCard from '../components/MealCard'
+import MealCard from '@components/MealCard'
 import { useLoaderData } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useState } from 'react';
-import AppPagination from '../components/AppPagination';
-// import AppPagination from '';
+import AppPagination from '@components/AppPagination';
 
-
+// import second from 'first'
 function filterWithTag(tag, arr) {
+    const newArr = [...arr];
     switch (tag) {
         case 'relevance': {
-            return arr;
+            return newArr;
         }
         case 'cost': {
-            return arr.sort((a, b) => a.price - b.price);
+            return newArr.sort((a, b) => a.price - b.price);
         }
         case 'rating': {
-            return arr.sort((a, b) => a.rating - b.rating)
+            return newArr.sort((a, b) => a.rating - b.rating)
         }
         default:
             console.error('Invalid Filter');
             break;
     }
 }
-
+// console.log(import.meta);
 export async function loader({ request }) {
     const url = new URL(request.url);
     const page = url.searchParams.get('page');
 
+ 
     // Create Fetch URL
-    const base = 'http://127.0.0.1:8000';
-    const fetchUrl = new URL(page ? `api/meal?page=${page}` : `api/meal`, base);
+    // const base = 'http://127.0.0.1:8000';
+    const fetchUrl = new URL(page ? `api/meal?page=${page}` : `api/meal`, __API_URL__);
 
     const res = await fetch(fetchUrl);
     if (!res.ok) {
@@ -40,15 +41,13 @@ export async function loader({ request }) {
         });
     }
 
-    const { data: meals, total, last_page: lastPage } = await res.json();
-    return { meals, total, lastPage };
+    return res;
 }
 
 export default function Index() {
-    const { meals, total, lastPage } = useLoaderData();
+    const { data: meals, total, last_page: lastPage } = useLoaderData();
     const [search, setSearch] = useState('');
     const [tag, setTag] = useState('relevance');
-
 
 
     const filterMeals = filterWithTag(tag, meals)
