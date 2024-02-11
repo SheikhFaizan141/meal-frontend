@@ -1,8 +1,8 @@
-import { Divider, Stack, TextField, Chip, Typography } from '@mui/material';
+import { Divider, Stack, TextField, Chip, Typography, Button } from '@mui/material';
 import MealCard from '@components/MealCard'
-import { useLoaderData } from "react-router-dom"
+import { Form, json, useLoaderData, useSubmit } from "react-router-dom"
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AppPagination from '@components/AppPagination';
 
 // import second from 'first'
@@ -23,15 +23,29 @@ function filterWithTag(tag, arr) {
             break;
     }
 }
-// console.log(import.meta);
+
 export async function loader({ request }) {
     const url = new URL(request.url);
     const page = url.searchParams.get('page');
+    const q = url.searchParams.get('q');
 
- 
+
     // Create Fetch URL
     // const base = 'http://127.0.0.1:8000';
-    const fetchUrl = new URL(page ? `api/meal?page=${page}` : `api/meal`, __API_URL__);
+    let fetchUrl;
+    // new URL(page ? `api/meal?page=${page}` : `api/meal`, __API_URL__);
+    if (url.searchParams.has('q') && url.searchParams.has('page')) {
+        fetchUrl = new URL(`api/meal?q=${q}&page=${page}`, __API_URL__);
+
+    } else if (url.searchParams.has('q')) {
+        fetchUrl = new URL(`api/meal?q=${q}`, __API_URL__);
+
+    } else if (url.searchParams.has('page')) {
+        fetchUrl = new URL(`api/meal?page=${page}`, __API_URL__);
+
+    } else {
+        fetchUrl = new URL(`api/meal`, __API_URL__);
+    }
 
     const res = await fetch(fetchUrl);
     if (!res.ok) {
@@ -41,19 +55,35 @@ export async function loader({ request }) {
         });
     }
 
-    return res;
+
+
+    const d = await res.json();
+    return json({ data: d, q });;
 }
 
 export default function Index() {
-    const { data: meals, total, last_page: lastPage } = useLoaderData();
-    const [search, setSearch] = useState('');
+    const { data, q } = useLoaderData();
+    const { data: meals, last_page: lastPage } = data;
     const [tag, setTag] = useState('relevance');
+    const searchRef = useRef();
+    const submit = useSubmit();
+
+    useEffect(() => {
+        document.getElementById('q').value = q;
+    }, [q])
 
 
-    const filterMeals = filterWithTag(tag, meals)
-        .filter(meal => {
-            return meal.name.toLowerCase().includes(search.toLowerCase());
-        })
+    const filterMeals = filterWithTag(tag, meals);
+    function handleSubmit(e) {
+        e.preventDefault();
+        const value = searchRef.current.value.replace(/\s\s+/g, ' ').trim();
+        const searchParams = new URLSearchParams();
+        searchParams.append("q", value);
+        submit(searchParams);
+
+        // console.log(value);
+        // submit()
+    }
 
     return (
         <div className="meal-container">
@@ -63,9 +93,9 @@ export default function Index() {
             <Box className="filter-ui-container mb-1">
                 <div className='filter-ui-wrapper mb-1' >
                     <div className="m-f-box filter-search-wrapper">
-                        <Box>
-                            <TextField onChange={(e) => setSearch(e.target.value)} value={search} sx={{ borderRadius: 1 }} id="outlined-basic" label="Search" variant="outlined" />
-                        </Box>
+                        <form onSubmit={(e) => handleSubmit(e)}>
+                            <TextField inputRef={searchRef} name='q' defaultValue={q} sx={{ borderRadius: 1 }} id="q" label="Search" variant="outlined" />
+                        </form>
                     </div>
                     <Box className="m-f-box filter-chip-list-wrapper">
                         <Stack fontSize={'1.15rem'} direction="row" spacing={1}>
