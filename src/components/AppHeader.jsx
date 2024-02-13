@@ -10,7 +10,7 @@ export default function AppHeader() {
         <div className="header-wrapper">
 
           <div className="header-box-l">
-            <Box color={'black'}  component={Link} to={'/'}  className="ma-logo-wrapper">
+            <Box color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
               <Typography variant='h5'>Filling Meals</Typography>
             </Box>
           </div>
@@ -26,7 +26,7 @@ export default function AppHeader() {
                 </li>
                 <li>
 
-                  <Button size="sm" variant="contained" component={Link} to="/signin">
+                  <Button size="sm" variant="contained" component={Link} to="/signup">
                     Sign In
                   </Button>
                 </li>

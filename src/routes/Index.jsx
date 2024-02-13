@@ -1,6 +1,6 @@
 import { Divider, Stack, TextField, Chip, Typography, Button } from '@mui/material';
 import MealCard from '@components/MealCard'
-import { Form, json, useLoaderData, useSubmit } from "react-router-dom"
+import { Form, Outlet, json, useLoaderData, useSubmit } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useEffect, useRef, useState } from 'react';
 import AppPagination from '@components/AppPagination';
@@ -78,11 +78,13 @@ export default function Index() {
         e.preventDefault();
         const value = searchRef.current.value.replace(/\s\s+/g, ' ').trim();
         const searchParams = new URLSearchParams();
-        searchParams.append("q", value);
-        submit(searchParams);
 
-        // console.log(value);
-        // submit()
+
+        if (value !== '') {
+            searchParams.append("q", value);
+        }
+
+        submit(searchParams);
     }
 
     return (
@@ -90,6 +92,7 @@ export default function Index() {
 
             <Hero />
 
+            {/* <Outlet /> */}
             <Box className="filter-ui-container mb-1">
                 <div className='filter-ui-wrapper mb-1' >
                     <div className="m-f-box filter-search-wrapper">

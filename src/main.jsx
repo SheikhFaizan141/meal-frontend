@@ -7,17 +7,30 @@ import Index, { loader as indexLoader } from './routes/Index';
 import Meal, { loader as mealLoader } from './routes/Meal';
 import Checkout from './routes/Checkout';
 import NotFound from './routes/NotFound';
+import IndexContent from './components/IndexContent';
+import SignUp from './routes/SignUp';
+import SignIn from './routes/SignIn';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <NotFound />,
+    // errorElement: <NotFound />,
     children: [
       {
-        index: true,
+        path: '/',
         element: <Index />,
-        loader: indexLoader
+        errorElement: <NotFound />,
+        loader: indexLoader,
+        //  TODO
+        children: [
+          {
+            index: true,
+            element: <IndexContent />,
+            errorElement: <NotFound />,
+            // loader: indexLoader
+          }
+        ]
       },
       {
         path: "/meal/:mealId",
@@ -28,6 +41,14 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />
       },
+      {
+        path: "/signup",
+        element: <SignUp />
+      },
+      {
+        path: "/signin",
+        element: <SignIn />
+      }
     ]
   },
 ]);

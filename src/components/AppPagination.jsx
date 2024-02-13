@@ -27,6 +27,10 @@ function Item({ item, location }) {
     const q = query.get('q');
 
     let to;
+
+    // for (const [key, values] of object) {
+        
+    // }
     if (query.has('q')) {
         to = item.page === 1 ? `/${`?q=${q}`}` : `/${`?q=${q}&page=${item.page}`}`
     } else {
