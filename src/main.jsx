@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import Root from './routes/Root';
-import Index, { loader as indexLoader } from './routes/Index';
+import Index, { loader as indexLoader, loader } from './routes/Index';
 import Meal, { loader as mealLoader } from './routes/Meal';
 import Checkout from './routes/Checkout';
 import NotFound from './routes/NotFound';
 import IndexContent from './components/IndexContent';
 import SignUp from './routes/SignUp';
-import SignIn from './routes/SignIn';
+import SignIn, {action as signInAction } from './routes/SignIn';
 
 const router = createBrowserRouter([
   {
@@ -47,7 +47,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/signin",
-        element: <SignIn />
+        element: <SignIn />,
+        action: signInAction
       }
     ]
   },

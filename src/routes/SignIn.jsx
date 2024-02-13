@@ -11,7 +11,8 @@ import Box from '@mui/material/Box';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {Link as RouterLink} from 'react-router-dom'
+import { Form, Link as RouterLink } from 'react-router-dom'
+import { useState } from 'react';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // function Copyright(props) {
@@ -31,83 +32,112 @@ import {Link as RouterLink} from 'react-router-dom'
 
 // const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+// {
+//     "email": "eve.holt@reqres.in",
+//     "password": "cityslicka"
+// }
 
-  return (
-    // <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs" sx={{paddingBlockStart: '1rem', paddingBlockEnd: '2rem'}} >
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+export async function action({ request }) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("email", "eve.holt@reqres.in");
+    urlencoded.append("password", "cityslicka");
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+    };
+
+    fetch("https://reqres.in/api/login", requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    return null;
+}
+
+
+export default function SignIn() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [remember, setRemember] = useState(false);
+
+    return (
+        // <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '1rem', paddingBlockEnd: '2rem' }} >
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar> */}
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link component={RouterLink} to={'/signin'} variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link component={RouterLink} to={'/signup'} variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
-      </Container>
-    // {/* </ThemeProvider> */}
-  );
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <Box noValidate sx={{ mt: 1 }}>
+                    <Form method={'POST'} action='/signin'>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.currentTarget.value)}
+                            autoComplete="email"
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.currentTarget.value)}
+                            autoComplete="current-password"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox name='remember' checked={remember} onChange={(e) => setRemember(!remember)} color="primary" />}
+                            label="Remember me"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Sign In
+                        </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link component={RouterLink} to={'/signin'} variant="body2">
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link component={RouterLink} to={'/signup'} variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Form>
+                </Box>
+            </Box>
+            {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
+        </Container>
+        // {/* </ThemeProvider> */}
+    );
 }
