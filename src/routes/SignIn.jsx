@@ -38,24 +38,33 @@ import { useState } from 'react';
 // }
 
 export async function action({ request }) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    const formData = await request.formData();
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("email", "eve.holt@reqres.in");
-    urlencoded.append("password", "cityslicka");
-
-    var requestOptions = {
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("email", formData.get('email'));
+    urlencoded.append("password", formData.get('password'));
+    const requestOptions = {
         method: 'POST',
-        headers: myHeaders,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        cors: 'cors',
         body: urlencoded,
-        redirect: 'follow'
+
     };
 
-    fetch("https://reqres.in/api/login", requestOptions)
-        .then(response => response.json())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    const res = await fetch("https://reqres.in/api/login", requestOptions);
+
+    if (!res.ok) {
+        console.error('Error', res);
+    }
+
+    const data = await res.json();
+    
+    if (data.token === 'QpwL5tke4Pnpja7X4') {
+        console.log(data);
+    }
+
     return null;
 }
 
@@ -84,7 +93,7 @@ export default function SignIn() {
                     Sign in
                 </Typography>
                 <Box noValidate sx={{ mt: 1 }}>
-                    <Form method={'POST'} action='/signin'>
+                    <Form encType={'application/x-www-form-urlencoded'} method={'POST'} action='/signin'>
                         <TextField
                             margin="normal"
                             required
