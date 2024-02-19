@@ -37,33 +37,45 @@ import { useState } from 'react';
 //     "password": "cityslicka"
 // }
 
-export async function action({ request }) {
-    const formData = await request.formData();
-
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("email", formData.get('email'));
-    urlencoded.append("password", formData.get('password'));
-    const requestOptions = {
-        method: 'POST',
+async function csrfRequest() {
+    const token = await fetch('http://localhost:8000/sanctum/csrf-cookie', {
+        mode: 'cors',
+        credentials: 'include',
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+            Accept: 'application/json',
+            Referer: 'localhost:5173'
+        }
+    });
+
+
+    console.log(token);
+    return null;
+}
+
+export async function action({ request }) {
+    // const formData = await request.formData();
+
+    await csrfRequest();
+
+    const formData = new FormData();
+    formData.append('email', 'faizanfarooq@gmail.com');
+    formData.append('password', 'onetwo');
+
+    const login = await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Accept: 'application/json',
+            Referer: 'localhost:5173',
+            'X-XSRF-TOKEN': 'eyJpdiI6InRqNytNTENtUWxkTlRCd1VrVmJVbGc9PSIsInZhbHVlIjoidFBGUkNIUW1QQ0ZEMGh1cVBwL0ZGaFBWbERoYjAycmp4TVZVV01ET3hVaFBUWnlGa1Jqb2dybEtjakJzY3Vpd0RQb29ha3doeVAyTG00a21DNUhCQjFzeWNlSXZDQk04b0RqVm5DcE1lYUpGRjBlYkZwWmR1WlRVWXAycGo4WTkiLCJtYWMiOiJlY2EyYzliOGU2NzQ0OGMwNDIxNjhjZWE3Njg2MTNjZDE1ZTJjNjc4M2Q5ODI4ODY1YjU3MDBhODgxOTZjYzcwIiwidGFnIjoiIn0='
         },
-        cors: 'cors',
-        body: urlencoded,
+        body: formData
+    });
 
-    };
 
-    const res = await fetch("https://reqres.in/api/login", requestOptions);
+    const loginData = await login.json();
 
-    if (!res.ok) {
-        console.error('Error', res);
-    }
-
-    const data = await res.json();
-    
-    if (data.token === 'QpwL5tke4Pnpja7X4') {
-        console.log(data);
-    }
+    console.log(loginData);
 
     return null;
 }
@@ -76,7 +88,7 @@ export default function SignIn() {
 
     return (
         // <ThemeProvider theme={defaultTheme}>
-        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '1rem', paddingBlockEnd: '2rem' }} >
+        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '2rem', paddingBlockEnd: '2rem' }} >
             <CssBaseline />
             <Box
                 sx={{
@@ -109,6 +121,9 @@ export default function SignIn() {
                         <TextField
                             margin="normal"
                             required
+                            // component={pass}
+                            inputProps={{ minLength: 3 }}
+                            // variant=''
                             fullWidth
                             id="password"
                             label="Password"
