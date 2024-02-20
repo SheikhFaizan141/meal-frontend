@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 // import { header } from "./header.module.css"
 
@@ -95,6 +95,7 @@ function HeaderRight({ user }) {
 
 function AccountMenu() {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -124,20 +125,16 @@ function AccountMenu() {
         }
       });
 
-      console.log('login', res.status);
+    console.log('login', res.status);
     if (res.status !== 200) {
       console.error('login', res);
-      // send back to login if session is invalidated
-      <Navigate to={'/login'}/>
+      navigate('/login')
     }
 
     auth.signout();
+    setAnchorEl(null);
 
-    // console.log(auth);
-
-    // console.log('logout', res);
-
-    <Navigate to={'/'} />
+    navigate('/');
   }
 
   return (

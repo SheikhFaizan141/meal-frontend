@@ -30,9 +30,9 @@ export default function AuthProvider({ children }) {
         setName(null);
         setEmail(null);
         
-        localStorage.setItem('id', null);
-        localStorage.setItem('name', null);
-        localStorage.setItem('email', null);
+        localStorage.removeItem('id');
+        localStorage.removeItem('name');
+        localStorage.removeItem('email');
 
 
         return true;

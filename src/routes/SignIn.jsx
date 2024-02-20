@@ -15,94 +15,6 @@ import { Form, Link as RouterLink, redirect, useNavigate } from 'react-router-do
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthProvider';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-// const defaultTheme = createTheme();
-
-// {
-//     "email": "eve.holt@reqres.in",
-//     "password": "cityslicka"
-// }
-
-async function csrfRequest() {
-    const token = await fetch('http://localhost:8000/sanctum/csrf-cookie', {
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-            Accept: 'application/json',
-            Referer: 'localhost:5173'
-        }
-    });
-
-
-    console.log(token);
-    return null;
-}
-
-// export async function action({ request }) {
-//     // const formData = await request.formData();
-
-//     await csrfRequest();
-
-//     const formData = new FormData();
-//     formData.append('email', 'faizanfarooq@gmail.com');
-//     formData.append('password', 'onetwo');
-
-//     const login = await fetch('http://localhost:8000/api/login', {
-//         method: 'POST',
-//         credentials: 'include',
-//         headers: {
-//             Accept: 'application/json',
-//             Referer: 'localhost:5173',
-//             'X-XSRF-TOKEN': 'eyJpdiI6InRqNytNTENtUWxkTlRCd1VrVmJVbGc9PSIsInZhbHVlIjoidFBGUkNIUW1QQ0ZEMGh1cVBwL0ZGaFBWbERoYjAycmp4TVZVV01ET3hVaFBUWnlGa1Jqb2dybEtjakJzY3Vpd0RQb29ha3doeVAyTG00a21DNUhCQjFzeWNlSXZDQk04b0RqVm5DcE1lYUpGRjBlYkZwWmR1WlRVWXAycGo4WTkiLCJtYWMiOiJlY2EyYzliOGU2NzQ0OGMwNDIxNjhjZWE3Njg2MTNjZDE1ZTJjNjc4M2Q5ODI4ODY1YjU3MDBhODgxOTZjYzcwIiwidGFnIjoiIn0='
-//         },
-//         body: formData
-//     });
-
-
-//     const loginData = await login.json();
-
-//     console.log(loginData);
-
-//     return null;
-// }
-
-// export async function action({ request }) {
-//     const formData = await request.formData();
-//     axios.defaults.withCredentials = true;
-//     axios.defaults.withXSRFToken = true;
-
-//     return axios.get('http://localhost:8000/sanctum/csrf-cookie')
-//         .then(() => axios.post('http://localhost:8000/api/login', formData,
-//             {
-//                 headers: {
-//                     'Content-Type': 'multipart/form-data',
-//                     "Accept": "application/json"
-//                 }
-//             })
-//         )
-//         .then(res => {
-//             if (res.status === 200) {
-//                 return redirect('/')
-//             }
-//         })
-//         .catch(err => console.error(err));
-// }
 
 
 export default function SignIn() {
@@ -142,9 +54,6 @@ export default function SignIn() {
         if (isValid) {
             navigate('/', { replace: true });
         }
-
-        // console.log(data);
-        // console.log(isValid);
     }
 
     return (
@@ -162,7 +71,7 @@ export default function SignIn() {
                     Sign in
                 </Typography>
                 <Box noValidate sx={{ mt: 1 }}>
-                    <form onClick={handleSubmit} >
+                    <form onSubmit={handleSubmit} >
                         <TextField
                             margin="normal"
                             required
