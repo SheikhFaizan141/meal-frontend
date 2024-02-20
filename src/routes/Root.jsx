@@ -4,6 +4,7 @@ import AppFooter from "../components/AppFooter";
 import { useEffect, useReducer, useState } from "react";
 import mealsReducer from "../mealsReducer";
 import { Container } from "@mui/material";
+import AuthProvider, { AuthContext } from "../AuthProvider";
 
 const taxRate = 0.05;
 const storageKey = 'cart'
@@ -43,15 +44,16 @@ export default function Root() {
         // setTotalPrice(total + taxTotal)
     }, [items]);
 
- 
+
     return (
         <>
-
-            <AppHeader />
-            <Container className="container">
-                <Outlet context={{ items, dispatch, isEmpty, totalPrice: totalCost, itemTotalPrice: itemsTotalCost, tax: totalTax }} />
-            </Container>
-            <AppFooter />
+            <AuthProvider>
+                <AppHeader />
+                <Container className="container">
+                    <Outlet context={{ items, dispatch, isEmpty, totalPrice: totalCost, itemTotalPrice: itemsTotalCost, tax: totalTax }} />
+                </Container>
+                <AppFooter />
+            </AuthProvider>
         </>
     )
 }

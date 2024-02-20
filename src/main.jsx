@@ -9,7 +9,7 @@ import Checkout from './routes/Checkout';
 import NotFound from './routes/NotFound';
 import IndexContent from './components/IndexContent';
 import SignUp from './routes/SignUp';
-import SignIn, {action as signInAction } from './routes/SignIn';
+import SignIn from './routes/SignIn';
 
 const router = createBrowserRouter([
   {
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       {
         path: "/signin",
         element: <SignIn />,
-        action: signInAction
+        // action: signInAction
       }
     ]
   },

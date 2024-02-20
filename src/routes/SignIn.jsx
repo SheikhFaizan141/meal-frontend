@@ -11,8 +11,10 @@ import Box from '@mui/material/Box';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Form, Link as RouterLink } from 'react-router-dom'
-import { useState } from 'react';
+import { Form, Link as RouterLink, redirect, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react';
+import axios from 'axios';
+import { AuthContext } from '../AuthProvider';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // function Copyright(props) {
@@ -52,42 +54,100 @@ async function csrfRequest() {
     return null;
 }
 
-export async function action({ request }) {
-    // const formData = await request.formData();
+// export async function action({ request }) {
+//     // const formData = await request.formData();
 
-    await csrfRequest();
+//     await csrfRequest();
 
-    const formData = new FormData();
-    formData.append('email', 'faizanfarooq@gmail.com');
-    formData.append('password', 'onetwo');
+//     const formData = new FormData();
+//     formData.append('email', 'faizanfarooq@gmail.com');
+//     formData.append('password', 'onetwo');
 
-    const login = await fetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            Accept: 'application/json',
-            Referer: 'localhost:5173',
-            'X-XSRF-TOKEN': 'eyJpdiI6InRqNytNTENtUWxkTlRCd1VrVmJVbGc9PSIsInZhbHVlIjoidFBGUkNIUW1QQ0ZEMGh1cVBwL0ZGaFBWbERoYjAycmp4TVZVV01ET3hVaFBUWnlGa1Jqb2dybEtjakJzY3Vpd0RQb29ha3doeVAyTG00a21DNUhCQjFzeWNlSXZDQk04b0RqVm5DcE1lYUpGRjBlYkZwWmR1WlRVWXAycGo4WTkiLCJtYWMiOiJlY2EyYzliOGU2NzQ0OGMwNDIxNjhjZWE3Njg2MTNjZDE1ZTJjNjc4M2Q5ODI4ODY1YjU3MDBhODgxOTZjYzcwIiwidGFnIjoiIn0='
-        },
-        body: formData
-    });
+//     const login = await fetch('http://localhost:8000/api/login', {
+//         method: 'POST',
+//         credentials: 'include',
+//         headers: {
+//             Accept: 'application/json',
+//             Referer: 'localhost:5173',
+//             'X-XSRF-TOKEN': 'eyJpdiI6InRqNytNTENtUWxkTlRCd1VrVmJVbGc9PSIsInZhbHVlIjoidFBGUkNIUW1QQ0ZEMGh1cVBwL0ZGaFBWbERoYjAycmp4TVZVV01ET3hVaFBUWnlGa1Jqb2dybEtjakJzY3Vpd0RQb29ha3doeVAyTG00a21DNUhCQjFzeWNlSXZDQk04b0RqVm5DcE1lYUpGRjBlYkZwWmR1WlRVWXAycGo4WTkiLCJtYWMiOiJlY2EyYzliOGU2NzQ0OGMwNDIxNjhjZWE3Njg2MTNjZDE1ZTJjNjc4M2Q5ODI4ODY1YjU3MDBhODgxOTZjYzcwIiwidGFnIjoiIn0='
+//         },
+//         body: formData
+//     });
 
 
-    const loginData = await login.json();
+//     const loginData = await login.json();
 
-    console.log(loginData);
+//     console.log(loginData);
 
-    return null;
-}
+//     return null;
+// }
+
+// export async function action({ request }) {
+//     const formData = await request.formData();
+//     axios.defaults.withCredentials = true;
+//     axios.defaults.withXSRFToken = true;
+
+//     return axios.get('http://localhost:8000/sanctum/csrf-cookie')
+//         .then(() => axios.post('http://localhost:8000/api/login', formData,
+//             {
+//                 headers: {
+//                     'Content-Type': 'multipart/form-data',
+//                     "Accept": "application/json"
+//                 }
+//             })
+//         )
+//         .then(res => {
+//             if (res.status === 200) {
+//                 return redirect('/')
+//             }
+//         })
+//         .catch(err => console.error(err));
+// }
 
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+
+        axios.defaults.withCredentials = true;
+        axios.defaults.withXSRFToken = true;
+
+        const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+
+        const res = await axios.post('http://localhost:8000/api/login', formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "Accept": "application/json"
+                }
+            });
+
+        if (res.status !== 200) {
+            console.error('login', res);
+        }
+        const data = res['data'];
+
+        const isValid = await auth.signin(data);
+
+        if (isValid) {
+            navigate('/', { replace: true });
+        }
+
+        // console.log(data);
+        // console.log(isValid);
+    }
 
     return (
-        // <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '2rem', paddingBlockEnd: '2rem' }} >
             <CssBaseline />
             <Box
@@ -98,14 +158,11 @@ export default function SignIn() {
                     alignItems: 'center',
                 }}
             >
-                {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar> */}
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
                 <Box noValidate sx={{ mt: 1 }}>
-                    <Form encType={'application/x-www-form-urlencoded'} method={'POST'} action='/signin'>
+                    <form onClick={handleSubmit} >
                         <TextField
                             margin="normal"
                             required
@@ -121,9 +178,7 @@ export default function SignIn() {
                         <TextField
                             margin="normal"
                             required
-                            // component={pass}
                             inputProps={{ minLength: 3 }}
-                            // variant=''
                             fullWidth
                             id="password"
                             label="Password"
@@ -157,11 +212,9 @@ export default function SignIn() {
                                 </Link>
                             </Grid>
                         </Grid>
-                    </Form>
+                    </form>
                 </Box>
             </Box>
-            {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
         </Container>
-        // {/* </ThemeProvider> */}
     );
 }
