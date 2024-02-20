@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 // import { header } from "./header.module.css"
 
@@ -18,6 +18,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import axios from "axios";
 
 export default function AppHeader() {
   const auth = useContext(AuthContext);
@@ -93,6 +94,8 @@ function HeaderRight({ user }) {
 }
 
 function AccountMenu() {
+  const auth = useContext(AuthContext);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -101,8 +104,41 @@ function AccountMenu() {
   };
 
   const handleClose = () => {
+
+
+
+
     setAnchorEl(null);
   };
+
+
+  async function handleLogout(e) {
+    axios.defaults.withCredentials = true;
+    axios.defaults.withXSRFToken = true;
+    const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+
+    const res = await axios.post('http://localhost:8000/api/logout',
+      {
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      console.log('login', res.status);
+    if (res.status !== 200) {
+      console.error('login', res);
+      // send back to login if session is invalidated
+      <Navigate to={'/login'}/>
+    }
+
+    auth.signout();
+
+    // console.log(auth);
+
+    // console.log('logout', res);
+
+    <Navigate to={'/'} />
+  }
 
   return (
     <>
@@ -164,18 +200,14 @@ function AccountMenu() {
         </MenuItem>
         <Divider />
 
-        {/* <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem> */}
-
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
+          {/* <Button> */}
           Logout
+          {/* </Button> */}
+          {/* <Link to={'/logout'} >Logout</Link> */}
         </MenuItem>
 
       </Menu>

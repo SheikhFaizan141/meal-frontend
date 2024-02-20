@@ -24,7 +24,18 @@ export default function AuthProvider({ children }) {
         return true;
     };
 
-    const signout = (callback) => {
+    const signout = (callback = null) => {
+
+        setId(null)
+        setName(null);
+        setEmail(null);
+        
+        localStorage.setItem('id', null);
+        localStorage.setItem('name', null);
+        localStorage.setItem('email', null);
+
+
+        return true;
 
     };
 
