@@ -7,11 +7,11 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
+import { Card } from '@mui/material';
 
 function SignUp() {
     const handleSubmit = (event) => {
@@ -24,9 +24,9 @@ function SignUp() {
     };
 
     return (
-        // <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="xs" sx={{paddingBlockStart: '1rem', paddingBlockEnd: '2rem'}} >
-                <CssBaseline />
+        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '2rem', paddingBlockEnd: '2rem' }}>
+            {/* <CssBaseline /> */}
+            <Card>
                 <Box
                     sx={{
                         marginTop: 8,
@@ -34,10 +34,12 @@ function SignUp() {
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
+                    paddingBlock={2}
+                    paddingInline={2}
                 >
-                    {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
-                    </Avatar> */}
+                    </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
@@ -85,12 +87,12 @@ function SignUp() {
                                     autoComplete="new-password"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox value="allowExtraEmails" color="primary" />}
                                     label="I want to receive inspiration, marketing promotions and updates via email."
                                 />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                         <Button
                             type="submit"
@@ -102,7 +104,6 @@ function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                {/* <NavLink */}
                                 <Link component={RouterLink} to={'/signin'} variant="body2">
                                     Already have an account? Sign in
                                 </Link>
@@ -110,9 +111,8 @@ function SignUp() {
                         </Grid>
                     </Box>
                 </Box>
-                {/* <Copyright sx={{ mt: 5 }} /> */}
-            </Container>
-        // </ThemeProvider>
+            </Card>
+        </Container>
     );
 }
 

@@ -3,19 +3,21 @@ import css from './footer.module.css';
 import AppleSvg from '../assets/google-play.svg'
 import GoogleSvg from '../assets/apple-store.svg'
 import { Box, Button, Divider, Link, Stack, TextField, Typography } from '@mui/material';
+import LogoUrl from '../assets/logo.png'
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function AppFooter() {
     return (
         <>
-            <footer className={css.footer} >
+            <Box component={'footer'} className={css.footer} >
                 <div className="f-container">
-
                     <div style={{ paddingBlock: '2rem' }} className={css.fw}>
-                        <Stack gap={'0.5rem'} spacing={1}  direction={{ xs: 'column', sm: 'column', md: 'row' }} alignItems={{ xs: 'center', sm: 'center' }} >
-
-                            <Box  flex={'1 0 25%'} className="h2 ma-logo-wrapper ma-logo-footer">
-                                <Typography variant='h4' component='h4' marginBlockEnd='0.75rem' >Filling Meals</Typography>
-                                <Stack>
+                        <Stack gap={'0.5rem'} spacing={1} direction={{ xs: 'column', sm: 'column', md: 'row' }} alignItems={{ xs: 'center', sm: 'center' }} >
+                            <Box flex={'1 0 25%'} className="h2 ma-logo-wrapper ma-logo-footer">
+                                <Box component={RouterLink} to={'/'} marginBlockEnd='0.75rem' minWidth={180} width={'10vw'}  >
+                                    <img className="img" src={LogoUrl} alt="" />
+                                </Box>
+                                <Stack gap={1}>
                                     <figure >
                                         <img src={GoogleSvg} />
                                     </figure>
@@ -62,7 +64,7 @@ export default function AppFooter() {
 
                             <Box flex={'1 0 25%'} display="flex" gap='0.5rem'>
                                 <Stack spacing={1} component={'form'} method='post' >
-                                    <TextField color='primary' id="outlined-basic" label="Email" variant="outlined" />
+                                    <TextField color='primary' defaultValue={''} id="outlined-basic" label="Email" variant="outlined" />
                                     <Button type='submit' sx={{ alignSelf: 'start' }} variant="contained" color='primary'>Subscribe</Button>
                                 </Stack>
                             </Box>
@@ -76,7 +78,7 @@ export default function AppFooter() {
                         </Stack>
                     </Box>
                 </div>
-            </footer>
+            </Box>
         </>
     )
 }

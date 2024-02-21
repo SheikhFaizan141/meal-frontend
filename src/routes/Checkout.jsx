@@ -15,7 +15,7 @@ export default function Checkout() {
 
   return (
     <>
-      <Box minHeight={'100dvh'} component={'main'} >
+      <Box  component={'main'} >
 
         <Stack paddingBlock={3} direction={{ xs: 'column-reverse', md: 'row' }} spacing={{ xs: 2, sm: 3 }} className="co-account co-wrapper">
 

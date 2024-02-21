@@ -1,23 +1,18 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
-// import { header } from "./header.module.css"
-
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LogoUrl from '../assets/logo.png';
 import axios from "axios";
 
 export default function AppHeader() {
@@ -26,36 +21,16 @@ export default function AppHeader() {
   return (
     <>
       <header className={`header`}>
-        <div className="header-wrapper">
-
+        <Box className="header-wrapper">
           <div className="header-box-l">
-            <Box color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
-              <Typography variant='h5'>Filling Meals</Typography>
+            <Box minWidth={60} width={'8vw'} maxWidth={'6.5rem'}   color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
+              {/* <Typography variant='h5'>Filling Meals</Typography> */}
+              <img className="img"  src={LogoUrl} alt="" />
             </Box>
           </div>
 
-          {/* <div className="header-box-r">
-            <nav>
-              <ul>
-                <li>
-
-                  <Button variant="contained" component={Link} to="/checkout">
-                    🛒
-                  </Button>
-                </li>
-                <li>
-
-                  <Button size="sm" variant="contained" component={Link} to="/signup">
-                    Sign In
-                  </Button>
-                </li>
-              </ul>
-            </nav>
-          </div> */}
-
           <HeaderRight />
-
-        </div>
+        </Box>
       </header>
     </>
   )
@@ -64,15 +39,13 @@ export default function AppHeader() {
 function HeaderRight({ user }) {
   const auth = useContext(AuthContext);
 
-  // console.log(auth);
-
   return (
     <Box className="header-box-r">
-      <nav>
+      <Box component={'nav'}>
         <Stack component={'ul'} direction={'row'} alignItems={'center'}>
           <li>
             <Button variant="contained" component={Link} to="/checkout">
-              🛒
+              <ShoppingCartIcon />
             </Button>
           </li>
           <li>
@@ -88,7 +61,7 @@ function HeaderRight({ user }) {
 
           </li>
         </Stack>
-      </nav>
+      </Box>
     </Box>
   )
 }
