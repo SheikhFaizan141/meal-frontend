@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { Link as RouterLink, useNavigate, useNavigation } from 'react-router-dom'
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthProvider';
@@ -22,6 +22,10 @@ export default function SignIn() {
     const [remember, setRemember] = useState(false);
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
+
+    const state = useNavigation();
+
+    console.log(state);
 
     async function handleSubmit(e) {
         e.preventDefault();

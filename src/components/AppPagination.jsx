@@ -4,7 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 
 
-export default function AppPagination({ count }) {
+export default function AppPagination({ count, isLoading  }) {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const page = Number.parseInt(query.get('page') ?? '1', 10);
@@ -17,27 +17,22 @@ export default function AppPagination({ count }) {
             renderItem={(item) => (
                 <Item item={item} location={location} />
             )}
+            disabled={isLoading}
         />
     );
 }
 
 function Item({ item, location }) {
     const query = new URLSearchParams(location.search);
-    // const page = Number.parseInt(query.get('page') ?? '1', 10);
     const q = query.get('q');
 
     let to;
-
-    // for (const [key, values] of object) {
-        
-    // }
     if (query.has('q')) {
         to = item.page === 1 ? `/${`?q=${q}`}` : `/${`?q=${q}&page=${item.page}`}`
     } else {
         to = `/${item.page === 1 ? '' : `?page=${item.page}`}`
     }
 
-    // console.log(location);
     return (
         <PaginationItem
             component={Link}

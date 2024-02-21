@@ -1,4 +1,4 @@
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, ScrollRestoration, useNavigation } from "react-router-dom";
 import AppHeader from '../components/AppHeader';
 import AppFooter from "../components/AppFooter";
 import { useEffect, useReducer, useState } from "react";
@@ -19,10 +19,6 @@ function createInitialState() {
 
 export default function Root() {
     const [items, dispatch] = useReducer(mealsReducer, null, createInitialState);
-    // const [itemTotalPrice, setItemTotalPrice] = useState(0);
-    // const [totalPrice, setTotalPrice] = useState(0);
-    // const [totalTax, setTotalTax] = useState(0);
-    // const [isEmpty, setIsEmpty] = useState(true);
 
     // Derived 
     const isEmpty = items.length <= 0;
@@ -31,22 +27,15 @@ export default function Root() {
     const totalTax = itemsTotalCost * taxRate;
     const totalCost = itemsTotalCost + totalTax;
 
+    // check if this can be done without useEffect
     useEffect(() => {
-        // const total = items.reduce((acc, currValue) => acc + (currValue.price * currValue.qty), 0)
-        // const taxTotal = total * taxRate;
-
-        // update local storage when items update
         localStorage.setItem(storageKey, JSON.stringify(items))
-
-        // Calculate tax
-        // setTotalTax(taxTotal)
-        // setItemTotalPrice(total)
-        // setTotalPrice(total + taxTotal)
     }, [items]);
 
 
     return (
         <>
+           <ScrollRestoration />
             <AuthProvider>
                 <AppHeader />
                 <Container className="container">

@@ -1,9 +1,9 @@
-import { Divider, Stack, TextField, Chip, Typography, Button, SvgIcon } from '@mui/material';
+import { Divider, Stack, TextField, Chip, Typography, Button, SvgIcon, Skeleton } from '@mui/material';
 import MealCard from '@components/MealCard'
-import { Form, Outlet, json, useLoaderData, useSubmit } from "react-router-dom"
+import { Form, Outlet, json, useLoaderData, useNavigation, useSubmit } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useEffect, useRef, useState } from 'react';
-import AppPagination from '@components/AppPagination';
+import AppPagination from '../components/AppPagination';
 
 // import second from 'first'
 function filterWithTag(tag, arr) {
@@ -29,11 +29,7 @@ export async function loader({ request }) {
     const page = url.searchParams.get('page');
     const q = url.searchParams.get('q');
 
-
-    // Create Fetch URL
-    // const base = 'http://127.0.0.1:8000';
     let fetchUrl;
-    // new URL(page ? `api/meal?page=${page}` : `api/meal`, __API_URL__);
     if (url.searchParams.has('q') && url.searchParams.has('page')) {
         fetchUrl = new URL(`api/meal?q=${q}&page=${page}`, __API_URL__);
 
@@ -48,6 +44,7 @@ export async function loader({ request }) {
     }
 
     const res = await fetch(fetchUrl);
+
     if (!res.ok) {
         throw new Response("", {
             status: 404,
@@ -68,6 +65,10 @@ export default function Index() {
     const searchRef = useRef();
     const submit = useSubmit();
 
+    // state
+    const navigation = useNavigation();
+    console.log(navigation);
+
     useEffect(() => {
         document.getElementById('q').value = q;
     }, [q])
@@ -87,19 +88,29 @@ export default function Index() {
         submit(searchParams);
     }
 
+    // if (navigation.state === "loading") {
+    //     return (
+    //         <div>
+    //             Loading
+    //         </div>
+    //     )
+    // }
+
     return (
         <div className="meal-container">
-
-            <Hero />
+            {
+                (navigation.state !== "loading") && <Hero />
+            }
 
             {/* <Outlet /> */}
             <Box className="filter-ui-container mb-1">
-                <div className='filter-ui-wrapper mb-1' >
-                    <div className="m-f-box filter-search-wrapper">
+                <Stack direction={'row'} className='filter-ui-wrapper mb-1' >
+                    <Box className="m-f-box filter-search-wrapper">
                         <form onSubmit={(e) => handleSubmit(e)}>
                             <TextField inputRef={searchRef} name='q' defaultValue={q} sx={{ borderRadius: 1 }} id="q" label="Search" variant="outlined" />
                         </form>
-                    </div>
+                    </Box>
+
                     <Box className="m-f-box filter-chip-list-wrapper">
                         <Stack fontSize={'1.15rem'} direction="row" spacing={1}>
                             <Chip clickable onClick={() => setTag('relevance')} label="Relevance" color={tag === 'relevance' ? "success" : "primary"} variant={'filled'} />
@@ -108,7 +119,7 @@ export default function Index() {
                             <Chip clickable label="primary" color="primary" variant="filled" />
                         </Stack>
                     </Box>
-                </div>
+                </Stack>
             </Box>
 
             <Divider light sx={{ marginBlockEnd: '1rem' }} />
@@ -118,36 +129,35 @@ export default function Index() {
                     {
                         filterMeals.map(meal => {
                             return (
-                                <div key={meal.id} className="card meal-card">
-                                    <MealCard rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} imgUrl={meal.url} isVeg={meal.isVeg} />
-                                </div>
+                                <Box key={meal.id} className="card meal-card">
+                                    <MealCard state={navigation.state === 'idle'} createdAt={meal.created_at} rating={meal?.rating} id={meal.id} name={meal.name} desc={meal.description} imgUrl={meal.url} isVeg={meal.isVeg} />
+                                </Box>
                             )
                         })
                     }
                 </Box>
                 <Stack paddingBlock={1} flexDirection={'row'} justifyContent={'center'}>
-                    {/* <Pagination count={lastPage} onChange={handleChange} color="primary" /> */}
-                    <AppPagination count={lastPage} />
+                    <AppPagination count={lastPage} isLoading={navigation.state === 'loading'} />
                 </Stack>
             </Box>
         </div>
     )
 }
 
-function Hero(params) {
+function Hero({ isLoading }) {
 
     return (
-        <Box component={'section'} padding={2} bgcolor={'lch(60% 32.34 80.104)'}  borderRadius={2} marginBlockEnd={2}>
+        <Box component={'section'} padding={2} bgcolor={'lch(60% 32.34 80.104)'} borderRadius={2} marginBlockEnd={2}>
             <Stack direction={'row'} >
                 <Box flex={2}>
                     <Typography fontWeight={700} style={{ WebkitTextStroke: '1px black' }} letterSpacing={'0.2rem'} sx={{ textShadow: '3px 3px #000' }} variant='h2' color={'rgb(166 0 10)'} marginBlockEnd={1} textTransform={'uppercase'} >Healthy</Typography>
                     <Typography variant={'subtitle1'} >Lorem ipsum dolor sit amet consectetur adipisicing elit.</Typography>
                 </Box>
-                <Box flex={1} maxHeight={'auto'}>
+                <Box flex={1} display={'flex'} justifyContent={'center'} maxHeight={'auto'}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        // width="800"
-                        // height="800"
+                        width="200"
+                        height="200"
                         fillRule="evenodd"
                         strokeLinejoin="round"
                         strokeMiterlimit="2"
@@ -241,14 +251,49 @@ function Hero(params) {
                     </svg>
                 </Box>
             </Stack>
-            {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,160L288,128L576,0L864,224L1152,96L1440,224L1440,320L1152,320L864,320L576,320L288,320L0,320Z"></path></svg> */}
-            <Box>
-                {/* <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-    </svg> */}
 
-                {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,64L48,101.3C96,139,192,213,288,218.7C384,224,480,160,576,128C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg> */}
-            </Box>
         </Box>
     )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function IndexLoader() {
+//     return (
+{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,160L288,128L576,0L864,224L1152,96L1440,224L1440,320L1152,320L864,320L576,320L288,320L0,320Z"></path></svg> */ }
+<Box>
+    {/* <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg> */}
+
+    {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,64L48,101.3C96,139,192,213,288,218.7C384,224,480,160,576,128C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg> */}
+</Box>
+//     )
+// }
