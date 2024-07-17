@@ -17,15 +17,15 @@ import axios from "axios";
 
 export default function AppHeader() {
   const auth = useContext(AuthContext);
-  // console.log(auth);
+
   return (
     <>
       <header className={`header`}>
         <Box className="header-wrapper">
           <div className="header-box-l">
-            <Box minWidth={60} width={'8vw'} maxWidth={'6.5rem'}   color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
+            <Box minWidth={60} width={'8vw'} maxWidth={'6.5rem'} color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
               {/* <Typography variant='h5'>Filling Meals</Typography> */}
-              <img className="img"  src={LogoUrl} alt="" />
+              <img className="img" src={LogoUrl} alt="" />
             </Box>
           </div>
 
@@ -50,7 +50,7 @@ function HeaderRight({ user }) {
           </li>
           <li>
             {
-              auth.name
+              auth.id
                 ?
                 <AccountMenu />
                 :
@@ -78,9 +78,6 @@ function AccountMenu() {
   };
 
   const handleClose = () => {
-
-
-
 
     setAnchorEl(null);
   };
@@ -174,10 +171,7 @@ function AccountMenu() {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          {/* <Button> */}
           Logout
-          {/* </Button> */}
-          {/* <Link to={'/logout'} >Logout</Link> */}
         </MenuItem>
 
       </Menu>

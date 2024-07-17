@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link as RouterLink, useNavigate, useNavigation } from 'react-router-dom'
+import { redirect, Link as RouterLink, useNavigate, useNavigation } from 'react-router-dom'
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthProvider';
@@ -50,13 +50,16 @@ export default function SignIn() {
         if (res.status !== 200) {
             console.error('login', res);
         }
-        const data = res['data'];
 
-        const isValid = await auth.signin(data);
+        const data = res.data;
 
-        if (isValid) {
+        console.log(data);
+
+        const canLogin = await auth.signin(data);
+        if (canLogin) {
             navigate('/', { replace: true });
         }
+
     }
 
     return (
