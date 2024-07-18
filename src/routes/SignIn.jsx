@@ -63,8 +63,8 @@ export default function SignIn() {
     }
 
     return (
-        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '2rem', paddingBlockEnd: '2rem' }} >
-            <Card>
+        <Box component="main" sx={{ paddingBlockStart: 10, paddingBlockEnd: 12 }} display={'flex'} alignContent={'center'} justifyContent={'center'}>
+            <Card  sx={{ paddingBlock: 4, paddingInline: 2, maxWidth: 510 }}>
 
                 <Box
                     sx={{
@@ -137,6 +137,6 @@ export default function SignIn() {
                     </Box>
                 </Box>
             </Card>
-        </Container>
+       </Box>
     );
 }
