@@ -128,7 +128,7 @@ export default function Index() {
 
             <Divider light sx={{ marginBlockEnd: '1rem' }} />
 
-            Change made in main
+            Change made in dev
             <Box>
                 <Box className="meal-wrapper m-grid">
                     {
