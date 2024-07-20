@@ -10,23 +10,52 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider';
 import { Card } from '@mui/material';
+import axios from 'axios';
+import { useContext } from 'react';
 
 function SignUp() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        try {
+
+            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+
+            const res = await axios.post(`${__API_URL__}/api/register`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "Accept": "application/json"
+                }
+            });
+
+            if (res.status !== 200) {
+                console.error('register', res);
+            }
+
+            const canLogin = await auth.signin(res.data);
+
+            if (canLogin) {
+                navigate('/', { replace: true });
+            }
+
+            console.log(res);
+        } catch (error) {
+            console.error(error)
+            console.log(error.response.data.message)
+            console.log(error.response.data.errors)
+        }
     };
 
     return (
-        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '2rem', paddingBlockEnd: '2rem' }}>
-            {/* <CssBaseline /> */}
-            <Card>
+        <Box component="main" sx={{ paddingBlockStart: 10, paddingBlockEnd: 12 }} display={'flex'} alignContent={'center'} justifyContent={'center'}>
+            <Card sx={{ paddingBlock: 4, paddingInline: 2, maxWidth: 510 }}>
                 <Box
                     sx={{
                         marginTop: 8,
@@ -38,7 +67,7 @@ function SignUp() {
                     paddingInline={2}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon /> 
+                        <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
@@ -48,7 +77,7 @@ function SignUp() {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     autoComplete="given-name"
-                                    name="firstName"
+                                    name="first_name"
                                     required
                                     fullWidth
                                     id="firstName"
@@ -62,7 +91,7 @@ function SignUp() {
                                     fullWidth
                                     id="lastName"
                                     label="Last Name"
-                                    name="lastName"
+                                    name="last_name"
                                     autoComplete="family-name"
                                 />
                             </Grid>
@@ -112,7 +141,8 @@ function SignUp() {
                     </Box>
                 </Box>
             </Card>
-        </Container>
+
+        </Box>
     );
 }
 

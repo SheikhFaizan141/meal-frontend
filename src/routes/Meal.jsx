@@ -76,7 +76,7 @@ export default function Meal() {
                 <Stack direction={{ sm: 'column', md: 'row' }} className="m-hero-wrapper">
 
                     <Box flex={'1 1 160px'} className="m-hero-box m-hero-box-1 img-container">
-                        <img src={meal.url} alt="img" className="img" />
+                        <img src={meal.featured_img} alt="img" className="img" />
                         {/* <img src="" alt="img" className="img" /> */}
                     </Box>
 

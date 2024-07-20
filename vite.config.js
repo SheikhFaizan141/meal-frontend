@@ -15,6 +15,6 @@ export default defineConfig({
   },
   // https://vitejs.dev/config/shared-options.html#define
   define: {
-    "__API_URL__": JSON.stringify('http://127.0.0.1:8000'),
+    "__API_URL__": JSON.stringify('http://localhost:8000'),
   },
 });

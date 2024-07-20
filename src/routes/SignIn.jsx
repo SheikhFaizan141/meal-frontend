@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link as RouterLink, useNavigate, useNavigation } from 'react-router-dom'
+import { redirect, Link as RouterLink, useNavigate, useNavigation } from 'react-router-dom'
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthProvider';
@@ -50,18 +50,21 @@ export default function SignIn() {
         if (res.status !== 200) {
             console.error('login', res);
         }
-        const data = res['data'];
 
-        const isValid = await auth.signin(data);
+        const data = res.data;
 
-        if (isValid) {
+        console.log(data);
+
+        const canLogin = await auth.signin(data);
+        if (canLogin) {
             navigate('/', { replace: true });
         }
+
     }
 
     return (
-        <Container component="main" maxWidth="xs" sx={{ paddingBlockStart: '2rem', paddingBlockEnd: '2rem' }} >
-            <Card>
+        <Box component="main" sx={{ paddingBlockStart: 10, paddingBlockEnd: 12 }} display={'flex'} alignContent={'center'} justifyContent={'center'}>
+            <Card  sx={{ paddingBlock: 4, paddingInline: 2, maxWidth: 510 }}>
 
                 <Box
                     sx={{
@@ -134,6 +137,6 @@ export default function SignIn() {
                     </Box>
                 </Box>
             </Card>
-        </Container>
+       </Box>
     );
 }
