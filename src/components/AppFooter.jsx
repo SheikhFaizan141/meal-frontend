@@ -60,21 +60,18 @@ export default function AppFooter() {
                                 </Stack>
                             </Box>
 
-
-
-                            <Box flex={'1 0 25%'} display="flex" gap='0.5rem'>
-                                <Stack spacing={1} component={'form'} method='post' >
+                            <Box flex={'1 0 25%'} display="flex" gap='0.5rem' paddingInline={1}>
+                                <Stack b direction={'row'} component={'form'} method='post' >
                                     <TextField color='primary' defaultValue={''} id="outlined-basic" label="Email" variant="outlined" />
                                     <Button type='submit' sx={{ alignSelf: 'start' }} variant="contained" color='primary'>Subscribe</Button>
                                 </Stack>
                             </Box>
-
                         </Stack>
                     </Box>
                     <Divider light />
                     <Box className="fb" paddingBlock={'1rem'}>
                         <Stack direction="row" spacing={2} flex={'1'} justifyContent={'center'}>
-                            <Typography variant='body2' component={'div'} className="terms">© {(new Date()).getFullYear()}  Meals. All Rights Reserved</Typography>
+                            <Typography variant='body2' component={'div'} className="terms">© {(new Date()).getFullYear()}Meals. All Rights Reserved</Typography>
                         </Stack>
                     </Box>
                 </div>

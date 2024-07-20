@@ -3,7 +3,7 @@ import MealCard from '@components/MealCard'
 import { Form, Outlet, json, useLoaderData, useNavigation, useSubmit } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useEffect, useRef, useState } from 'react';
-import AppPagination from '../components/AppPagination';
+import AppPagination from '@components/AppPagination';
 import AppHero from '@components/AppHero';
 
 // import second from 'first'
