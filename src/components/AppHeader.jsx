@@ -95,7 +95,7 @@ function AccountMenu() {
         }
       });
 
-    console.log('login', res.status);
+    // console.log('login', res.status);
     if (res.status !== 200) {
       console.error('login', res);
       navigate('/login')

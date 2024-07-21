@@ -1,39 +1,40 @@
 import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { getStorageItem, removeStorageItem, setStorageItem } from "./utils/storage";
 
-export const AuthContext = createContext(false)
 
+export const AuthContext = createContext(false);
+
+
+// create useAuth instead
 export default function AuthProvider({ children }) {
-    const [id, setId] = useState(() => localStorage.getItem('id') ?? null);
-    const [name, setName] = useState(() => localStorage.getItem('name') ?? null);
-    const [email, setEmail] = useState(() => localStorage.getItem('email') ?? null);
+    const [id, setId] = useState(() => getStorageItem('id'));
+    const [name, setName] = useState(() => getStorageItem('name'));
+    const [email, setEmail] = useState(() => getStorageItem('email'));
+    const [isAdmin, setAdmin] = useState(() => getStorageItem('is_admin'));
 
     const signin = (data) => {
-        console.log(data);
-        setId(data.id)
-        setName(data.name);
-        setEmail(data.email);
+        setId(data['id'])
+        setName(data['first_name']);
+        setEmail(data['email']);
+        setAdmin(data['is_admin']);
 
-        localStorage.setItem('id', data.id ?? null);
-        localStorage.setItem('name', data.name ?? null);
-        localStorage.setItem('email', data.email ?? null);
+        const AuthValues = { id: data['id'], name: data['first_name'], email: data['email'], is_admin: data['is_admin'] };
+        setStorageItem('auth', AuthValues);
 
         return true;
     };
 
-    const signout = (callback = null) => {
-        setId(null)
+    const signout = () => {
+        setId(null);
         setName(null);
         setEmail(null);
+        setAdmin(null);
 
-        localStorage.removeItem('id');
-        localStorage.removeItem('name');
-        localStorage.removeItem('email');
-
+        removeStorageItem('auth');
         return true;
     };
 
-    let value = { id, signin, signout };
+    let value = { id, isAdmin, signin, signout };
 
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

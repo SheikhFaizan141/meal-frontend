@@ -45,7 +45,7 @@ function SignUp() {
                 navigate('/', { replace: true });
             }
 
-            console.log(res);
+            // console.log(res);
         } catch (error) {
             console.error(error)
             console.log(error.response.data.message)

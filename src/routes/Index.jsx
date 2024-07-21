@@ -89,14 +89,6 @@ export default function Index() {
         submit(searchParams);
     }
 
-    // if (navigation.state === "loading") {
-    //     return (
-    //         <div>
-    //             Loading
-    //         </div>
-    //     )
-    // }
-
     return (
         <div className="meal-container">
             {/* {

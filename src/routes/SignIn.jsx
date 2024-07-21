@@ -25,7 +25,7 @@ export default function SignIn() {
 
     const state = useNavigation();
 
-    console.log(state);
+    // console.log(state);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -53,7 +53,7 @@ export default function SignIn() {
 
         const data = res.data;
 
-        console.log(data);
+        // console.log(data);
 
         const canLogin = await auth.signin(data);
         if (canLogin) {
