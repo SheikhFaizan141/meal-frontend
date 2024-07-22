@@ -7,10 +7,12 @@ export const AuthContext = createContext(false);
 
 // create useAuth instead
 export default function AuthProvider({ children }) {
-    const [id, setId] = useState(() => getStorageItem('id'));
-    const [name, setName] = useState(() => getStorageItem('name'));
-    const [email, setEmail] = useState(() => getStorageItem('email'));
-    const [isAdmin, setAdmin] = useState(() => getStorageItem('is_admin'));
+    const auth = getStorageItem('auth');
+
+    const [id, setId] = useState(() => auth ? auth['id'] : null);
+    const [name, setName] = useState(() => auth ? auth['name'] : null)
+    const [email, setEmail] = useState(() => auth ? auth['eamil'] : null);
+    const [isAdmin, setAdmin] = useState(() => auth ? auth['is_admin'] : null);
 
     const signin = (data) => {
         setId(data['id'])
@@ -30,7 +32,17 @@ export default function AuthProvider({ children }) {
         setEmail(null);
         setAdmin(null);
 
-        removeStorageItem('auth');
+        const authValues = getStorageItem('auth');
+        
+        for(const key of Object.keys(authValues)) {
+            console.log(key);
+            authValues[key] = '';
+        }
+
+        console.log(authValues);
+
+        setStorageItem('auth', authValues);
+
         return true;
     };
 

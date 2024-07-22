@@ -10,6 +10,8 @@ import NotFound from './routes/NotFound';
 import IndexContent from './components/IndexContent';
 import SignUp from './routes/SignUp';
 import SignIn from './routes/SignIn';
+import AdminDashboard from './routes/dashboard/AdminDashboard';
+import AdminLayout from './routes/AdminLayout';
 
 const router = createBrowserRouter([
   {
@@ -52,10 +54,21 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         // element: <SignIn />,
-        
+
       }
     ]
   },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+        errorElement: <NotFound />,
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

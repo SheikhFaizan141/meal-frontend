@@ -1,6 +1,6 @@
 import { Divider, Stack, TextField, Chip } from '@mui/material';
 import MealCard from '@components/MealCard'
-import { Form, Outlet, json, useLoaderData, useNavigation, useSubmit } from "react-router-dom"
+import { Form, Link, Outlet, json, useLoaderData, useNavigation, useSubmit } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useEffect, useRef, useState } from 'react';
 import AppPagination from '@components/AppPagination';
@@ -94,10 +94,9 @@ export default function Index() {
             {/* {
                  (navigation.state !== "loading") && <AppHero />
             } */}
-            
-            <AppHero />
-       
 
+            <AppHero />
+            <Link to={'/admin'} >Admin</Link>
             {/* <Outlet /> */}
             <Box className="filter-ui-container mb-1">
                 <Stack direction={'row'} className='filter-ui-wrapper mb-1' >

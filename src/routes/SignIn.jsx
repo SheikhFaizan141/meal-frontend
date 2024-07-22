@@ -37,34 +37,39 @@ export default function SignIn() {
         axios.defaults.withCredentials = true;
         axios.defaults.withXSRFToken = true;
 
-        const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+        try {
+            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            const res = await axios.post('http://localhost:8000/api/login', formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        "Accept": "application/json"
+                    }
+                });
 
-        const res = await axios.post('http://localhost:8000/api/login', formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    "Accept": "application/json"
-                }
-            });
+            if (res.status !== 200) {
+                console.error('login', res);
+            }
 
-        if (res.status !== 200) {
-            console.error('login', res);
-        }
+            const data = res.data;
 
-        const data = res.data;
+            // console.log(data);
 
-        // console.log(data);
-
-        const canLogin = await auth.signin(data);
-        if (canLogin) {
-            navigate('/', { replace: true });
+            const canLogin = await auth.signin(data);
+            if (canLogin) {
+                navigate('/', { replace: true });``
+            }
+        } catch (error) {
+            console.error(error)
+            console.log(error.response.data.message)``
+            console.log(error.response.data.errors)
         }
 
     }
 
     return (
         <Box component="main" sx={{ paddingBlockStart: 10, paddingBlockEnd: 12 }} display={'flex'} alignContent={'center'} justifyContent={'center'}>
-            <Card  sx={{ paddingBlock: 4, paddingInline: 2, maxWidth: 510 }}>
+            <Card sx={{ paddingBlock: 4, paddingInline: 2, maxWidth: 510 }}>
 
                 <Box
                     sx={{
@@ -76,7 +81,7 @@ export default function SignIn() {
                     paddingBlock={2}
                     paddingInline={2}
                 >
-                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -137,6 +142,6 @@ export default function SignIn() {
                     </Box>
                 </Box>
             </Card>
-       </Box>
+        </Box>
     );
 }

@@ -28,7 +28,6 @@ export default function AppHeader() {
               <img className="img" src={LogoUrl} alt="" />
             </Box>
           </div>
-
           <HeaderRight />
         </Box>
       </header>
@@ -36,9 +35,10 @@ export default function AppHeader() {
   )
 }
 
-function HeaderRight({ user }) {
+function HeaderRight() {
   const auth = useContext(AuthContext);
 
+  console.log(auth);
   return (
     <Box className="header-box-r">
       <Box component={'nav'}>
@@ -78,7 +78,6 @@ function AccountMenu() {
   };
 
   const handleClose = () => {
-
     setAnchorEl(null);
   };
 
@@ -86,8 +85,8 @@ function AccountMenu() {
   async function handleLogout(e) {
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
-    const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie');
 
+    const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie');
     const res = await axios.post('http://localhost:8000/api/logout',
       {
         headers: {
@@ -95,7 +94,6 @@ function AccountMenu() {
         }
       });
 
-    // console.log('login', res.status);
     if (res.status !== 200) {
       console.error('login', res);
       navigate('/login')
@@ -123,13 +121,14 @@ function AccountMenu() {
           </IconButton>
         </Tooltip>
       </Box>
+
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        PaperProps={{
+        slotProps={{
           elevation: 0,
           sx: {
             overflow: 'visible',
@@ -158,15 +157,17 @@ function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           <Avatar /> Profile
-        </MenuItem>
+        </MenuItem> */}
 
-        <MenuItem onClick={handleClose}>
-          <DashboardIcon /> Dashboard
-        </MenuItem>
-        <Divider />
-
+        {
+          auth.isAdmin &&
+          <MenuItem  >
+            <DashboardIcon component={Link} to={'/admin'} /> Dashboard
+          </MenuItem>
+        }
+        
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
