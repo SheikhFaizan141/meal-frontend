@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const authRequest = axios.create({
+const mealAxios = axios.create({
     baseURL: __API_URL__,
     headers: {
         "Accept": "application/json"
@@ -8,8 +8,8 @@ const authRequest = axios.create({
 
 })
 
-instance.defaults.withCredentials = true;
-instance.defaults.withXSRFToken = true;
+mealAxios.defaults.defaults.withCredentials = true;
+mealAxios.defaults.defaults.withXSRFToken = true;
 
 
-export { authRequest }
+export { mealAxios }

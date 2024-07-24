@@ -12,6 +12,8 @@ import SignUp from './routes/SignUp';
 import SignIn from './routes/SignIn';
 import AdminDashboard from './routes/dashboard/AdminDashboard';
 import AdminLayout from './routes/AdminLayout';
+import AdminAddMeal, { createMealAction } from '@components/dashboard/AdminAddMeal';
+import AdminMeal from '@components/dashboard/AdminMeal';
 
 const router = createBrowserRouter([
   {
@@ -66,7 +68,18 @@ const router = createBrowserRouter([
         index: true,
         element: <AdminDashboard />,
         errorElement: <NotFound />,
-      }
+      },
+      {
+        path: 'meal',
+        element: <AdminMeal />,
+        errorElement: <NotFound />,
+      },
+      {
+        path: 'meals/new',
+        element: <AdminAddMeal />,
+        // errorElement: <NotFound />,
+        action: createMealAction
+      },
     ]
   }
 ]);
