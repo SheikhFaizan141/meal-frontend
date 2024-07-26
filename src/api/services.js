@@ -1,15 +1,16 @@
 import axios from "axios";
 
-const mealAxios = axios.create({
+const authFetch = axios.create({
     baseURL: __API_URL__,
     headers: {
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Referer": 'http://localhost:5173'
     }
 
 })
 
-mealAxios.defaults.defaults.withCredentials = true;
-mealAxios.defaults.defaults.withXSRFToken = true;
+authFetch.defaults.withCredentials = true;
+authFetch.defaults.withXSRFToken = true;
 
 
-export { mealAxios }
+export { authFetch }

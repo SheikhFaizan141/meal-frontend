@@ -43,7 +43,7 @@ export default function AdminSidebar() {
                 {
                     SIDEBAR_LINKS.map((link) => {
                         return (
-                            <ListItem sx={{gap: 2}}  color='#B1B1B1' component={RouterLink} to={link.path} >
+                            <ListItem key={link.name} sx={{gap: 2}}  color='#B1B1B1' component={RouterLink} to={link.path} >
                                 {/* <Link > */}
                                 <ListItemIcon sx={{minWidth: 0}}>
                                     {link.icon}

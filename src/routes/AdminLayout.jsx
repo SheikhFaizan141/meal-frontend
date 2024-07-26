@@ -9,10 +9,10 @@ export default function AdminLayout() {
         <>
             <AuthProvider>
                 <DashboardHeader />
-                <Container maxWidth={false} sx={{background: '#F5F7FA'}} disableGutters>
-                    <Box component={'main'} display={"flex"} minHeight={'100dvh'}>
+                <Container maxWidth={false} sx={{ background: '#F5F7FA' }} disableGutters>
+                    <Box display={"flex"} minHeight={'100dvh'}>
                         <AdminSidebar />
-                        <Box flex={8} paddingInline={1} >
+                        <Box component={'main'}  flex={8} paddingInline={10}>
                             <Outlet />
                         </Box>
                     </Box>

@@ -13,7 +13,7 @@ import SignIn from './routes/SignIn';
 import AdminDashboard from './routes/dashboard/AdminDashboard';
 import AdminLayout from './routes/AdminLayout';
 import AdminAddMeal, { createMealAction } from '@components/dashboard/AdminAddMeal';
-import AdminMeal from '@components/dashboard/AdminMeal';
+import AdminMeals, { loader as adminMealsLoader } from './routes/dashboard/AdminMeals';
 
 const router = createBrowserRouter([
   {
@@ -70,9 +70,10 @@ const router = createBrowserRouter([
         errorElement: <NotFound />,
       },
       {
-        path: 'meal',
-        element: <AdminMeal />,
-        errorElement: <NotFound />,
+        path: 'meals',
+        element: <AdminMeals />,
+        // errorElement: <NotFound />,
+        loader: adminMealsLoader
       },
       {
         path: 'meals/new',
