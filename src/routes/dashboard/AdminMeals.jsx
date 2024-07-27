@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { json, Link, useLoaderData, useNavigation } from "react-router-dom";
+import { Form, json, Link, useLoaderData, useNavigation } from "react-router-dom";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { authFetch } from "../../api/services";
 import axios from "axios";
@@ -45,7 +45,7 @@ export async function loader({ request }) {
 }
 
 export default function AdminMeals() {
-    const { data: meals } = useLoaderData();
+    const { data: meals, last_page } = useLoaderData();
     console.log('loader', meals);
     const [page, setPage] = useState(0);
     // return null;
@@ -87,8 +87,8 @@ export default function AdminMeals() {
                             {meals.map((meal) => (
 
                                 <TableRow
-                                    component={Link}
-                                    to={meal.slug}
+                                    // component={Link}
+                                    // to={meal.slug}
                                     key={meal.id}
                                     sx={{ cursor: 'pointer', '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
@@ -105,7 +105,12 @@ export default function AdminMeals() {
                                         {formatCurrency(meal.price)}
                                     </TableCell>
                                     <TableCell align="left">
-                                        <Button ><Edit/></Button>
+                                        <Button
+                                            component={Link}
+                                            to={`${meal.id}`}
+                                        >
+                                            <Edit />
+                                        </Button>
                                     </TableCell>
                                     <TableCell align="left">
                                         <Button ><Delete/></Button>
@@ -118,21 +123,21 @@ export default function AdminMeals() {
                 <TablePagination
                     component="div"
                     rowsPerPageOptions={[5, 10, 15]}
-                    rowsPerPage={6}
+                    rowsPerPage={10}
                     page={0}
-                    count={Number.parseInt(meals.last_page)}
-
+                    count={last_page}
+                    onPageChange={() => 1}
                 />
-
-                {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
+                {/* {console.log(meals.last_page)} */}
+                {/*                 <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                /> */}
             </Box>
         </Box>
     )

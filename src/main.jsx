@@ -73,7 +73,13 @@ const router = createBrowserRouter([
         path: 'meals',
         element: <AdminMeals />,
         // errorElement: <NotFound />,
-        loader: adminMealsLoader
+        loader: adminMealsLoader,
+      },
+      {
+        path: 'meals/:mealId',
+        element: <AdminAddMeal />,
+        // errorElement: <NotFound />,
+        loader: adminMealsLoader,
       },
       {
         path: 'meals/new',
