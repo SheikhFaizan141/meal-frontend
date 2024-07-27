@@ -1,7 +1,6 @@
 import { Box, Button, Stack } from "@mui/material";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,21 +11,23 @@ import Logout from '@mui/icons-material/Logout';
 import LogoUrl from '../../assets/logo.png';
 import axios from "axios";
 import { AuthContext } from "../../AuthProvider";
+import { authFetch } from "../../api/services";
 
 export default function DashboardHeader() {
     const auth = useContext(AuthContext);
 
     return (
         <>
-            <Box component={'header'} paddingBlock={1} className="header" display={'flex'}>
-                <Box display={'flex'} className="header-wrapper">
+            <Box component={'header'} paddingBlock={1}>
+                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} paddingInline={1.5}>
                     <div className="header-box-l">
-                        <Box minWidth={60} width={'8vw'} maxWidth={'6.5rem'} color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
+                        <Box maxWidth={96} color={'black'} component={Link} to={'/'} className="ma-logo-wrapper">
                             <img className="img" src={LogoUrl} alt="" />
                         </Box>
                     </div>
+
                     <HeaderRight />
-                </Box>
+                </Stack>
             </Box>
         </>
     )
@@ -37,7 +38,7 @@ function HeaderRight() {
 
     console.log(auth);
     return (
-        <Box className="header-box-r">
+        <Box className="header-box-r" marginInlineEnd={1}>
             <Box component={'nav'}>
                 <Stack component={'ul'} direction={'row'} alignItems={'center'}>
                     <li>
@@ -78,21 +79,20 @@ function AccountMenu() {
         axios.defaults.withCredentials = true;
         axios.defaults.withXSRFToken = true;
 
-        const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-        const res = await axios.post('http://localhost:8000/api/logout',
-            {
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
+        try {
+            await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+            const res = await authFetch('api/logout');
 
-        if (res.status !== 200) {
-            console.error('login', res);
-            navigate('/login')
+            if (res.status !== 200) {
+                console.error('login', res);
+                navigate('/login')
+            }
+
+            auth.signout();
+            setAnchorEl(null);
+        } catch (error) {
+            console.error(error);
         }
-
-        auth.signout();
-        setAnchorEl(null);
 
         navigate('/');
     }
