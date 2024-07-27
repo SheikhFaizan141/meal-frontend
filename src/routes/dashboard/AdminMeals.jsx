@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { json, Link, useLoaderData, useNavigation } from "react-router-dom";
-import { Add } from "@mui/icons-material";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import { authFetch } from "../../api/services";
 import axios from "axios";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -79,6 +79,8 @@ export default function AdminMeals() {
                                 {/* <TableCell align="left">Meal</TableCell> */}
                                 <TableCell align="left">Vegetarian</TableCell>
                                 <TableCell align="left">Price</TableCell>
+                                <TableCell align="left">Edit</TableCell>
+                                <TableCell align="left">Delete</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -88,7 +90,7 @@ export default function AdminMeals() {
                                     component={Link}
                                     to={meal.slug}
                                     key={meal.id}
-                                    sx={{cursor: 'pointer', '&:last-child td, &:last-child th': { border: 0 } }}
+                                    sx={{ cursor: 'pointer', '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row">
                                         <Stack direction={'row'} columnGap={2}>
@@ -101,6 +103,12 @@ export default function AdminMeals() {
                                     </TableCell>
                                     <TableCell align="left">
                                         {formatCurrency(meal.price)}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Button ><Edit/></Button>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Button ><Delete/></Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
